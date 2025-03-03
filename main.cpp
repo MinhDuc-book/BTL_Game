@@ -25,18 +25,22 @@ bool init()
                 success = false;
             } else {
                 // khởi tạo con trỏ chuột mới
-                SDL_Surface *Pointer = IMG_Load ("Icon/Ping_Target.png");
-                if (Pointer == NULL) {
+                SDL_Surface *attackPointer = IMG_Load ("Icon/Ping_Target.png");
+                SDL_Surface *defaultPointer = IMG_Load ("Icon/defaultCursor.png");
+                if (attackPointer == NULL) {
                     cout << "Failed to load image" << IMG_GetError() << endl;
                     success = false;
                 } else {
-                    attackCursor = SDL_CreateColorCursor(Pointer, Pointer->w / 2, Pointer->h /2);
+                    attackCursor = SDL_CreateColorCursor(attackPointer, attackPointer->w / 2, attackPointer->h /2);
+                    defaultCursor = SDL_CreateColorCursor(defaultPointer, 0, 0);
                     if (attackCursor == nullptr) {
                         cout << "Failed to load cursor" << SDL_GetError() << endl;
                         success = false;
                     }
-                    SDL_FreeSurface(Pointer);
-                    Pointer = nullptr;
+                    SDL_FreeSurface(attackPointer);
+                    SDL_FreeSurface(defaultPointer);
+                    attackPointer = nullptr;
+                    defaultPointer = nullptr;
                 };
             }
         }
@@ -123,7 +127,6 @@ int main (int argv, char *argc[]) {
         TTF_Font *font  = TTF_OpenFont("data/JetBrainsMono-Regular.ttf", 50);
         
         while (run) {
-            
             KeyPress key = handleInput();
             switch(key) {
                 case KEY_PRESS_UP:
@@ -149,13 +152,16 @@ int main (int argv, char *argc[]) {
                     break;
                 
             }
-            
+
+            SDL_SetCursor(defaultCursor);
             while (gameStart){
                 KeyPress pressInGame;
                 SDL_GetMouseState(&x_mouse, &y_mouse);
+                
                 while (SDL_PollEvent(&e) != 0) {
                     if (e.type == SDL_MOUSEBUTTONDOWN) {
                         if (e.button.button == SDL_BUTTON_RIGHT) {
+                            SDL_SetCursor(defaultCursor);
                             // lấy vị trí của con chuột vào x_mouse, y_mouse
                             // nếu click trong hình vuông thì thực hiện xóa cái cũ random cái mới
                             if (isMouseInSquare(x_mouse, y_mouse, x_pos, y_pos, square_size)) {
@@ -172,11 +178,10 @@ int main (int argv, char *argc[]) {
                             gameStart = false;
                         }
                         if (e.key.keysym.sym == SDLK_a || e.key.keysym.sym == SDLK_TAB) {
-                            SDL_ShowCursor(SDL_DISABLE);
-                            SDL_SetCursor(attackCursor);
                             SDL_ShowCursor(SDL_ENABLE);
+                            SDL_SetCursor(attackCursor);
                         }
-                    }
+                    } 
                     
                 }
                 SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 255);
