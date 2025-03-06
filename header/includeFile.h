@@ -3,6 +3,9 @@
 
 #include "commonVar.h"
 #include "drawFunction.h"
+#include "initCommand.h"
+#include "Object.h"
+#include "ReactFunc.h"
 using namespace std;
 
 #endif
