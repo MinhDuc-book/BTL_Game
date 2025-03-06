@@ -130,8 +130,10 @@ int main (int argv, char *argc[]) {
                             SDL_SetCursor(defaultCursor);
                             dRange = 0;
                             if (isMouseInSquare(x_mouse, y_mouse, x_pos, y_pos, square_size)) {
-                                x_pos = rand() % (SCREEN_W - square_size);
-                                y_pos = rand () % (SCREEN_H - square_size);
+                                if (isInRange(soldier.range, soldier, x_pos, y_pos)) {
+                                    x_pos = rand() % (SCREEN_W - square_size);
+                                    y_pos = rand () % (SCREEN_H - square_size);
+                                }
                             }
                         } if (e.button.button == SDL_BUTTON_RIGHT) {
                             
