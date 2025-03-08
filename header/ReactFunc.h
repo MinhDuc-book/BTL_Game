@@ -1,5 +1,6 @@
 #ifndef REACT_FUNCTION_H
 #define REACT_FUNCTION_H
+
 #include "Object.h"
 #include "commonVar.h"
 
@@ -21,5 +22,8 @@ void movePlayer(Soldier &soldier, int x_mouse, int y_mouse, float v) {
     
 }
 
+void setMouseSen(int sensitive) {
+    
+}
 
 #endif

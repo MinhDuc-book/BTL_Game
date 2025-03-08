@@ -11,13 +11,8 @@ void renderSquare(int x, int y, int size)
     square.w = size;
     square.h = size;
 
-    // đặt màu cho renderer (chọn màu bút)
     SDL_SetRenderDrawColor(gRenderer, 255, 0, 0, 255);
-
-    // vẽ hình từ renderer lên square (to màu)
     SDL_RenderFillRect(gRenderer, &square);
-
-    // định nghĩa màu nền trước khi clear để tránh bị nhầm nền
     SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 255);
 }
 
@@ -31,9 +26,10 @@ bool isMouseInSquare(int x_mouse, int y_mouse, int x_square, int y_square, int s
 bool isInRange (float range,Soldier soldier, int x_square, int y_square) {
     float dx = soldier.X - x_square;
     float dy = soldier.Y - y_square;
-    float dis = sqrt(dx*dx + dy*dy);
+    float dis1 = sqrt(dx*dx + dy*dy) + square_size*sqrt(2);
+    float dis2 = sqrt(dx*dx + dy*dy) - square_size*sqrt(2);
 
-    if (dis <= range) {
+    if (dis1 <= range or dis2 <= range) {
         return true;
     }
     return false;
@@ -98,7 +94,7 @@ int main (int argv, char *argc[]) {
                     if (option > 0) option --;
                     break;
                 case KEY_PRESS_DOWN:
-                    if (option < 2) option ++;
+                    if (option < 3) option ++;
                     break;
                 case KEY_PRESS_ENTER:
                     if (option == 0) {
@@ -106,6 +102,60 @@ int main (int argv, char *argc[]) {
                         run = false;
                     } else if (option == 1) {
                         cout << "Comming soon" << endl;
+                    } else if (option == 2) {
+                        // MOUSE SETTING
+                        bool inSetting = true;
+                        int mouseOption = 1;
+                        while (inSetting) {
+                            
+                            KeyPress keyMenu = handleInput();
+                            switch (keyMenu) {
+                                case KEY_PRESS_UP:
+                                    if (mouseOption > 0) mouseOption--;
+                                    break;
+
+                                case KEY_PRESS_DOWN:
+                                    if (mouseOption < 3) mouseOption++;
+                                    break;
+
+                                
+                                case KEY_PRESS_ENTER:
+                                    switch (mouseOption) {
+                                        case 0:
+                                            setMouseSen(SLOW);
+                                            inSetting = false;
+                                            break;
+                                        case 1:
+                                            setMouseSen(NORMAL);
+                                            inSetting = false;
+                                            break;
+
+                                        case 2:
+                                            setMouseSen(FAST);
+                                            inSetting = false;
+                                            break;
+
+                                        case 3:
+                                            setMouseSen(SUPER_FAST);
+                                            inSetting = false;
+                                            break;
+                                        default:
+                                            break;
+
+                                    }
+                                    break;
+                                
+                                case KEY_PRESS_ESCAPE:
+                                    inSetting = false;
+                                    break;
+                                
+                            }
+
+                            SDL_RenderClear(gRenderer);
+                            drawMouseSettingMenu(gRenderer, font, mouseOption);
+                            SDL_RenderPresent(gRenderer);
+                            
+                        }
                     } else {
                         run = false;
                     }
@@ -122,21 +172,18 @@ int main (int argv, char *argc[]) {
             SDL_SetCursor(defaultCursor);
             while (gameStart){
                 KeyPress pressInGame;
-                SDL_GetMouseState(&x_mouse, &y_mouse);
-                
                 while (SDL_PollEvent(&e) != 0) {
                     if (e.type == SDL_MOUSEBUTTONDOWN) {
                         if (e.button.button == SDL_BUTTON_LEFT) {
                             SDL_SetCursor(defaultCursor);
-                            dRange = 0;
-                            if (isMouseInSquare(x_mouse, y_mouse, x_pos, y_pos, square_size)) {
+                            dRange = 0; 
+                            if (isMouseInSquare(e.button.x, e.button.y, x_pos, y_pos, square_size)) {
                                 if (isInRange(soldier.range, soldier, x_pos, y_pos)) {
                                     x_pos = rand() % (SCREEN_W - square_size);
                                     y_pos = rand () % (SCREEN_H - square_size);
                                 }
                             }
                         } if (e.button.button == SDL_BUTTON_RIGHT) {
-                            
                             x_end = e.button.x;
                             y_end = e.button.y;
                             v = 5;
@@ -168,6 +215,7 @@ int main (int argv, char *argc[]) {
             SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 255);
             SDL_RenderClear(gRenderer);
             drawMenu(gRenderer, font, option);
+            
         }
         
     }

@@ -31,9 +31,18 @@ enum KeyPress {
 enum GameState {
     START,
     HIGH_SCORE,
+    SETTING,
     QUIT,
     STATE_TOTAL
 };
+
+enum mouseSen {
+    SLOW = 50,
+    NORMAL = 100,
+    FAST = 150,
+    SUPER_FAST = 200
+};
+int mouseSen = NORMAL;
 
 GameState currentState = START;
 int selectOption = 0;
@@ -45,10 +54,14 @@ int y_mouse = 0;
 bool run = true;
 bool gameStart = false;
 int option = 0;
+int mouseOption = 1;
 int const PI = 3.14159;
 float v = 0; // biến vận tốc nhân vật
 int x_end, y_end;
+const char *path_soldier_idle = "Characters/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Soldier/Soldier/Soldier-Idle.png";
 
 SDL_Cursor *attackCursor;
 SDL_Cursor *defaultCursor;
+SDL_Texture  *gTexture;
+
 #endif
