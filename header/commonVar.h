@@ -36,32 +36,37 @@ enum GameState {
     STATE_TOTAL
 };
 
-enum mouseSen {
-    SLOW = 50,
-    NORMAL = 100,
-    FAST = 150,
-    SUPER_FAST = 200
+enum mouseOption {
+    DEFAULT,
+    ALT_IMAGE,
+    HANDWRITING,
+    TOTAL_MOUSE_OPTION
 };
-int mouseSen = NORMAL;
 
 GameState currentState = START;
 int selectOption = 0;
-int x_pos = 0;
-int y_pos = 0;
+int x_pos = 50;
+int y_pos = 50;
 int square_size = 20;
 int x_mouse = 0;
 int y_mouse = 0;
 bool run = true;
 bool gameStart = false;
 int option = 0;
-int mouseOption = 1;
+int mouseOption = DEFAULT;
 int const PI = 3.14159;
 float v = 0; // biến vận tốc nhân vật
 int x_end, y_end;
+
 const char *path_soldier_idle = "Characters/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Soldier/Soldier/Soldier-Idle.png";
+const char *path_orc_idle = "Characters/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Orc/Orc/Orc-Idle.png";
 
 SDL_Cursor *attackCursor;
 SDL_Cursor *defaultCursor;
+SDL_Cursor *altCursor;
+SDL_Cursor *handWritingCursor;
+SDL_Cursor *saveDefaultCursor;
+
 SDL_Texture  *gTexture;
 
 #endif

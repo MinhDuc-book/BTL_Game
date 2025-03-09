@@ -3,6 +3,9 @@
 
 #include "Object.h"
 #include "commonVar.h"
+#include <string>
+#include <iomanip>
+#include <sstream>
 
 void movePlayer(Soldier &soldier, int x_mouse, int y_mouse, float v) {
     float dx = x_mouse - soldier.X;
@@ -22,8 +25,5 @@ void movePlayer(Soldier &soldier, int x_mouse, int y_mouse, float v) {
     
 }
 
-void setMouseSen(int sensitive) {
-    
-}
 
 #endif

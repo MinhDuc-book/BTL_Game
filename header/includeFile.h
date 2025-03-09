@@ -6,6 +6,8 @@
 #include "initCommand.h"
 #include "Object.h"
 #include "ReactFunc.h"
+#include <sstream>
+#include <iomanip>
 using namespace std;
 
 #endif

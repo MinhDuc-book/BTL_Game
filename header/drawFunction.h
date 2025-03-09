@@ -9,11 +9,11 @@ void drawMenu(SDL_Renderer *menuRenderer, TTF_Font *font, int selecOption ){
     const char *Menu[STATE_TOTAL] = {"Start", "High Score", "Setting", "Quit"};
 
     SDL_Color red = {255, 0, 0};
-    SDL_Color blue = {0, 0 , 255};
+    SDL_Color white = {255, 255, 255};
 
     for (int i = 0; i < 4; i++) {
         // create color for selection
-        SDL_Surface *menuSurface = TTF_RenderUTF8_Solid(font, Menu[i], (i == selecOption) ? red : blue);
+        SDL_Surface *menuSurface = TTF_RenderUTF8_Solid(font, Menu[i], (i == selecOption) ? red : white);
         SDL_Texture *menuTexture = SDL_CreateTextureFromSurface(menuRenderer, menuSurface);
 
         // size of text
@@ -31,30 +31,41 @@ void drawMenu(SDL_Renderer *menuRenderer, TTF_Font *font, int selecOption ){
     SDL_RenderPresent(menuRenderer);
 }
 
-void drawMouseSettingMenu(SDL_Renderer *renderer, TTF_Font *font, int mouseOption) {
 
-    SDL_Color red = {255, 0, 0};
-    SDL_Color blue = {0, 0 , 255};
-
-    const char *option[] = {"Slow", "Normal", "Fast", "Super Fast"};
-
-    for (int i = 0; i < 4; i++) {
-        SDL_Color color = (i == mouseOption) ? red : blue;
-        SDL_Surface *surfaceMessage = TTF_RenderText_Solid(font, option[i], color);
+void drawMouseSettingMenu(SDL_Renderer* renderer, TTF_Font* font, int mouseOption) {
+    SDL_Color White = {255, 255, 255};
+    SDL_Color Red = {255, 0, 0};
+    
+    const char* options[] = {
+        "Default Image",
+        "ALT Image",
+        "Handwriting Image"  
+    };
+    
+    SDL_Surface* titleSurface = TTF_RenderText_Solid(font, "===Mouse Option===", White);
+    SDL_Texture* titleTexture = SDL_CreateTextureFromSurface(renderer, titleSurface);
+    SDL_Rect titleRect = {SCREEN_W/2 - 150, SCREEN_H/2 - 200, 300, 50};
+    SDL_RenderCopy(renderer, titleTexture, NULL, &titleRect);
+    SDL_FreeSurface(titleSurface);
+    SDL_DestroyTexture(titleTexture);
+    
+    for(int i = 0; i < 3; i++) {
+        SDL_Color color = (i == mouseOption) ? Red : White;
+        SDL_Surface* surfaceMessage = TTF_RenderText_Solid(font, options[i], color);
         SDL_Texture* Message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
         
         SDL_Rect Message_rect;
         Message_rect.x = SCREEN_W/2 - 100;
-        Message_rect.y = SCREEN_H/2 - 100 + i*100;
-        Message_rect.w = surfaceMessage -> w;
-        Message_rect.h = surfaceMessage -> h;
+        Message_rect.y = SCREEN_H/2 - 100 + i*80;  
+        Message_rect.w = 300;
+        Message_rect.h = 80;
         
         SDL_RenderCopy(renderer, Message, NULL, &Message_rect);
         SDL_FreeSurface(surfaceMessage);
         SDL_DestroyTexture(Message);
     }
-
 }
+
 
 // vẽ tầm đánh
 void drawRange(Soldier soldier)
@@ -75,13 +86,13 @@ void loadSoldier(SDL_Renderer *renderer, const char *path, SDL_Rect desRect, SDL
 // draw character
 void drawPlayer(Soldier soldier){
     SDL_Rect desRect;
-    desRect.x = soldier.X-25;
-    desRect.y = soldier.Y-25;
-    desRect.w = 50;  // Giả sử kích thước khung hình là 100
+    desRect.x = soldier.X - 25;
+    desRect.y = soldier.Y - 25;
+    desRect.w = 50;  
     desRect.h = 50;
 
     SDL_Rect srcRect;
-    srcRect.x = 0;  // Ví dụ, vẽ khung hình đầu tiên trong sprite sheet
+    srcRect.x = 0;  
     srcRect.y = 0;
     srcRect.w = 50;
     srcRect.h = 50;
@@ -89,6 +100,27 @@ void drawPlayer(Soldier soldier){
     loadSoldier(gRenderer, path_soldier_idle, desRect, srcRect, 0.0);
 }
 
+void loadOrc(SDL_Renderer *renderer, const char *path, SDL_Rect desRect, SDL_Rect srcRect, double angle)  {
+    SDL_Surface *loadedSurface = IMG_Load(path);
+    gTexture = SDL_CreateTextureFromSurface(renderer, loadedSurface);
+    SDL_FreeSurface (loadedSurface);
+    SDL_RenderCopyEx(renderer, gTexture, &srcRect, &desRect, angle, nullptr, SDL_FLIP_NONE);
+}
+void drawOrc (Orc orc) {
+    SDL_Rect desRect;
+    desRect.x = orc.X - 25;
+    desRect.y = orc.Y - 25;
+    desRect.w = 50;
+    desRect.h = 50;
+
+    SDL_Rect srcRect;
+    srcRect.x = 0;  
+    srcRect.y = 0;
+    srcRect.w = 50;
+    srcRect.h = 50;
+
+    loadOrc (gRenderer, path_orc_idle, desRect, srcRect, 0.0);
+}
 
 
 #endif

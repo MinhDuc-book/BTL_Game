@@ -23,7 +23,7 @@ class Orc : public BaseObject
     public:
         int velocity_x, velocity_y;
         int size;
-        float range = 100.0;
+        float range = 120.0;
 };
 
 #endif

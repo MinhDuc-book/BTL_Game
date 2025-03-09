@@ -85,6 +85,7 @@ int main (int argv, char *argc[]) {
     if (init() == false) {
         cout << "Cannot initialized window" << endl;
     }  else {
+        
         TTF_Font *font  = TTF_OpenFont("data/JetBrainsMono-Regular.ttf", 50);
         
         while (run) {
@@ -105,57 +106,51 @@ int main (int argv, char *argc[]) {
                     } else if (option == 2) {
                         // MOUSE SETTING
                         bool inSetting = true;
-                        int mouseOption = 1;
                         while (inSetting) {
-                            
-                            KeyPress keyMenu = handleInput();
-                            switch (keyMenu) {
+                            KeyPress keyMouseoption = handleInput();
+                            switch (keyMouseoption) {
                                 case KEY_PRESS_UP:
                                     if (mouseOption > 0) mouseOption--;
                                     break;
 
                                 case KEY_PRESS_DOWN:
-                                    if (mouseOption < 3) mouseOption++;
+                                    if (mouseOption < 2) mouseOption++;
                                     break;
 
-                                
                                 case KEY_PRESS_ENTER:
-                                    switch (mouseOption) {
+                                    switch(mouseOption) {
                                         case 0:
-                                            setMouseSen(SLOW);
+                                            defaultCursor = saveDefaultCursor;
+                                            SDL_SetCursor(defaultCursor);
                                             inSetting = false;
                                             break;
                                         case 1:
-                                            setMouseSen(NORMAL);
+                                            defaultCursor = altCursor;
+                                            SDL_SetCursor(defaultCursor);
                                             inSetting = false;
                                             break;
 
                                         case 2:
-                                            setMouseSen(FAST);
+                                            defaultCursor = handWritingCursor;
+                                            SDL_SetCursor(defaultCursor);
                                             inSetting = false;
                                             break;
 
-                                        case 3:
-                                            setMouseSen(SUPER_FAST);
-                                            inSetting = false;
-                                            break;
-                                        default:
-                                            break;
-
+                                        
                                     }
                                     break;
-                                
                                 case KEY_PRESS_ESCAPE:
                                     inSetting = false;
                                     break;
-                                
+                                default:
+                                    break;     
                             }
 
                             SDL_RenderClear(gRenderer);
                             drawMouseSettingMenu(gRenderer, font, mouseOption);
                             SDL_RenderPresent(gRenderer);
-                            
                         }
+                        
                     } else {
                         run = false;
                     }
@@ -167,20 +162,23 @@ int main (int argv, char *argc[]) {
                     break;
                 
             }
-            Soldier soldier = {1000, 1, SCREEN_W/2, SCREEN_H/2, 0, 0, 20};
+            Soldier soldier = {1000, 1, SCREEN_W/2, SCREEN_H/2, 0, 0};
+            Orc orc = {500, 1, x_pos, y_pos, 0, 0};
             int dRange = 0;
             SDL_SetCursor(defaultCursor);
             while (gameStart){
+
                 KeyPress pressInGame;
                 while (SDL_PollEvent(&e) != 0) {
+
                     if (e.type == SDL_MOUSEBUTTONDOWN) {
                         if (e.button.button == SDL_BUTTON_LEFT) {
                             SDL_SetCursor(defaultCursor);
                             dRange = 0; 
-                            if (isMouseInSquare(e.button.x, e.button.y, x_pos, y_pos, square_size)) {
+                            if (isMouseInSquare(e.button.x, e.button.y, x_pos, y_pos, orc.size)) {
                                 if (isInRange(soldier.range, soldier, x_pos, y_pos)) {
-                                    x_pos = rand() % (SCREEN_W - square_size);
-                                    y_pos = rand () % (SCREEN_H - square_size);
+                                    x_pos = rand() % (SCREEN_W - orc.size);
+                                    y_pos = rand () % (SCREEN_H - orc.size);
                                 }
                             }
                         } if (e.button.button == SDL_BUTTON_RIGHT) {
@@ -190,6 +188,7 @@ int main (int argv, char *argc[]) {
                             
                         }
                     }
+
                     if (e.type == SDL_KEYDOWN) {
                         if (e.key.keysym.sym == SDLK_ESCAPE) {
                             run = true;
@@ -203,12 +202,12 @@ int main (int argv, char *argc[]) {
                     } 
                 }
                 movePlayer(soldier, x_end, y_end, v);
-                SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 255);
+                SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 255);
                 SDL_RenderClear(gRenderer);
                 if(dRange){
                     drawRange(soldier);
                 }
-                renderSquare(x_pos, y_pos, square_size);
+                drawOrc(orc);
                 drawPlayer(soldier);
                 SDL_RenderPresent(gRenderer);
             }

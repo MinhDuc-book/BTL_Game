@@ -34,18 +34,28 @@ bool init() {
                     // Khởi tạo con trỏ chuột mới
                     SDL_Surface* attackPointer = IMG_Load("Icon/Ping_Target.png");
                     SDL_Surface* defaultPointer = IMG_Load("Icon/defaultCursor.png");
-                    if (attackPointer == nullptr || defaultPointer == nullptr) {
+                    SDL_Surface *saveDefaultPointer = IMG_Load("Icon/defaultCursor.png");
+                    SDL_Surface *altPointer = IMG_Load("Icon/Icon(png)/alt.png");
+                    SDL_Surface *handwritingPointer = IMG_Load("Icon/Icon(png)/handwriting.png");
+
+                    if (attackPointer == nullptr || defaultPointer == nullptr || altPointer == nullptr || handwritingPointer == nullptr || saveDefaultPointer == nullptr) {
                         cout << "Failed to load image! IMG_Error: " << IMG_GetError() << endl;
                         success = false;
                     } else {
                         attackCursor = SDL_CreateColorCursor(attackPointer, attackPointer->w / 2, attackPointer->h / 2);
                         defaultCursor = SDL_CreateColorCursor(defaultPointer, 0, 0);
-                        if (attackCursor == nullptr || defaultCursor == nullptr) {
+                        saveDefaultCursor = SDL_CreateColorCursor(defaultPointer, 0 ,0);
+                        altCursor = SDL_CreateColorCursor(altPointer, 0 ,0);
+                        handWritingCursor = SDL_CreateColorCursor (handwritingPointer, 0 ,0);
+                        if (attackCursor == nullptr || defaultCursor == nullptr || altCursor == nullptr || handWritingCursor == nullptr) {
                             cout << "Failed to create cursor! SDL_Error: " << SDL_GetError() << endl;
                             success = false;
                         }
                         SDL_FreeSurface(attackPointer);
                         SDL_FreeSurface(defaultPointer);
+                        SDL_FreeSurface(saveDefaultPointer);
+                        SDL_FreeSurface(altPointer);
+                        SDL_FreeSurface(handwritingPointer);
                     }
                 }
             }
