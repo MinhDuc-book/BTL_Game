@@ -97,10 +97,36 @@ void drawPlayer(Soldier soldier){
     srcRect.w = 50;
     srcRect.h = 50;
 
+    //lồng if vào đây để tạo các chuyển động cho nhân vật
     loadSoldier(gRenderer, path_soldier_idle, desRect, srcRect, 0.0);
+
+    switch (soldier.state) {
+        case IDLE:
+            srcRect.x = currentFrame * srcRect.w; 
+            loadSoldier(gRenderer, path_soldier_idle, desRect, srcRect, 0.0);
+            break;
+        case ATTACK:
+            srcRect.x = currentFrame * srcRect.w; 
+            loadSoldier(gRenderer, path_soldier_attack, desRect, srcRect, 0.0);
+            break;
+        case RUN:
+            srcRect.x = currentFrame * srcRect.w; 
+            loadSoldier(gRenderer, path_soldier_run, desRect, srcRect, 0.0);
+            break;
+        case DEATH:
+            srcRect.x = currentFrame * srcRect.w; 
+            loadSoldier(gRenderer, path_soldier_death, desRect, srcRect, 0.0);
+            break;
+        case HURT:
+            srcRect.x = currentFrame * srcRect.w; 
+            loadSoldier(gRenderer, path_soldier_hurt, desRect, srcRect, 0.0);
+            break;
+        default:
+            break;
+    }
 }
 
-void loadOrc(SDL_Renderer *renderer, const char *path, SDL_Rect desRect, SDL_Rect srcRect, double angle)  {
+void loadOrc (SDL_Renderer *renderer, const char *path, SDL_Rect desRect, SDL_Rect srcRect, double angle) {
     SDL_Surface *loadedSurface = IMG_Load(path);
     gTexture = SDL_CreateTextureFromSurface(renderer, loadedSurface);
     SDL_FreeSurface (loadedSurface);
@@ -108,8 +134,8 @@ void loadOrc(SDL_Renderer *renderer, const char *path, SDL_Rect desRect, SDL_Rec
 }
 void drawOrc (Orc orc) {
     SDL_Rect desRect;
-    desRect.x = orc.X - 25;
-    desRect.y = orc.Y - 25;
+    desRect.x = orc.X - orc.size;
+    desRect.y = orc.Y - orc.size;
     desRect.w = 50;
     desRect.h = 50;
 

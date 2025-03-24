@@ -2,37 +2,18 @@
 
 using namespace std; 
 
-// định dạng cho hình vuông
-void renderSquare(int x, int y, int size)
-{
-    SDL_Rect square;
-    square.x = x;
-    square.y = y;
-    square.w = size;
-    square.h = size;
-
-    SDL_SetRenderDrawColor(gRenderer, 255, 0, 0, 255);
-    SDL_RenderFillRect(gRenderer, &square);
-    SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 255);
-}
-
-bool isMouseInSquare(int x_mouse, int y_mouse, int x_square, int y_square, int size) {
-    if ((x_mouse <= x_square+size and x_mouse >= x_square) and (y_mouse <= y_square+size and y_mouse >= y_square)) {
+bool isMouseInSquare(int x, int y, Orc orc) {
+    if (x <= orc.size + orc.X and x >= orc.X - orc.size and y <= orc.Y + orc.size and y >= orc.Y - orc.size) {
         return true;
     }
     return false;
 }
 
-bool isInRange (float range,Soldier soldier, int x_square, int y_square) {
-    float dx = soldier.X - x_square;
-    float dy = soldier.Y - y_square;
-    float dis1 = sqrt(dx*dx + dy*dy) + square_size*sqrt(2);
-    float dis2 = sqrt(dx*dx + dy*dy) - square_size*sqrt(2);
-
-    if (dis1 <= range or dis2 <= range) {
-        return true;
-    }
-    return false;
+bool isInRange(Soldier soldier, Orc orc) {
+    float dx = soldier.X - orc.X;
+    float dy = soldier.Y - orc.Y;
+    float distance = sqrt(dx*dx + dy*dy) - orc.size;
+    return distance <= soldier.range;
 }
 
 SDL_Event e;
@@ -87,7 +68,10 @@ int main (int argv, char *argc[]) {
     }  else {
         
         TTF_Font *font  = TTF_OpenFont("data/JetBrainsMono-Regular.ttf", 50);
-        
+        Soldier soldier = {1000, 1, SCREEN_W/2, SCREEN_H/2, 0, 0};
+        Orc orc = {500, 1, 100, 100}; // health, level, X, Y, isRunning, isAttacking,isDeath, isHurt, direction, v_x, v_y, size, range
+        orc.size = 25;
+
         while (run) {
             KeyPress key = handleInput();
             switch(key) {
@@ -162,8 +146,6 @@ int main (int argv, char *argc[]) {
                     break;
                 
             }
-            Soldier soldier = {1000, 1, SCREEN_W/2, SCREEN_H/2, 0, 0};
-            Orc orc = {500, 1, x_pos, y_pos, 0, 0};
             int dRange = 0;
             SDL_SetCursor(defaultCursor);
             while (gameStart){
@@ -175,17 +157,21 @@ int main (int argv, char *argc[]) {
                         if (e.button.button == SDL_BUTTON_LEFT) {
                             SDL_SetCursor(defaultCursor);
                             dRange = 0; 
-                            if (isMouseInSquare(e.button.x, e.button.y, x_pos, y_pos, orc.size)) {
-                                if (isInRange(soldier.range, soldier, x_pos, y_pos)) {
-                                    x_pos = rand() % (SCREEN_W - orc.size);
-                                    y_pos = rand () % (SCREEN_H - orc.size);
+                            if (isMouseInSquare(e.button.x, e.button.y, orc)) {
+                                if (isInRange( soldier, orc)) {
+                                    int random_x = rand() % (SCREEN_W - orc.size);
+                                    int random_y = rand () % (SCREEN_H - orc.size);
+                                    orc.X = random_x;
+                                    orc.Y = random_y;
                                 }
                             }
-                        } if (e.button.button == SDL_BUTTON_RIGHT) {
+                            cout << orc.X << " " << orc.Y << " " << orc.size << endl;
+                        } 
+                        
+                        if (e.button.button == SDL_BUTTON_RIGHT) {
                             x_end = e.button.x;
                             y_end = e.button.y;
                             v = 5;
-                            
                         }
                     }
 
@@ -202,7 +188,7 @@ int main (int argv, char *argc[]) {
                     } 
                 }
                 movePlayer(soldier, x_end, y_end, v);
-                SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 255);
+                SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 255);
                 SDL_RenderClear(gRenderer);
                 if(dRange){
                     drawRange(soldier);
@@ -214,13 +200,11 @@ int main (int argv, char *argc[]) {
             SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 255);
             SDL_RenderClear(gRenderer);
             drawMenu(gRenderer, font, option);
-            
         }
-        
     }
     
     close();
     return 0;
 }
 
-// Nguyễn Minh Đức test update github
+// Nguyễn Minh Đức 

@@ -8,6 +8,12 @@ class BaseObject
         int Health;
         int Level;
         int X, Y;
+        bool isRunning;
+        bool isAttacking;
+        bool isDeath;
+        bool isHurt;
+        int direction;
+        soldierState state;
 };
 
 class Soldier : public BaseObject

@@ -25,5 +25,9 @@ void movePlayer(Soldier &soldier, int x_mouse, int y_mouse, float v) {
     
 }
 
+void soldierAttack(Soldier &soldier,const char *path) {
+    
+}
+
 
 #endif

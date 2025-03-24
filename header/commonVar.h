@@ -12,7 +12,7 @@
 #include <SDL2/SDL_ttf.h>
 
 // các biến toàn chương trình dùng cho SDL
-int const SCREEN_W = 1280;
+int const SCREEN_W = 1200;
 int const SCREEN_H = 720;
 int const SCREEN_BPP = 32;
 
@@ -43,6 +43,15 @@ enum mouseOption {
     TOTAL_MOUSE_OPTION
 };
 
+enum soldierState {
+    IDLE,
+    ATTACK,
+    RUN,
+    DEATH,
+    HURT,
+    TOTAL_STATE
+};
+
 GameState currentState = START;
 int selectOption = 0;
 int x_pos = 50;
@@ -59,7 +68,12 @@ float v = 0; // biến vận tốc nhân vật
 int x_end, y_end;
 
 const char *path_soldier_idle = "Characters/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Soldier/Soldier/Soldier-Idle.png";
+const char *path_soldier_run = "Characters/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Soldier/Soldier/Soldier-Walk.png";
+const char *path_soldier_attack = "Characters/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Soldier/Soldier/Soldier-Attack03.png";
+const char *path_soldier_death = "Characters/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Soldier/Soldier/Soldier-Death.png";
+const char *path_soldier_hurt = "Characters/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Soldier/Soldier/Soldier-Hurt.png";
 const char *path_orc_idle = "Characters/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Orc/Orc/Orc-Idle.png";
+
 
 SDL_Cursor *attackCursor;
 SDL_Cursor *defaultCursor;
@@ -68,5 +82,15 @@ SDL_Cursor *handWritingCursor;
 SDL_Cursor *saveDefaultCursor;
 
 SDL_Texture  *gTexture;
+SDL_Texture *currentTexture;
+SDL_Texture *runTexture;
+SDL_Texture *hurtTexture;
+SDL_Texture *deathTexture;
+SDL_Texture *attackTexture;
+
+int currentFrame = 0;
+Uint32 lastFrameTime = 0;
+const Uint32 frameDelay = 200; // (ms)
+
 
 #endif
