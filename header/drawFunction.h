@@ -3,6 +3,7 @@
 
 #include "commonVar.h"
 #include "Object.h"
+#include "ReactFunc.h"
 
 // draw menu
 void drawMenu(SDL_Renderer *menuRenderer, TTF_Font *font, int selecOption ){
@@ -38,7 +39,7 @@ void drawMouseSettingMenu(SDL_Renderer* renderer, TTF_Font* font, int mouseOptio
     
     const char* options[] = {
         "Default Image",
-        "ALT Image",
+        "Alt Image",
         "Handwriting Image"  
     };
     
@@ -100,29 +101,16 @@ void drawPlayer(Soldier soldier){
     //lồng if vào đây để tạo các chuyển động cho nhân vật
     loadSoldier(gRenderer, path_soldier_idle, desRect, srcRect, 0.0);
 
-    switch (soldier.state) {
-        case IDLE:
-            srcRect.x = currentFrame * srcRect.w; 
-            loadSoldier(gRenderer, path_soldier_idle, desRect, srcRect, 0.0);
-            break;
-        case ATTACK:
-            srcRect.x = currentFrame * srcRect.w; 
-            loadSoldier(gRenderer, path_soldier_attack, desRect, srcRect, 0.0);
-            break;
-        case RUN:
-            srcRect.x = currentFrame * srcRect.w; 
-            loadSoldier(gRenderer, path_soldier_run, desRect, srcRect, 0.0);
-            break;
-        case DEATH:
-            srcRect.x = currentFrame * srcRect.w; 
-            loadSoldier(gRenderer, path_soldier_death, desRect, srcRect, 0.0);
-            break;
-        case HURT:
-            srcRect.x = currentFrame * srcRect.w; 
-            loadSoldier(gRenderer, path_soldier_hurt, desRect, srcRect, 0.0);
-            break;
-        default:
-            break;
+    if (soldier.isAttacking) {
+        soldier.state = ATTACK;
+    } else if  (soldier.isRunning) {
+        soldier.state = RUN;
+    } else if (soldier.isHurt) {
+        soldier.state = HURT;
+    } else if (soldier.isDeath) {
+        soldier.state = DEATH;
+    } else {
+        soldier.state = IDLE;
     }
 }
 

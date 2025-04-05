@@ -68,8 +68,12 @@ int main (int argv, char *argc[]) {
     }  else {
         
         TTF_Font *font  = TTF_OpenFont("data/JetBrainsMono-Regular.ttf", 50);
-        Soldier soldier = {1000, 1, SCREEN_W/2, SCREEN_H/2, 0, 0};
-        Orc orc = {500, 1, 100, 100}; // health, level, X, Y, isRunning, isAttacking,isDeath, isHurt, direction, v_x, v_y, size, range
+
+        Soldier soldier;
+        soldier.X = SCREEN_W/2;
+        soldier.Y = SCREEN_H/2;
+
+        Orc orc = {500, 1, 350, 274}; // health, level, X, Y, isRunning, isAttacking,isDeath, isHurt, direction, v_x, v_y, size, range
         orc.size = 25;
 
         while (run) {
@@ -163,9 +167,10 @@ int main (int argv, char *argc[]) {
                                     int random_y = rand () % (SCREEN_H - orc.size);
                                     orc.X = random_x;
                                     orc.Y = random_y;
+                                    soldier.isAttacking = true;
+
                                 }
                             }
-                            cout << orc.X << " " << orc.Y << " " << orc.size << endl;
                         } 
                         
                         if (e.button.button == SDL_BUTTON_RIGHT) {
@@ -195,6 +200,9 @@ int main (int argv, char *argc[]) {
                 }
                 drawOrc(orc);
                 drawPlayer(soldier);
+                if (soldier.isAttacking) {
+                    drawAttacking(attackTexture, soldier, gRenderer);
+                }
                 SDL_RenderPresent(gRenderer);
             }
             SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 255);

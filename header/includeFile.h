@@ -8,6 +8,7 @@
 #include "ReactFunc.h"
 #include <sstream>
 #include <iomanip>
+#include <SDL2/SDL.h>
 using namespace std;
 
 #endif

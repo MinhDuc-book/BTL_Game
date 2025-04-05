@@ -49,7 +49,7 @@ enum soldierState {
     RUN,
     DEATH,
     HURT,
-    TOTAL_STATE
+    TOTAL_STATE_CHAR
 };
 
 GameState currentState = START;
@@ -88,9 +88,6 @@ SDL_Texture *hurtTexture;
 SDL_Texture *deathTexture;
 SDL_Texture *attackTexture;
 
-int currentFrame = 0;
-Uint32 lastFrameTime = 0;
-const Uint32 frameDelay = 200; // (ms)
 
 
 #endif

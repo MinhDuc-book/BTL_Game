@@ -1,6 +1,7 @@
 #ifndef OBJECT_H
 #define OBJECT_H
 #include "includeFile.h"
+using namespace std;
 
 class BaseObject
 {
@@ -13,7 +14,7 @@ class BaseObject
         bool isDeath;
         bool isHurt;
         int direction;
-        soldierState state;
+        
 };
 
 class Soldier : public BaseObject
@@ -21,7 +22,13 @@ class Soldier : public BaseObject
     public:
         int velocity_x, velocity_y;
         int size;
-        float range = 100.0;
+        float range = 100.0f;
+        soldierState state;
+        int currentFrame = 0;
+        Uint32 lastFrameTime = 0;
+        const Uint32 frameDelay = 100; // ms
+
+
 };
 
 class Orc : public BaseObject
