@@ -74,6 +74,11 @@ const char *path_soldier_death = "Characters/Tiny RPG Character Asset Pack v1.03
 const char *path_soldier_hurt = "Characters/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Soldier/Soldier/Soldier-Hurt.png";
 const char *path_orc_idle = "Characters/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Orc/Orc/Orc-Idle.png";
 
+SDL_Surface *spriteAttack = IMG_Load(path_soldier_attack);
+SDL_Surface *spriteRun = IMG_Load(path_soldier_run);
+SDL_Surface *spriteHurt = IMG_Load(path_soldier_hurt);
+SDL_Surface *spriteDeath = IMG_Load(path_soldier_death);
+SDL_Surface *spriteIdle = IMG_Load (path_soldier_idle);
 
 SDL_Cursor *attackCursor;
 SDL_Cursor *defaultCursor;

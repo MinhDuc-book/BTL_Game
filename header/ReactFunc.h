@@ -26,33 +26,35 @@ void movePlayer(Soldier &soldier, int x_mouse, int y_mouse, float v) {
     
 }
 
-void drawAttacking(SDL_Texture *texture, Soldier soldier, SDL_Renderer *renderer) {
+void drawAttacking(SDL_Texture *texture, Soldier& soldier, SDL_Renderer *renderer) {
     SDL_Rect srcRect;
     SDL_Rect desRect;
 
-    desRect.x = soldier.X;
-    desRect.y = soldier.Y;
-    desRect.w = soldier.size;
-    desRect.h = soldier.size;
+    desRect.x = soldier.X - soldier.size*2; 
+    desRect.y = soldier.Y - soldier.size*2;
+    desRect.w = soldier.size * 4;
+    desRect.h = soldier.size * 4;
 
-    srcRect.w = soldier.size;
-    srcRect.h = soldier.size;
-    srcRect.y = 0; 
+    srcRect.w = 100;
+    srcRect.h = 100;
+    srcRect.y = 0;
 
     if (soldier.isAttacking) {
         Uint32 currentTime = SDL_GetTicks();
         if (currentTime - soldier.lastFrameTime >= soldier.frameDelay) {
             soldier.currentFrame++;
             soldier.lastFrameTime = currentTime;
-    
-            if (soldier.currentFrame >= 6) {
+
+            if (soldier.currentFrame >= 9) { 
                 soldier.currentFrame = 0;
-                soldier.isAttacking = false; // Kết thúc animation
+                soldier.isAttacking = false; 
             }
         }
-        srcRect.x = soldier.currentFrame * soldier.size; 
+        srcRect.x = soldier.currentFrame * 100;
+    } else {
+        srcRect.x = 0;
     }
-    
+
     SDL_RenderCopy(renderer, texture, &srcRect, &desRect);
 }
 

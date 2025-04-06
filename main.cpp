@@ -70,11 +70,12 @@ int main (int argv, char *argc[]) {
         TTF_Font *font  = TTF_OpenFont("data/JetBrainsMono-Regular.ttf", 50);
 
         Soldier soldier;
+        soldier.size = 75;
         soldier.X = SCREEN_W/2;
         soldier.Y = SCREEN_H/2;
 
         Orc orc = {500, 1, 350, 274}; // health, level, X, Y, isRunning, isAttacking,isDeath, isHurt, direction, v_x, v_y, size, range
-        orc.size = 25;
+        orc.size = 50;
 
         while (run) {
             KeyPress key = handleInput();
@@ -201,8 +202,10 @@ int main (int argv, char *argc[]) {
                 drawOrc(orc);
                 drawPlayer(soldier);
                 if (soldier.isAttacking) {
+                    attackTexture = SDL_CreateTextureFromSurface(gRenderer, spriteAttack);
                     drawAttacking(attackTexture, soldier, gRenderer);
                 }
+                
                 SDL_RenderPresent(gRenderer);
             }
             SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 255);

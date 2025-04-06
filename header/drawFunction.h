@@ -79,18 +79,18 @@ void drawRange(Soldier soldier)
 
 void loadSoldier(SDL_Renderer *renderer, const char *path, SDL_Rect desRect, SDL_Rect srcRect, double angle) {
     SDL_Surface *loadedSurface = IMG_Load(path);
-    gTexture = SDL_CreateTextureFromSurface(renderer, loadedSurface);
+    currentTexture = SDL_CreateTextureFromSurface(renderer, loadedSurface);
     SDL_FreeSurface(loadedSurface);
-    SDL_RenderCopyEx(renderer, gTexture, &srcRect, &desRect, angle, nullptr, SDL_FLIP_NONE);
+    SDL_RenderCopyEx(renderer, currentTexture, &srcRect, &desRect, angle, nullptr, SDL_FLIP_NONE);
 }
 
 // draw character
 void drawPlayer(Soldier soldier){
     SDL_Rect desRect;
-    desRect.x = soldier.X - 25;
-    desRect.y = soldier.Y - 25;
-    desRect.w = 50;  
-    desRect.h = 50;
+    desRect.x = soldier.X - soldier.size / 2;
+    desRect.y = soldier.Y - soldier.size / 2;
+    desRect.w = soldier.size; 
+    desRect.h = soldier.size;
 
     SDL_Rect srcRect;
     srcRect.x = 0;  
@@ -122,10 +122,10 @@ void loadOrc (SDL_Renderer *renderer, const char *path, SDL_Rect desRect, SDL_Re
 }
 void drawOrc (Orc orc) {
     SDL_Rect desRect;
-    desRect.x = orc.X - orc.size;
-    desRect.y = orc.Y - orc.size;
-    desRect.w = 50;
-    desRect.h = 50;
+    desRect.x = orc.X - orc.size/2;
+    desRect.y = orc.Y - orc.size/2;
+    desRect.w = 100;
+    desRect.h = 100;
 
     SDL_Rect srcRect;
     srcRect.x = 0;  
