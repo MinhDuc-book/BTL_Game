@@ -203,7 +203,8 @@ int main (int argv, char *argc[]) {
                 drawPlayer(soldier);
                 if (soldier.isAttacking) {
                     attackTexture = SDL_CreateTextureFromSurface(gRenderer, spriteAttack);
-                    drawAttacking(attackTexture, soldier, gRenderer);
+                    currentTexture = attackTexture;
+                    drawAttacking(currentTexture, soldier, gRenderer);
                 }
                 
                 SDL_RenderPresent(gRenderer);

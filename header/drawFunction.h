@@ -77,11 +77,11 @@ void drawRange(Soldier soldier)
     }
 }
 
-void loadSoldier(SDL_Renderer *renderer, const char *path, SDL_Rect desRect, SDL_Rect srcRect, double angle) {
+void loadSoldier(SDL_Renderer *renderer, const char *path, SDL_Rect desRect, SDL_Rect srcRect, double angle, SDL_Texture *texture) {
     SDL_Surface *loadedSurface = IMG_Load(path);
-    currentTexture = SDL_CreateTextureFromSurface(renderer, loadedSurface);
+    texture = SDL_CreateTextureFromSurface(renderer, loadedSurface);
     SDL_FreeSurface(loadedSurface);
-    SDL_RenderCopyEx(renderer, currentTexture, &srcRect, &desRect, angle, nullptr, SDL_FLIP_NONE);
+    SDL_RenderCopyEx(renderer, texture, &srcRect, &desRect, angle, nullptr, SDL_FLIP_NONE);
 }
 
 // draw character
@@ -99,7 +99,7 @@ void drawPlayer(Soldier soldier){
     srcRect.h = 50;
 
     //lồng if vào đây để tạo các chuyển động cho nhân vật
-    loadSoldier(gRenderer, path_soldier_idle, desRect, srcRect, 0.0);
+    loadSoldier(gRenderer, path_soldier_idle, desRect, srcRect, 0.0, currentTexture);
 
     if (soldier.isAttacking) {
         soldier.state = ATTACK;

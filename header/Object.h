@@ -22,7 +22,7 @@ class Soldier : public BaseObject
     public:
         int velocity_x, velocity_y;
         int size;
-        float range = 100.0f;
+        float range = 200.0f;
         soldierState state;
         int currentFrame = 0;
         Uint32 lastFrameTime = 0;
@@ -36,7 +36,7 @@ class Orc : public BaseObject
     public:
         int velocity_x, velocity_y;
         int size;
-        float range = 120.0;
+        float range = 220.0;
 };
 
 #endif
