@@ -77,32 +77,6 @@ void drawRange(Soldier soldier)
     }
 }
 
-void loadSoldier(SDL_Renderer *renderer, const char *path, SDL_Rect desRect, SDL_Rect srcRect, double angle, SDL_Texture *texture) {
-    SDL_Surface *loadedSurface = IMG_Load(path);
-    texture = SDL_CreateTextureFromSurface(renderer, loadedSurface);
-    SDL_FreeSurface(loadedSurface);
-    SDL_RenderCopyEx(renderer, texture, &srcRect, &desRect, angle, nullptr, SDL_FLIP_NONE);
-}
-
-// draw character
-void drawPlayer(Soldier soldier){
-    SDL_Rect desRect;
-    desRect.x = soldier.X - soldier.size / 2;
-    desRect.y = soldier.Y - soldier.size / 2;
-    desRect.w = soldier.size; 
-    desRect.h = soldier.size;
-
-    SDL_Rect srcRect;
-    srcRect.x = 0;  
-    srcRect.y = 0;
-    srcRect.w = 50;
-    srcRect.h = 50;
-
-    //lồng if vào đây để tạo các chuyển động cho nhân vật
-    loadSoldier(gRenderer, path_soldier_idle, desRect, srcRect, 0.0, currentTexture);
-    
-}
-
 void loadOrc (SDL_Renderer *renderer, const char *path, SDL_Rect desRect, SDL_Rect srcRect, double angle) {
     SDL_Surface *loadedSurface = IMG_Load(path);
     gTexture = SDL_CreateTextureFromSurface(renderer, loadedSurface);

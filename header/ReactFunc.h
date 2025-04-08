@@ -78,6 +78,38 @@ void drawAttacking(SDL_Texture *texture, Soldier& soldier, SDL_Renderer *rendere
     SDL_RenderCopy(renderer, texture, &srcRect, &desRect);
 }
 
+void drawIdle(SDL_Texture *texture, Soldier& soldier, SDL_Renderer *renderer) {
+    SDL_Rect srcRect;
+    SDL_Rect desRect;
+
+    desRect.x = soldier.X - soldier.size*2; 
+    desRect.y = soldier.Y - soldier.size*2;
+    desRect.w = soldier.size * 4;
+    desRect.h = soldier.size * 4;
+
+    srcRect.w = 100;
+    srcRect.h = 100;
+    srcRect.y = 0;
+
+    if (soldier.isIdle) {
+        Uint32 currentTime = SDL_GetTicks();
+        if (currentTime - soldier.lastFrameTime >= soldier.frameDelay) {
+            soldier.currentFrame++;
+            soldier.lastFrameTime = currentTime;
+
+            if (soldier.currentFrame >= 6) { 
+                soldier.currentFrame = 0;
+                soldier.isIdle = false; 
+            }
+        }
+        srcRect.x = soldier.currentFrame * 100;
+    } else {
+        srcRect.x = 0;
+    }
+
+    SDL_RenderCopy(renderer, texture, &srcRect, &desRect);
+}
+
 void drawRunning(SDL_Texture *texture, Soldier& soldier, SDL_Renderer *renderer) {
     SDL_Rect srcRect;
     SDL_Rect desRect;

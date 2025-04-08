@@ -204,23 +204,25 @@ int main (int argv, char *argc[]) {
                     drawRange(soldier);
                 }
                 drawOrc(orc);
-                if (soldier.isIdle) {
-                    idleTexture = SDL_CreateTextureFromSurface(gRenderer, spriteIdle);
-                    currentTexture = idleTexture;
-                    drawPlayer(soldier);
-                }
+                
                 if (soldier.isAttacking) {
                     attackTexture = SDL_CreateTextureFromSurface(gRenderer, spriteAttack);
                     soldier.isIdle = false;
                     currentTexture = attackTexture;
                     drawAttacking(currentTexture, soldier, gRenderer);
                 }
-                if (soldier.isRunning) {
+                else if (soldier.isRunning) {
                     runTexture = SDL_CreateTextureFromSurface(gRenderer, spriteRun);
                     soldier.isIdle = false;
                     currentTexture = runTexture;
                     drawRunning(currentTexture,soldier,gRenderer);
                 }
+                else if (soldier.isIdle) {
+                    idleTexture = SDL_CreateTextureFromSurface(gRenderer, spriteIdle);
+                    currentTexture = idleTexture;
+                    drawIdle(currentTexture, soldier, gRenderer);
+                }
+                
                 
                 SDL_RenderPresent(gRenderer);
             }
