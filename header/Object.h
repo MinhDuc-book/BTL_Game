@@ -13,6 +13,7 @@ class BaseObject
         bool isAttacking;
         bool isDeath;
         bool isHurt;
+        bool isIdle;
         int direction;
         
 };
@@ -20,13 +21,13 @@ class BaseObject
 class Soldier : public BaseObject
 {
     public:
-        int velocity_x, velocity_y;
+        float v = 5;
         int size;
         float range = 200.0f;
         soldierState state;
         int currentFrame = 0;
         Uint32 lastFrameTime = 0;
-        const Uint32 frameDelay = 100; // ms
+        const Uint32 frameDelay = 75; // ms
 
 
 };
@@ -34,7 +35,7 @@ class Soldier : public BaseObject
 class Orc : public BaseObject
 {
     public:
-        int velocity_x, velocity_y;
+        float v = 2.5;
         int size;
         float range = 220.0;
 };

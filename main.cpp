@@ -175,9 +175,10 @@ int main (int argv, char *argc[]) {
                         } 
                         
                         if (e.button.button == SDL_BUTTON_RIGHT) {
+                            
                             x_end = e.button.x;
                             y_end = e.button.y;
-                            v = 5;
+                            soldier.v = 5;
                         }
                     }
 
@@ -193,18 +194,23 @@ int main (int argv, char *argc[]) {
                         }
                     } 
                 }
-                movePlayer(soldier, x_end, y_end, v);
+                movePlayer(soldier, x_end, y_end, soldier.v);
+                moveOrc(orc, soldier, orc.v);
                 SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 255);
                 SDL_RenderClear(gRenderer);
                 if(dRange){
                     drawRange(soldier);
                 }
                 drawOrc(orc);
-                drawPlayer(soldier);
                 if (soldier.isAttacking) {
                     attackTexture = SDL_CreateTextureFromSurface(gRenderer, spriteAttack);
                     currentTexture = attackTexture;
                     drawAttacking(currentTexture, soldier, gRenderer);
+                }
+                if (soldier.isRunning) {
+                    runTexture = SDL_CreateTextureFromSurface(gRenderer, spriteRun);
+                    currentTexture = runTexture;
+                    drawRunning(currentTexture,soldier,gRenderer);
                 }
                 
                 SDL_RenderPresent(gRenderer);

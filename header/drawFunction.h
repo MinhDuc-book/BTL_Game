@@ -100,18 +100,7 @@ void drawPlayer(Soldier soldier){
 
     //lồng if vào đây để tạo các chuyển động cho nhân vật
     loadSoldier(gRenderer, path_soldier_idle, desRect, srcRect, 0.0, currentTexture);
-
-    if (soldier.isAttacking) {
-        soldier.state = ATTACK;
-    } else if  (soldier.isRunning) {
-        soldier.state = RUN;
-    } else if (soldier.isHurt) {
-        soldier.state = HURT;
-    } else if (soldier.isDeath) {
-        soldier.state = DEATH;
-    } else {
-        soldier.state = IDLE;
-    }
+    
 }
 
 void loadOrc (SDL_Renderer *renderer, const char *path, SDL_Rect desRect, SDL_Rect srcRect, double angle) {

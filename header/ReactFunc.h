@@ -26,6 +26,25 @@ void movePlayer(Soldier &soldier, int x_mouse, int y_mouse, float v) {
     
 }
 
+void moveOrc(Orc &orc, Soldier soldier, float v) {
+    float dx = soldier.X - orc.X;
+    float dy = soldier.Y - orc.Y;
+    float distance = sqrt (dx * dx - dy * dy);
+
+    if (distance > v) {
+        float stepX = v * (dx/distance);
+        float stepY = v * (dy/distance);
+
+        orc.X = orc.X + stepX;
+        orc.Y = orc.Y + stepY;
+        
+    } else if (distance > 0) {
+        orc.X = soldier.X;
+        orc.Y = soldier.Y;
+        soldier.isIdle = true;
+    }
+}
+
 void drawAttacking(SDL_Texture *texture, Soldier& soldier, SDL_Renderer *renderer) {
     SDL_Rect srcRect;
     SDL_Rect desRect;
@@ -46,6 +65,38 @@ void drawAttacking(SDL_Texture *texture, Soldier& soldier, SDL_Renderer *rendere
             soldier.lastFrameTime = currentTime;
 
             if (soldier.currentFrame >= 9) { 
+                soldier.currentFrame = 0;
+                soldier.isAttacking = false; 
+            }
+        }
+        srcRect.x = soldier.currentFrame * 100;
+    } else {
+        srcRect.x = 0;
+    }
+
+    SDL_RenderCopy(renderer, texture, &srcRect, &desRect);
+}
+
+void drawRunning(SDL_Texture *texture, Soldier& soldier, SDL_Renderer *renderer) {
+    SDL_Rect srcRect;
+    SDL_Rect desRect;
+
+    desRect.x = soldier.X - soldier.size*2; 
+    desRect.y = soldier.Y - soldier.size*2;
+    desRect.w = soldier.size * 4;
+    desRect.h = soldier.size * 4;
+
+    srcRect.w = 100;
+    srcRect.h = 100;
+    srcRect.y = 0;
+
+    if (soldier.isRunning) {
+        Uint32 currentTime = SDL_GetTicks();
+        if (currentTime - soldier.lastFrameTime >= soldier.frameDelay) {
+            soldier.currentFrame++;
+            soldier.lastFrameTime = currentTime;
+
+            if (soldier.currentFrame >= 8) { 
                 soldier.currentFrame = 0;
                 soldier.isAttacking = false; 
             }
