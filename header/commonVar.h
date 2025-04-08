@@ -12,8 +12,8 @@
 #include <SDL2/SDL_ttf.h>
 
 // các biến toàn chương trình dùng cho SDL
-int const SCREEN_W = 1200;
-int const SCREEN_H = 720;
+int const SCREEN_W = 860;
+int const SCREEN_H = 860;
 int const SCREEN_BPP = 32;
 
 SDL_Window *gWindow = NULL;
@@ -73,6 +73,10 @@ const char *path_soldier_attack = "Characters/Tiny RPG Character Asset Pack v1.0
 const char *path_soldier_death = "Characters/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Soldier/Soldier/Soldier-Death.png";
 const char *path_soldier_hurt = "Characters/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Soldier/Soldier/Soldier-Hurt.png";
 const char *path_orc_idle = "Characters/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Orc/Orc/Orc-Idle.png";
+const char *path_orc_run = "Characters/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Orc/Orc/Orc-Walk.png";
+const char *path_orc_attack;
+const char *path_orc_death;
+const char *path_orc_hurt;
 
 SDL_Surface *spriteAttack = IMG_Load(path_soldier_attack);
 SDL_Surface *spriteRun = IMG_Load(path_soldier_run);
@@ -92,6 +96,7 @@ SDL_Texture *runTexture;
 SDL_Texture *hurtTexture;
 SDL_Texture *deathTexture;
 SDL_Texture *attackTexture;
+SDL_Texture *idleTexture;
 
 
 

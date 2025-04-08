@@ -35,7 +35,7 @@ class Soldier : public BaseObject
 class Orc : public BaseObject
 {
     public:
-        float v = 2.5;
+        float v = 2;
         int size;
         float range = 220.0;
 };
