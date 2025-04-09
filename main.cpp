@@ -154,10 +154,15 @@ int main (int argv, char *argc[]) {
             int dRange = 0;
             SDL_SetCursor(defaultCursor);
             while (gameStart){
-                orc.isRunning = true;
+                orc.isRunning = true;\
+                // kiểm tra vị trí của Orc
+                float distanceToSoldier = sqrt ((soldier.X-orc.X) * (soldier.X-orc.X) + (soldier.Y-orc.Y) * (soldier.Y-orc.Y));
+                if (distanceToSoldier <= 2) {
+                    orc.isAttacking = true;
+                    soldier.isHurt = true;
+                }
                 KeyPress pressInGame;
                 while (SDL_PollEvent(&e) != 0) {
-
                     if (e.type == SDL_MOUSEBUTTONDOWN) {
                         if (e.button.button == SDL_BUTTON_LEFT) {
                             SDL_SetCursor(defaultCursor);
@@ -166,19 +171,19 @@ int main (int argv, char *argc[]) {
                                 if (isInRange( soldier, orc)) {
                                     int random_x = rand() % (SCREEN_W - orc.size);
                                     int random_y = rand () % (SCREEN_H - orc.size);
+                                    orc.v = orc.v + 0.0005f;
+                                    soldier.v = soldier.v + 0.00001f;
                                     orc.X = random_x;
                                     orc.Y = random_y;
                                     soldier.isAttacking = true;
-
                                 }
                             }
+                            
                         } 
                         
                         if (e.button.button == SDL_BUTTON_RIGHT) {
-                            
                             x_end = e.button.x;
                             y_end = e.button.y;
-                            soldier.v = 5;
                         }
                     }
 
@@ -200,47 +205,27 @@ int main (int argv, char *argc[]) {
                 }
                 SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 255);
                 SDL_RenderClear(gRenderer);
+                drawBackground(gRenderer, path_background);
+
                 if(dRange){
                     drawRange(soldier);
                 }
                 
+                if (orc.X == soldier.X and orc.Y == soldier.Y) {
+                    orc.isAttacking = true;
+                }
                 // Animation cho orc
-                if (orc.isRunning) {
-                    runOrcTexture = SDL_CreateTextureFromSurface(gRenderer, spriteOrcRun);
-                    currentOrcTexture = runOrcTexture;
-                    drawOrcRunning(currentOrcTexture, orc, gRenderer);
-                }
-                else if(orc.isIdle) {
-                    idleOrcTexture = SDL_CreateTextureFromSurface(gRenderer, spriteOrcIdle);
-                    currentOrcTexture = idleOrcTexture;
-                    drawOrcIdle(currentOrcTexture, orc, gRenderer);
-                }
+                animationOrc(orc);
                 
                 // Animation cho soldier
-                if (soldier.isAttacking) {
-                    attackTexture = SDL_CreateTextureFromSurface(gRenderer, spriteAttack);
-                    soldier.isIdle = false;
-                    currentTexture = attackTexture;
-                    drawAttacking(currentTexture, soldier, gRenderer);
-                }
-                else if (soldier.isRunning) {
-                    runTexture = SDL_CreateTextureFromSurface(gRenderer, spriteRun);
-                    soldier.isIdle = false;
-                    currentTexture = runTexture;
-                    drawRunning(currentTexture,soldier,gRenderer);
-                }
-                else if (soldier.isIdle) {
-                    idleTexture = SDL_CreateTextureFromSurface(gRenderer, spriteIdle);
-                    currentTexture = idleTexture;
-                    drawIdle(currentTexture, soldier, gRenderer);
-                }
-                
-                
+                animationSoldier(soldier);
+        
                 SDL_RenderPresent(gRenderer);
             }
             SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 255);
             SDL_RenderClear(gRenderer);
             drawMenu(gRenderer, font, option);
+            
         }
     }
     

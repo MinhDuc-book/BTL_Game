@@ -12,8 +12,8 @@
 #include <SDL2/SDL_ttf.h>
 
 // các biến toàn chương trình dùng cho SDL
-int const SCREEN_W = 860;
-int const SCREEN_H = 860;
+int const SCREEN_W = 1000;
+int const SCREEN_H = 1000;
 int const SCREEN_BPP = 32;
 
 SDL_Window *gWindow = NULL;
@@ -52,6 +52,7 @@ enum soldierState {
     TOTAL_STATE_CHAR
 };
 
+
 GameState currentState = START;
 int selectOption = 0;
 int square_size = 20;
@@ -74,6 +75,8 @@ const char *path_orc_run = "Characters/Tiny RPG Character Asset Pack v1.03 -Free
 const char *path_orc_attack = "Characters/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Orc/Orc/Orc-Attack02.png";
 const char *path_orc_death = "Characters/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Orc/Orc/Orc-Death.png";
 const char *path_orc_hurt= "Characters/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Orc/Orc/Orc-Hurt.png";
+
+const char *path_background = "Background/Grass_24-512x512.png";
 
 SDL_Surface *spriteAttack = IMG_Load(path_soldier_attack);
 SDL_Surface *spriteRun = IMG_Load(path_soldier_run);
@@ -109,6 +112,5 @@ SDL_Texture *hurtOrcTexture;
 SDL_Texture *deathOrcTexture;
 SDL_Texture *attackOrcTexture;
 SDL_Texture *idleOrcTexture;
-
 
 #endif

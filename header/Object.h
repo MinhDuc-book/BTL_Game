@@ -16,12 +16,13 @@ class BaseObject
         bool isIdle;
         int direction;
         
+
 };
 
 class Soldier : public BaseObject
 {
     public:
-        float v = 5;
+        float v = 4;
         int size;
         float range = 200.0f;
         soldierState state;
@@ -35,12 +36,14 @@ class Soldier : public BaseObject
 class Orc : public BaseObject
 {
     public:
-        float v = 2;
+        float v = 1;
         int size;
         float range = 1.0;
         int currentFrame = 0;
         Uint32 lastFrameTime = 0;
         const Uint32 frameDelay = 75; // ms
+
+        
 };
 
 #endif
