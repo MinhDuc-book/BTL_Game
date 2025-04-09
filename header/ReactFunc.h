@@ -142,5 +142,69 @@ void drawRunning(SDL_Texture *texture, Soldier& soldier, SDL_Renderer *renderer)
     SDL_RenderCopy(renderer, texture, &srcRect, &desRect);
 }
 
+void drawOrcIdle(SDL_Texture *texture, Orc &orc, SDL_Renderer *renderer) {
+    SDL_Rect srcRect;
+    SDL_Rect desRect;
+
+    desRect.x = orc.X - orc.size*2; 
+    desRect.y = orc.Y - orc.size*2;
+    desRect.w = orc.size * 4;
+    desRect.h = orc.size * 4;
+
+    srcRect.w = 100;
+    srcRect.h = 100;
+    srcRect.y = 0;
+
+    if (orc.isIdle) {
+        Uint32 currentTime = SDL_GetTicks();
+        if (currentTime - orc.lastFrameTime >= orc.frameDelay) {
+            orc.currentFrame++;
+            orc.lastFrameTime = currentTime;
+
+            if (orc.currentFrame >= 6) { 
+                orc.currentFrame = 0;
+                orc.isIdle = false; 
+            }
+        }
+        srcRect.x = orc.currentFrame * 100;
+    } else {
+        srcRect.x = 0;
+    }
+
+    SDL_RenderCopy(renderer, texture, &srcRect, &desRect);
+}
+
+void drawOrcRunning(SDL_Texture *texture, Orc &orc, SDL_Renderer *renderer) {
+    SDL_Rect srcRect;
+    SDL_Rect desRect;
+
+    desRect.x = orc.X - orc.size*2; 
+    desRect.y = orc.Y - orc.size*2;
+    desRect.w = orc.size * 4;
+    desRect.h = orc.size * 4;
+
+    srcRect.w = 100;
+    srcRect.h = 100;
+    srcRect.y = 0;
+
+    if (orc.isRunning) {
+        Uint32 currentTime = SDL_GetTicks();
+        if (currentTime - orc.lastFrameTime >= orc.frameDelay) {
+            orc.currentFrame++;
+            orc.lastFrameTime = currentTime;
+
+            if (orc.currentFrame >= 8) { 
+                orc.currentFrame = 0;
+                orc.isAttacking = false; 
+            }
+        }
+        srcRect.x = orc.currentFrame * 100;
+    } else {
+        srcRect.x = 0;
+    }
+
+    SDL_RenderCopy(renderer, texture, &srcRect, &desRect);
+}
+
 
 #endif

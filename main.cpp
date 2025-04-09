@@ -154,7 +154,7 @@ int main (int argv, char *argc[]) {
             int dRange = 0;
             SDL_SetCursor(defaultCursor);
             while (gameStart){
-
+                orc.isRunning = true;
                 KeyPress pressInGame;
                 while (SDL_PollEvent(&e) != 0) {
 
@@ -203,8 +203,20 @@ int main (int argv, char *argc[]) {
                 if(dRange){
                     drawRange(soldier);
                 }
-                drawOrc(orc);
                 
+                // Animation cho orc
+                if (orc.isRunning) {
+                    runOrcTexture = SDL_CreateTextureFromSurface(gRenderer, spriteOrcRun);
+                    currentOrcTexture = runOrcTexture;
+                    drawOrcRunning(currentOrcTexture, orc, gRenderer);
+                }
+                else if(orc.isIdle) {
+                    idleOrcTexture = SDL_CreateTextureFromSurface(gRenderer, spriteOrcIdle);
+                    currentOrcTexture = idleOrcTexture;
+                    drawOrcIdle(currentOrcTexture, orc, gRenderer);
+                }
+                
+                // Animation cho soldier
                 if (soldier.isAttacking) {
                     attackTexture = SDL_CreateTextureFromSurface(gRenderer, spriteAttack);
                     soldier.isIdle = false;

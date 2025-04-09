@@ -77,27 +77,7 @@ void drawRange(Soldier soldier)
     }
 }
 
-void loadOrc (SDL_Renderer *renderer, const char *path, SDL_Rect desRect, SDL_Rect srcRect, double angle) {
-    SDL_Surface *loadedSurface = IMG_Load(path);
-    gTexture = SDL_CreateTextureFromSurface(renderer, loadedSurface);
-    SDL_FreeSurface (loadedSurface);
-    SDL_RenderCopyEx(renderer, gTexture, &srcRect, &desRect, angle, nullptr, SDL_FLIP_NONE);
-}
-void drawOrc (Orc orc) {
-    SDL_Rect desRect;
-    desRect.x = orc.X - orc.size/2;
-    desRect.y = orc.Y - orc.size/2;
-    desRect.w = 100;
-    desRect.h = 100;
 
-    SDL_Rect srcRect;
-    srcRect.x = 0;  
-    srcRect.y = 0;
-    srcRect.w = 50;
-    srcRect.h = 50;
-
-    loadOrc (gRenderer, path_orc_idle, desRect, srcRect, 0.0);
-}
 
 
 #endif

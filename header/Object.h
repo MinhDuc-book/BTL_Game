@@ -37,7 +37,10 @@ class Orc : public BaseObject
     public:
         float v = 2;
         int size;
-        float range = 220.0;
+        float range = 1.0;
+        int currentFrame = 0;
+        Uint32 lastFrameTime = 0;
+        const Uint32 frameDelay = 75; // ms
 };
 
 #endif
