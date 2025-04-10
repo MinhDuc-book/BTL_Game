@@ -16,6 +16,7 @@ int const SCREEN_W = 1000;
 int const SCREEN_H = 1000;
 int const SCREEN_BPP = 32;
 
+
 SDL_Window *gWindow = NULL;
 SDL_Renderer *gRenderer = NULL;
 

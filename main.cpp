@@ -2,20 +2,6 @@
 
 using namespace std; 
 
-bool isMouseInSquare(int x, int y, Orc orc) {
-    if (x <= orc.size + orc.X and x >= orc.X - orc.size and y <= orc.Y + orc.size and y >= orc.Y - orc.size) {
-        return true;
-    }
-    return false;
-}
-
-bool isInRange(Soldier soldier, Orc orc) {
-    float dx = soldier.X - orc.X;
-    float dy = soldier.Y - orc.Y;
-    float distance = sqrt(dx*dx + dy*dy) - orc.size;
-    return distance <= soldier.range;
-}
-
 SDL_Event e;
 
 // xử lí phím nhấn (hàm xử lí sự kiện)
@@ -55,6 +41,15 @@ KeyPress handleInput() {
 // đóng cửa sổ, giải phóng bộ nhớ
 void close() 
 {
+    SDL_DestroyTexture(idleOrcTexture);
+    SDL_DestroyTexture(idleTexture);
+    SDL_DestroyTexture(runOrcTexture);
+    SDL_DestroyTexture(runTexture);
+    SDL_DestroyTexture(attackOrcTexture);
+    SDL_DestroyTexture(attackTexture);
+    SDL_DestroyTexture(hurtOrcTexture);
+    SDL_DestroyTexture(hurtTexture);
+
     SDL_FreeCursor(attackCursor);
     SDL_DestroyRenderer(gRenderer);
     gRenderer = NULL;
@@ -68,13 +63,14 @@ int main (int argv, char *argc[]) {
     }  else {
         
         TTF_Font *font  = TTF_OpenFont("data/JetBrainsMono-Regular.ttf", 50);
-
         Soldier soldier;
+        Orc orc = {500, 1, 350, 274}; // health, level, X, Y, isRunning, isAttacking,isDeath, isHurt, direction, v_x, v_y, size, range
+
         soldier.size = 75;
+
         soldier.X = SCREEN_W/2;
         soldier.Y = SCREEN_H/2;
 
-        Orc orc = {500, 1, 350, 274}; // health, level, X, Y, isRunning, isAttacking,isDeath, isHurt, direction, v_x, v_y, size, range
         orc.size = 50;
 
         while (run) {
@@ -154,14 +150,18 @@ int main (int argv, char *argc[]) {
             int dRange = 0;
             SDL_SetCursor(defaultCursor);
             while (gameStart){
-                orc.isRunning = true;\
-                // kiểm tra vị trí của Orc
-                float distanceToSoldier = sqrt ((soldier.X-orc.X) * (soldier.X-orc.X) + (soldier.Y-orc.Y) * (soldier.Y-orc.Y));
-                if (distanceToSoldier <= 2) {
-                    orc.isAttacking = true;
-                    soldier.isHurt = true;
-                }
+                orc.isRunning = true;
+                
+
                 KeyPress pressInGame;
+
+                LinkedList orcc;
+                int numberOfOrc = 1;
+                Object *temp = new Object {100, 100};
+                orcc.insertAtEnd(temp);
+
+                //for (int i = 0; i < 4; ++i) ....
+
                 while (SDL_PollEvent(&e) != 0) {
                     if (e.type == SDL_MOUSEBUTTONDOWN) {
                         if (e.button.button == SDL_BUTTON_LEFT) {
@@ -182,8 +182,15 @@ int main (int argv, char *argc[]) {
                         } 
                         
                         if (e.button.button == SDL_BUTTON_RIGHT) {
+                            soldier.isRunning = true;
+                            
                             x_end = e.button.x;
                             y_end = e.button.y;
+
+                            if (x_end == soldier.X and y_end == soldier.Y) {
+                                soldier.isRunning = false;
+                                soldier.isIdle = true;
+                            }
                         }
                     }
 
@@ -199,25 +206,30 @@ int main (int argv, char *argc[]) {
                         }
                     } 
                 }
+               
                 movePlayer(soldier, x_end, y_end, soldier.v);
-                if(orc.X != soldier.X or orc.Y != soldier.Y) {
-                    moveOrc(orc, soldier, orc.v);
-                }
+
                 SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 255);
                 SDL_RenderClear(gRenderer);
-                drawBackground(gRenderer, path_background);
+                //drawBackground(gRenderer, path_background);
 
                 if(dRange){
                     drawRange(soldier);
                 }
-                
-                if (orc.X == soldier.X and orc.Y == soldier.Y) {
+
+                if (soldier.X == orc.X and soldier.Y == orc.Y) {
                     orc.isAttacking = true;
+                    soldier.isHurt = true;
+                } else {
+                    soldier.isHurt = false;
                 }
-                // Animation cho orc
+
+                if (orc.X != soldier.X or orc.Y != soldier.Y) {
+                    moveOrc(orc, soldier, orc.v);
+                }
+                
                 animationOrc(orc);
                 
-                // Animation cho soldier
                 animationSoldier(soldier);
         
                 SDL_RenderPresent(gRenderer);

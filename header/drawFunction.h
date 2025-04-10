@@ -321,44 +321,41 @@ void animationOrc (Orc &orc) {
     }
     else if(orc.isIdle) {
         idleOrcTexture = SDL_CreateTextureFromSurface(gRenderer, spriteOrcIdle);
-        orc.isRunning = false;
         currentOrcTexture = idleOrcTexture;
         drawOrcIdle(currentOrcTexture, orc, gRenderer);
     }
     else if (orc.isAttacking) {
         attackOrcTexture = SDL_CreateTextureFromSurface(gRenderer, spriteOrcAttack);
-        orc.isRunning = false;
         currentOrcTexture = attackOrcTexture;
         drawOrcAttacking(currentOrcTexture, orc, gRenderer);
     }
 }
 
 void animationSoldier(Soldier &soldier) {
-    if (soldier.isAttacking) {
-        attackTexture = SDL_CreateTextureFromSurface(gRenderer, spriteAttack);
-        soldier.isIdle = false;
-        currentTexture = attackTexture;
-        drawAttacking(currentTexture, soldier, gRenderer);
-    }
-    else if (soldier.isRunning) {
-        runTexture = SDL_CreateTextureFromSurface(gRenderer, spriteRun);
-        soldier.isIdle = false;
-        currentTexture = runTexture;
-        drawRunning(currentTexture,soldier,gRenderer);
-    }
-    else if (soldier.isIdle) {
-        idleTexture = SDL_CreateTextureFromSurface(gRenderer, spriteIdle);
-        currentTexture = idleTexture;
-        drawIdle(currentTexture, soldier, gRenderer);
-    }
-    else if (soldier.isHurt) {
+    if (soldier.isHurt) {
         hurtTexture = SDL_CreateTextureFromSurface(gRenderer, spriteHurt);
-        soldier.isAttacking = false;
-        soldier.isRunning = false;
-        soldier.isIdle = false;
         currentTexture = hurtTexture;
         drawHurting(currentTexture, soldier, gRenderer);
     }
+    else if (soldier.isAttacking) {
+        attackTexture = SDL_CreateTextureFromSurface(gRenderer, spriteAttack);
+        currentTexture = attackTexture;
+        drawAttacking(currentTexture, soldier, gRenderer);
+    }
+
+    else if (soldier.isRunning) {
+        runTexture = SDL_CreateTextureFromSurface(gRenderer, spriteRun);
+        currentTexture = runTexture;
+        drawRunning(currentTexture,soldier,gRenderer);
+    }
+
+    else if (soldier.isIdle) {
+        soldier.isRunning = false;
+        idleTexture = SDL_CreateTextureFromSurface(gRenderer, spriteIdle);
+        currentTexture = idleTexture;
+        drawIdle(currentTexture,soldier,gRenderer);
+    }
+    
 }
 
 
