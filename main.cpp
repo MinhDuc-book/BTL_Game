@@ -160,7 +160,9 @@ int main (int argv, char *argc[]) {
                 Object *temp = new Object {100, 100};
                 orcc.insertAtEnd(temp);
 
-                //for (int i = 0; i < 4; ++i) ....
+                for (int i = 0; i < 4; ++i) {
+                    createMoreOrc(orcc, numberOfOrc);
+                }
 
                 while (SDL_PollEvent(&e) != 0) {
                     if (e.type == SDL_MOUSEBUTTONDOWN) {
@@ -176,6 +178,7 @@ int main (int argv, char *argc[]) {
                                     orc.X = random_x;
                                     orc.Y = random_y;
                                     soldier.isAttacking = true;
+                                    Score = Score + 10;
                                 }
                             }
                             
@@ -231,6 +234,8 @@ int main (int argv, char *argc[]) {
                 animationOrc(orc);
                 
                 animationSoldier(soldier);
+
+                getScore(Score, gRenderer, font);
         
                 SDL_RenderPresent(gRenderer);
             }

@@ -358,5 +358,4 @@ void animationSoldier(Soldier &soldier) {
     
 }
 
-
 #endif

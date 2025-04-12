@@ -19,6 +19,8 @@ int const SCREEN_BPP = 32;
 
 SDL_Window *gWindow = NULL;
 SDL_Renderer *gRenderer = NULL;
+SDL_Surface *scoreSurface = NULL;
+SDL_Texture *scoreTexture = NULL;
 
 enum KeyPress {
     KEY_PRESS_DEFAULT,
@@ -65,6 +67,7 @@ int option = 0;
 int mouseOption = DEFAULT;
 int const PI = 3.14159;
 int x_end, y_end;
+int Score = 0;
 
 const char *path_soldier_idle = "Characters/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Soldier/Soldier/Soldier-Idle.png";
 const char *path_soldier_run = "Characters/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Soldier/Soldier/Soldier-Walk.png";

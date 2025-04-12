@@ -81,4 +81,18 @@ void moveOrc(Orc &orc, Soldier soldier, float v) {
 
 }
 
+void getScore(int score, SDL_Renderer *renderer, TTF_Font *font) {
+    string scoreText = "SCORE: " + to_string(score);
+    SDL_Color red = {255, 0, 0};
+    SDL_Color green = {0, 255, 0};
+
+    scoreSurface = TTF_RenderText_Solid(font, scoreText.c_str(), red);
+    scoreTexture = SDL_CreateTextureFromSurface(renderer, scoreSurface);
+
+    SDL_Rect whereScore = {800, 0, 200, 100};
+    SDL_RenderCopy(renderer, scoreTexture, NULL, &whereScore);
+    SDL_FreeSurface(scoreSurface);
+    SDL_DestroyTexture(scoreTexture); 
+}
+
 #endif
