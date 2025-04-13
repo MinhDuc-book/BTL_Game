@@ -38,7 +38,7 @@ class Orc : public BaseObject
     public:
         float v = 1;
         int size;
-        float range = 3.0;
+        float range = 10.0;
         int currentFrame = 0;
         Uint32 lastFrameTime = 0;
         const Uint32 frameDelay = 75; // ms
@@ -56,9 +56,10 @@ struct Node {
 };
 
 class LinkedList {
-    Node* head;
+    
 
 public:
+    Node* head;
     LinkedList() : head(nullptr) {}
 
     ~LinkedList() {

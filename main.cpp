@@ -150,6 +150,7 @@ int main (int argv, char *argc[]) {
             int dRange = 0;
             SDL_SetCursor(defaultCursor);
             while (gameStart){
+                soldier.isIdle = true;
                 orc.isRunning = true;
                 
 
@@ -186,14 +187,10 @@ int main (int argv, char *argc[]) {
                         
                         if (e.button.button == SDL_BUTTON_RIGHT) {
                             soldier.isRunning = true;
-                            
                             x_end = e.button.x;
                             y_end = e.button.y;
+                            cout << "Running" << endl;
 
-                            if (x_end == soldier.X and y_end == soldier.Y) {
-                                soldier.isRunning = false;
-                                soldier.isIdle = true;
-                            }
                         }
                     }
 
@@ -220,10 +217,20 @@ int main (int argv, char *argc[]) {
                     drawRange(soldier);
                 }
 
-                if (soldier.X == orc.X and soldier.Y == orc.Y) {
+                if (x_end == soldier.X and y_end == soldier.Y) {
+                    soldier.isRunning = false;
+                    soldier.isIdle = true; 
+                    while (soldier.isIdle) {
+                        cout << "Idle" << endl;
+                        break;
+                    }   
+                }
+
+                if (isInRangeOrc(soldier, orc)) {
                     orc.isAttacking = true;
                     soldier.isHurt = true;
                 } else {
+                    orc.isAttacking = false;
                     soldier.isHurt = false;
                 }
 
@@ -231,7 +238,7 @@ int main (int argv, char *argc[]) {
                     moveOrc(orc, soldier, orc.v);
                 }
                 
-                animationOrc(orc);
+                animationOrc(orc,soldier);
                 
                 animationSoldier(soldier);
 

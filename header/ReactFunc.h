@@ -16,11 +16,19 @@ bool isMouseInSquare(int x, int y, Orc orc) {
     return false;
 }
 
+
 bool isInRange(Soldier soldier, Orc orc) {
     float dx = soldier.X - orc.X;
     float dy = soldier.Y - orc.Y;
     float distance = sqrt(dx*dx + dy*dy) - orc.size;
     return distance <= soldier.range;
+}
+
+bool isInRangeOrc(Soldier soldier, Orc orc) {
+    float dx = soldier.X - orc.X;
+    float dy = soldier.Y - orc.Y;
+    float distance = sqrt(dx*dx + dy*dy) - soldier.size;
+    return distance <= orc.range;
 }
 
 int createRandom(int a, int b) {
@@ -94,5 +102,7 @@ void getScore(int score, SDL_Renderer *renderer, TTF_Font *font) {
     SDL_FreeSurface(scoreSurface);
     SDL_DestroyTexture(scoreTexture); 
 }
+
+
 
 #endif

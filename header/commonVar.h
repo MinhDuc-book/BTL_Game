@@ -66,7 +66,7 @@ bool gameStart = false;
 int option = 0;
 int mouseOption = DEFAULT;
 int const PI = 3.14159;
-int x_end, y_end;
+int x_end = SCREEN_W, y_end = SCREEN_H;
 int Score = 0;
 
 const char *path_soldier_idle = "Characters/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Soldier/Soldier/Soldier-Idle.png";
