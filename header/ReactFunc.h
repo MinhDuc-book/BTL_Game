@@ -46,11 +46,6 @@ float getDistance(int x1, int y1, int x2, int y2) {
     return distance;
 
 }
-void createMoreOrc(LinkedList &orc, int numberOfOrc) {
-    Object *temp = new Object {createRandom(0, SCREEN_W), createRandom(0, SCREEN_H)};
-    orc.insertAtEnd(temp);
-    numberOfOrc++;
-}
 
 void movePlayer(Soldier &soldier, int x_mouse, int y_mouse, float v) {
     float dx = x_mouse - soldier.X;
@@ -97,7 +92,7 @@ void getScore(int score, SDL_Renderer *renderer, TTF_Font *font) {
     scoreSurface = TTF_RenderText_Solid(font, scoreText.c_str(), red);
     scoreTexture = SDL_CreateTextureFromSurface(renderer, scoreSurface);
 
-    SDL_Rect whereScore = {800, 0, 200, 100};
+    SDL_Rect whereScore = {SCREEN_W - 200, 0, 200,50};
     SDL_RenderCopy(renderer, scoreTexture, NULL, &whereScore);
     SDL_FreeSurface(scoreSurface);
     SDL_DestroyTexture(scoreTexture); 

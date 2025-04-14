@@ -51,60 +51,35 @@ struct Object {
 };
 
 struct Node {
-    Object *data;
+    Orc orc;
     Node *next;
+    Node () : next(nullptr) {}
 };
 
 class LinkedList {
-    
+    Node* head;
 
 public:
-    Node* head;
+    
     LinkedList() : head(nullptr) {}
 
     ~LinkedList() {
-        Node* current = head;
-        while (current != nullptr) {
-            Node* nextNode = current->next;
-            delete current->data;
-            delete current;
-            current = nextNode;
-        }
+        
     }
 
     void insertAtEnd(Object* value) {
-        Node* newNode = new Node{value};
-
-        if (head == nullptr) {
-            head = newNode;
-        } else {
-            Node* temp = head;
-            while (temp->next != nullptr) {
-                temp = temp->next;
-            }
-            temp->next = newNode;
-        }
+        
     }
 
     void deleteAtPosition(int position){
-        Node* temp = head;
-        for (int i = 1; i < position - 1 && temp; ++i){
-            temp = temp->next;
-        }
-
-        Node* nodeToDelete = temp->next;
-        temp->next = temp->next->next;
-        delete nodeToDelete;
+        
     }
 
+    /*
     Object* takeDataAtPosition(int position){
-        Node* temp = head;
-        for (int i = 1; i < position && temp; ++i){
-            temp = temp->next;
-        }
-
-        return temp->data;
+        
     }
+    */
 };
 
 #endif

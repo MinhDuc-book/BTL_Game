@@ -149,21 +149,15 @@ int main (int argv, char *argc[]) {
             }
             int dRange = 0;
             SDL_SetCursor(defaultCursor);
+            loadBackground(gRenderer, surfaceBackground, textureBackground, path_background);
+
             while (gameStart){
                 soldier.isIdle = true;
                 orc.isRunning = true;
                 
-
                 KeyPress pressInGame;
-
-                LinkedList orcc;
+                
                 int numberOfOrc = 1;
-                Object *temp = new Object {100, 100};
-                orcc.insertAtEnd(temp);
-
-                for (int i = 0; i < 4; ++i) {
-                    createMoreOrc(orcc, numberOfOrc);
-                }
 
                 while (SDL_PollEvent(&e) != 0) {
                     if (e.type == SDL_MOUSEBUTTONDOWN) {
@@ -189,7 +183,7 @@ int main (int argv, char *argc[]) {
                             soldier.isRunning = true;
                             x_end = e.button.x;
                             y_end = e.button.y;
-                            cout << "Running" << endl;
+                            
 
                         }
                     }
@@ -210,8 +204,12 @@ int main (int argv, char *argc[]) {
                 movePlayer(soldier, x_end, y_end, soldier.v);
 
                 SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 255);
+
+
                 SDL_RenderClear(gRenderer);
                 //drawBackground(gRenderer, path_background);
+
+                drawBackground(gRenderer, textureBackground);
 
                 if(dRange){
                     drawRange(soldier);
@@ -220,10 +218,7 @@ int main (int argv, char *argc[]) {
                 if (x_end == soldier.X and y_end == soldier.Y) {
                     soldier.isRunning = false;
                     soldier.isIdle = true; 
-                    while (soldier.isIdle) {
-                        cout << "Idle" << endl;
-                        break;
-                    }   
+                      
                 }
 
                 if (isInRangeOrc(soldier, orc)) {
@@ -237,6 +232,7 @@ int main (int argv, char *argc[]) {
                 if (orc.X != soldier.X or orc.Y != soldier.Y) {
                     moveOrc(orc, soldier, orc.v);
                 }
+
                 
                 animationOrc(orc,soldier);
                 

@@ -32,18 +32,31 @@ void drawMenu(SDL_Renderer *menuRenderer, TTF_Font *font, int selecOption ){
     SDL_RenderPresent(menuRenderer);
 }
 
-void drawBackground(SDL_Renderer *renderer, const char *path) {
-    SDL_Rect srcRect = {0, 0, 512,512};
-    SDL_Rect desRect = {0, 0, 1000, 1000};
+void loadBackground(SDL_Renderer *renderer, SDL_Surface * &surface,SDL_Texture * &texture, const char *path) {
+    surface = IMG_Load(path);
+    if (surface == NULL) {
+        cout << "Cannot load image" << endl;
+    }
 
-    SDL_Surface *background = IMG_Load(path);
-    SDL_Texture *backgroundTexture = SDL_CreateTextureFromSurface(renderer, background);
-    SDL_FreeSurface(background);
-
-    SDL_RenderCopy(renderer,backgroundTexture,&srcRect, &desRect);
+    texture = SDL_CreateTextureFromSurface(renderer, surface);
+    
 }
 
+void drawBackground(SDL_Renderer* renderer, SDL_Texture* loadTexture) {
+    SDL_Rect desRect;
+    SDL_Rect srcRect;
 
+    srcRect.x = 0;
+    srcRect.y = 0;
+    srcRect.h = 1024;
+    srcRect.w = 1024;
+
+    desRect.x = 0;
+    desRect.y = 0;
+    desRect.h = SCREEN_H;
+    desRect.w = SCREEN_W;
+    SDL_RenderCopyEx(renderer, loadTexture, &srcRect, &desRect, 0, nullptr, SDL_FLIP_NONE);
+}
 
 void drawMouseSettingMenu(SDL_Renderer* renderer, TTF_Font* font, int mouseOption) {
     SDL_Color White = {255, 255, 255};

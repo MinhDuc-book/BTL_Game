@@ -12,8 +12,8 @@
 #include <SDL2/SDL_ttf.h>
 
 // các biến toàn chương trình dùng cho SDL
-int const SCREEN_W = 1000;
-int const SCREEN_H = 1000;
+int const SCREEN_W = 1190;
+int const SCREEN_H = 700;
 int const SCREEN_BPP = 32;
 
 
@@ -66,7 +66,7 @@ bool gameStart = false;
 int option = 0;
 int mouseOption = DEFAULT;
 int const PI = 3.14159;
-int x_end = SCREEN_W, y_end = SCREEN_H;
+int x_end = SCREEN_W / 2, y_end = SCREEN_H / 2;
 int Score = 0;
 
 const char *path_soldier_idle = "Characters/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Soldier/Soldier/Soldier-Idle.png";
@@ -80,7 +80,9 @@ const char *path_orc_attack = "Characters/Tiny RPG Character Asset Pack v1.03 -F
 const char *path_orc_death = "Characters/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Orc/Orc/Orc-Death.png";
 const char *path_orc_hurt= "Characters/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Orc/Orc/Orc-Hurt.png";
 
-const char *path_background = "Background/Grass_24-512x512.png";
+const char *path_background = "Background/LienMinhPixel.png";
+SDL_Surface *surfaceBackground;
+SDL_Texture *textureBackground;
 
 SDL_Surface *spriteAttack = IMG_Load(path_soldier_attack);
 SDL_Surface *spriteRun = IMG_Load(path_soldier_run);
