@@ -82,7 +82,7 @@ int main (int argv, char *argc[]) {
                     if (option > 0) option --;
                     break;
                 case KEY_PRESS_DOWN:
-                    if (option < 3) option ++;
+                    if (option < 4) option ++;
                     break;
                 case KEY_PRESS_ENTER:
                     if (option == 0) {
@@ -139,6 +139,18 @@ int main (int argv, char *argc[]) {
                             SDL_RenderPresent(gRenderer);
                         }
                         
+                    } else if (option == 3) {
+                        bool inScore = true;
+                        
+                        while (inScore) {
+                            KeyPress keyScore = handleInput();
+                            if (keyScore == KEY_PRESS_ESCAPE) {
+                                inScore = false;
+                            }
+                            SDL_RenderClear(gRenderer);
+                            drawScoreOption(gRenderer, font);
+                            SDL_RenderPresent(gRenderer);
+                        }
                     } else {
                         run = false;
                     }
@@ -178,7 +190,7 @@ int main (int argv, char *argc[]) {
                                     }
 
                                     int random_x = rand() % (SCREEN_W - orc.size);
-                                    int random_y = rand () % (SCREEN_H - orc.size);
+                                    int random_y = 50 + rand () % (SCREEN_H - orc.size);
                                     orc.v = orc.v + 0.005f;
                                     soldier.v = soldier.v + 0.00001f;
                                     orc.X = random_x;
@@ -195,8 +207,6 @@ int main (int argv, char *argc[]) {
                             soldier.isRunning = true;
                             x_end = e.button.x;
                             y_end = e.button.y;
-                            
-
                         }
                     }
 
@@ -210,7 +220,11 @@ int main (int argv, char *argc[]) {
                             dRange %= 2;
                             SDL_SetCursor(attackCursor);
                         }
-                    } 
+                    }
+
+                    if (soldier.Health <= 0) {
+                        saveScore(Score, path_score);
+                    }
                 }
                
                 movePlayer(soldier, x_end, y_end, soldier.v);
@@ -248,8 +262,10 @@ int main (int argv, char *argc[]) {
 
                 //
                 if (soldier.Health <= 0) {
+                    
                     soldier.isDeath = true;
                     orc.isAttacking = false;
+                    
                 } else {
                     soldier.isDeath = false;
                 }

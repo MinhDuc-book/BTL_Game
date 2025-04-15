@@ -4,27 +4,25 @@
 #include "commonVar.h"
 #include "Object.h"
 #include "ReactFunc.h"
+#include <string>
+#include <cstring>
 
 // draw menu
 void drawMenu(SDL_Renderer *menuRenderer, TTF_Font *font, int selecOption ){
-    const char *Menu[STATE_TOTAL] = {"Start", "Restart", "Setting", "Quit"};
+    const char *Menu[STATE_TOTAL] = {"Start", "Restart", "Setting", "Score", "Quit"};
 
     SDL_Color red = {255, 0, 0};
     SDL_Color white = {255, 255, 255};
 
-    for (int i = 0; i < 4; i++) {
-        // create color for selection
+    for (int i = 0; i < 5; i++) {
         SDL_Surface *menuSurface = TTF_RenderUTF8_Solid(font, Menu[i], (i == selecOption) ? red : white);
         SDL_Texture *menuTexture = SDL_CreateTextureFromSurface(menuRenderer, menuSurface);
 
-        // size of text
         int menuHigh = menuSurface -> h;
         int menuWidth = menuSurface -> w;
 
-        // no longer use
         SDL_FreeSurface (menuSurface);
 
-        // region to draw
         SDL_Rect menuRect = {SCREEN_W/2 - 100, SCREEN_H/2 - 100 + (menuHigh+30) * (i), menuWidth, menuHigh };
         SDL_RenderCopy(menuRenderer, menuTexture, NULL, &menuRect);
         SDL_DestroyTexture(menuTexture);
@@ -37,8 +35,8 @@ void loadBackground(SDL_Renderer *renderer, SDL_Surface * &surface,SDL_Texture *
     if (surface == NULL) {
         cout << "Cannot load image" << endl;
     }
-
-    texture = SDL_CreateTextureFromSurface(renderer, surface);  
+    texture = SDL_CreateTextureFromSurface(renderer, surface);
+    SDL_FreeSurface(surface);
 }
 
 void drawBackground(SDL_Renderer* renderer, SDL_Texture* loadTexture) {
@@ -91,6 +89,51 @@ void drawMouseSettingMenu(SDL_Renderer* renderer, TTF_Font* font, int mouseOptio
     }
 }
 
+void drawScoreOption(SDL_Renderer *renderer, TTF_Font *font) {
+    const char *string_highest = to_string(findHighestScore(path_score)).c_str();
+    const char *string_lowest = to_string(findLowestScore(path_score)).c_str();
+    const char *string_average = to_string(findAverageScore(path_score)).c_str();
+    SDL_Color cream = {240, 240, 220};
+
+    const char *aboutScore[] = {
+        "Lowest Score: ",
+        "Highest Score: ",
+        "Average Score: "
+    };
+
+    const char *Score[] = {
+        string_lowest,
+        string_highest,
+        string_average
+    };
+
+    SDL_Surface *title = TTF_RenderText_Solid(font, "===Score===", cream);
+    SDL_Texture *titleTexture = SDL_CreateTextureFromSurface(renderer, title);
+    SDL_Rect titleRect = {SCREEN_W/2 - 150, SCREEN_H/2 - 200, 300, 50};
+    SDL_RenderCopy(renderer, titleTexture,NULL, &titleRect);
+
+    SDL_FreeSurface(title);
+    SDL_DestroyTexture(titleTexture);
+
+    for (int i = 0; i < 3; ++i) {
+        SDL_Surface *surfaceMessage = TTF_RenderText_Solid(font, aboutScore[i], cream);
+        SDL_Texture *textureMessage = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
+        SDL_Rect rectMessage = {SCREEN_W/2 - 200, SCREEN_H/2 - 100 + i*80, 300, 50};
+
+        SDL_Surface *surfaceScore = TTF_RenderText_Solid(font, Score[i], cream);
+        SDL_Texture *textureScore = SDL_CreateTextureFromSurface(renderer, surfaceScore);
+        SDL_Rect rectScore = {SCREEN_W/2 + 150, SCREEN_H/2 - 100 + i*80, 50, 50};
+
+        SDL_RenderCopy(renderer, textureScore, NULL, &rectScore);
+        SDL_FreeSurface(surfaceScore);
+        SDL_DestroyTexture(textureScore);
+
+        SDL_RenderCopy(renderer, textureMessage, NULL, &rectMessage);
+        SDL_FreeSurface(surfaceMessage);
+        SDL_DestroyTexture(textureMessage);
+    }
+}
+
 void drawHealthBar (Soldier &soldier, Orc &orc, SDL_Renderer *renderer) {
     SDL_Rect srcRect = {0, 0, 1024, 1024};
     SDL_Rect desRect = {1, 1, 240, 50};
@@ -98,18 +141,44 @@ void drawHealthBar (Soldier &soldier, Orc &orc, SDL_Renderer *renderer) {
     SDL_RenderCopy(renderer, healthBarTexture, &srcRect, &desRect);
 
     SDL_Color red = {168, 0, 0};
-    SDL_Rect healthBar = {25, 20, (soldier.Health / 12 - 15) >= 0 ? (soldier.Health / 12 - 15) * 1 : 0, 15};
+    SDL_Rect healthBar = {21, 20, (soldier.Health / 12 - 5) >= 0 ? (soldier.Health / 12 - 5) * 1 : 0, 15};
     SDL_SetRenderDrawColor(renderer, red.r, red.g, red.b, 255);
     SDL_RenderFillRect(renderer, &healthBar);
+
+    
 }
 
-// vẽ tầm đánh
+
+
 void drawRange(Soldier soldier)
 {
     SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 255);
     for (float i = 0; i <= 360; i = i+0.1) {
         SDL_RenderDrawPoint(gRenderer,soldier.X + soldier.range*cos(i*180/PI), soldier.Y + soldier.range*sin(i*180/PI));
     }
+}
+
+void getScore(int score, SDL_Renderer *renderer, TTF_Font *font) {
+    string scoreText = "SCORE: " + to_string(score);
+    SDL_Color cream = {240, 240, 220};
+
+    scoreSurface = TTF_RenderText_Solid(font, scoreText.c_str(), cream);
+    scoreTexture = SDL_CreateTextureFromSurface(renderer, scoreSurface);
+
+    SDL_Rect whereScore = {SCREEN_W - 200, 1, 200,30};
+    SDL_RenderCopy(renderer, scoreTexture, NULL, &whereScore);
+    SDL_FreeSurface(scoreSurface);
+    SDL_DestroyTexture(scoreTexture); 
+}
+
+void GameOver(TTF_Font *font, SDL_Renderer *renderer, const char *path_game_over) {
+    SDL_Color cream = {240, 240, 220};
+    gameOverSurface = TTF_RenderText_Solid(font, path_game_over, cream);
+    gameOverTexture = SDL_CreateTextureFromSurface(renderer, gameOverSurface);
+    SDL_Rect gameOverPosition = {SCREEN_W / 2 - 300, SCREEN_H / 2 - 100, 600, 200};
+    SDL_RenderCopy(renderer, gameOverTexture, NULL, &gameOverPosition);
+    SDL_FreeSurface(gameOverSurface);
+    SDL_DestroyTexture(gameOverTexture);
 }
 
 void drawAttacking(SDL_Texture *texture, Soldier& soldier,Orc& orc,  SDL_Renderer *renderer) {

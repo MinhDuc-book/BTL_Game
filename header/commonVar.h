@@ -24,7 +24,7 @@ SDL_Texture *scoreTexture = NULL;
 SDL_Surface *gameOverSurface = NULL;
 SDL_Texture *gameOverTexture = NULL;
 
-SDL_Surface *healthBarSurface = IMG_Load("data/healthBarImage - Copy.png");
+SDL_Surface *healthBarSurface = IMG_Load("data/healthBarImage - Copy - Copy.png");
 SDL_Texture *healthBarTexture = NULL;
 
 
@@ -42,6 +42,7 @@ enum GameState {
     START,
     RESTART,
     SETTING,
+    SCORE,
     QUIT,
     STATE_TOTAL
 };
@@ -59,14 +60,16 @@ int selectOption = 0;
 int square_size = 20;
 int x_mouse = 0;
 int y_mouse = 0;
-bool run = true;
-bool gameStart = false;
 int option = 0;
 int mouseOption = DEFAULT;
 int const PI = 3.14159;
 int x_end = SCREEN_W / 2, y_end = SCREEN_H / 2;
 int Score = 0;
+bool run = true;
+bool gameStart = false;
+bool isSavedScore = false;
 const char *path_game_over = "Game Over";
+const char *path_score = "data/High-Score.txt";
 
 const char *path_soldier_idle = "Characters/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Soldier/Soldier/Soldier-Idle.png";
 const char *path_soldier_run = "Characters/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Soldier/Soldier/Soldier-Walk.png";

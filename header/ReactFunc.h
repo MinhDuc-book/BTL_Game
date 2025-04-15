@@ -8,6 +8,8 @@
 #include <iomanip>
 #include <sstream>
 #include <ctime>
+#include <cmath>
+#include <fstream>
 
 bool isMouseInSquare(int x, int y, Orc orc) {
     if (x <= orc.size + orc.X and x >= orc.X - orc.size and y <= orc.Y + orc.size and y >= orc.Y - orc.size) {
@@ -80,8 +82,12 @@ void restartGame(Soldier &soldier, Orc &orc, int &Score) {
     soldier.Health = 100;  
     soldier.X = SCREEN_W / 2;
     soldier.Y = SCREEN_H / 2;
+    soldier.isIdle = true;
     soldier.isDeath = false;
     soldier.isRunning = false;
+    soldier.Health = 2500;
+
+    isSavedScore = false;
 
     orc.X = 100;  
     orc.Y = 100;
@@ -109,27 +115,65 @@ void moveOrc(Orc &orc, Soldier soldier, float v) {
 
 }
 
-void getScore(int score, SDL_Renderer *renderer, TTF_Font *font) {
-    string scoreText = "SCORE: " + to_string(score);
-    SDL_Color cream = {240, 240, 220};
-
-    scoreSurface = TTF_RenderText_Solid(font, scoreText.c_str(), cream);
-    scoreTexture = SDL_CreateTextureFromSurface(renderer, scoreSurface);
-
-    SDL_Rect whereScore = {SCREEN_W - 200, 0, 200,50};
-    SDL_RenderCopy(renderer, scoreTexture, NULL, &whereScore);
-    SDL_FreeSurface(scoreSurface);
-    SDL_DestroyTexture(scoreTexture); 
+void saveScore(int Score, const char *path_score) {
+    ofstream file(path_score, ios::app);
+    if (file.is_open() == false) {
+        cout <<"Cannot open file" << endl;
+    } else {
+        if (isSavedScore == false) {
+            file << Score << endl;
+            file.close();
+            isSavedScore = true;
+        } 
+    }
 }
 
-void GameOver(TTF_Font *font, SDL_Renderer *renderer, const char *path_game_over) {
-    SDL_Color cream = {240, 240, 220};
-    gameOverSurface = TTF_RenderText_Solid(font, path_game_over, cream);
-    gameOverTexture = SDL_CreateTextureFromSurface(renderer, gameOverSurface);
-    SDL_Rect gameOverPosition = {SCREEN_W / 2 - 300, SCREEN_H / 2 - 100, 600, 200};
-    SDL_RenderCopy(renderer, gameOverTexture, NULL, &gameOverPosition);
-    SDL_FreeSurface(gameOverSurface);
-    SDL_DestroyTexture(gameOverTexture);
+int findHighestScore(const char *path_score) {
+    int highestScore = 0;
+    ifstream inFile(path_score);
+    if (inFile.is_open() == false) {
+        cout << "Cannot open file" << endl;
+    }  else {
+        int numberInFile;
+        while (inFile >> numberInFile) {
+            if (numberInFile > highestScore) {
+                highestScore = numberInFile;
+            }
+        }
+    }
+    return highestScore;
+}
+
+int findLowestScore(const char *path_score) {
+    int lowestScore = 100000;
+    ifstream inFile(path_score);
+    if (inFile.is_open() == false) {
+        cout << "Cannot open file" << endl;
+    }  else {
+        int numberInFile;
+        while (inFile >> numberInFile) {
+            if (numberInFile < lowestScore) {
+                lowestScore = numberInFile;
+            }
+        }
+    }
+    return lowestScore;
+}
+
+int findAverageScore(const char *path_score) {
+    double averageScore = 0;
+    int count = 0;
+    ifstream inFile(path_score);
+    if (inFile.is_open() == false) {
+        cout << "Cannot open file" << endl;
+    } else {
+        int numberInFile;
+        while (inFile >> numberInFile) {
+            count++;
+            averageScore = averageScore + numberInFile;
+        }
+    }
+    return round(averageScore / count);
 }
 
 #endif
