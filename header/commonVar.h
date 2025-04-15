@@ -19,7 +19,10 @@ int const SCREEN_H = 700;
 SDL_Window *gWindow = NULL;
 SDL_Renderer *gRenderer = NULL;
 SDL_Surface *scoreSurface = NULL;
+SDL_Surface *gameOverSurface = NULL;
+SDL_Texture *gameOverTexture = NULL;
 SDL_Texture *scoreTexture = NULL;
+
 
 enum KeyPress {
     KEY_PRESS_DEFAULT,

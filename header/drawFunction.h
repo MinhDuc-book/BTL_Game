@@ -220,7 +220,39 @@ void drawRunning(SDL_Texture *texture, Soldier& soldier, SDL_Renderer *renderer)
 
             if (soldier.currentFrame >= 8) { 
                 soldier.currentFrame = 0;
-                soldier.isAttacking = false; 
+                soldier.isRunning = false; 
+            }
+        }
+        srcRect.x = soldier.currentFrame * 100;
+    } else {
+        srcRect.x = 0;
+    }
+
+    SDL_RenderCopy(renderer, texture, &srcRect, &desRect);
+}
+
+void drawDeath (SDL_Texture *texture, Soldier &soldier, SDL_Renderer *renderer) {
+    SDL_Rect srcRect;
+    SDL_Rect desRect;
+
+    desRect.x = soldier.X - soldier.size*2; 
+    desRect.y = soldier.Y - soldier.size*2;
+    desRect.w = soldier.size * 4;
+    desRect.h = soldier.size * 4;
+
+    srcRect.w = 100;
+    srcRect.h = 100;
+    srcRect.y = 0;
+
+    if (soldier.isDeath) {
+        Uint32 currentTime = SDL_GetTicks();
+        if (currentTime - soldier.lastFrameTime >= soldier.frameDelay) {
+            soldier.currentFrame++;
+            soldier.lastFrameTime = currentTime;
+
+            if (soldier.currentFrame >= 6) { 
+                soldier.currentFrame = 0;
+                soldier.isDeath = false; 
             }
         }
         srcRect.x = soldier.currentFrame * 100;
@@ -370,6 +402,10 @@ void animationSoldier(Soldier &soldier, Orc &orc) {
         idleTexture = SDL_CreateTextureFromSurface(gRenderer, spriteIdle);
         currentTexture = idleTexture;
         drawIdle(currentTexture,soldier,gRenderer);
+    } else if (soldier.isDeath) {
+        deathTexture = SDL_CreateTextureFromSurface(gRenderer, spriteDeath);
+        currentTexture = deathTexture;
+        drawDeath(currentTexture,soldier,gRenderer);
     }
     
 }

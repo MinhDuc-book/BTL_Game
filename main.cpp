@@ -174,7 +174,7 @@ int main (int argv, char *argc[]) {
                                     } else if (soldier.X - orc.X > 0)  {
                                         soldier.flip = SDL_FLIP_HORIZONTAL;
                                     }
-                                    
+
                                     int random_x = rand() % (SCREEN_W - orc.size);
                                     int random_y = rand () % (SCREEN_H - orc.size);
                                     orc.v = orc.v + 0.005f;
@@ -223,12 +223,13 @@ int main (int argv, char *argc[]) {
                     drawRange(soldier);
                 }
 
+                //
                 if (x_end == soldier.X and y_end == soldier.Y) {
                     soldier.isRunning = false;
                     soldier.isIdle = true; 
-                      
                 }
                 
+                //
                 if (isInRangeOrc(soldier, orc)) {
                     orc.isAttacking = true;
                     soldier.isHurt = true;
@@ -238,8 +239,16 @@ int main (int argv, char *argc[]) {
                     soldier.isHurt = false;
                 }
 
+                //
                 if (orc.X != soldier.X or orc.Y != soldier.Y) {
                     moveOrc(orc, soldier, orc.v);
+                }
+
+                //
+                if (soldier.Health <= 0) {
+                    soldier.isDeath = true;
+                } else {
+                    soldier.isDeath = false;
                 }
 
                 animationSoldier(soldier, orc);
@@ -253,7 +262,6 @@ int main (int argv, char *argc[]) {
             SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 255);
             SDL_RenderClear(gRenderer);
             drawMenu(gRenderer, font, option);
-            
         }
     }
     
