@@ -62,16 +62,18 @@ int main (int argv, char *argc[]) {
         cout << "Cannot initialized window" << endl;
     }  else {
         
-        TTF_Font *font  = TTF_OpenFont("data/JetBrainsMono-Regular.ttf", 50);
+        TTF_Font *font  = TTF_OpenFont("data/PressStart2P-Regular.ttf", 30);
         Soldier soldier;
         Orc orc = {500, 1, 350, 274}; // health, level, X, Y, isRunning, isAttacking,isDeath, isHurt, direction, v_x, v_y, size, range
 
         soldier.size = 75;
+        soldier.Health = 100;
+        soldier.Level = 1;
 
         soldier.X = SCREEN_W/2;
         soldier.Y = SCREEN_H/2;
 
-        orc.size = 50;
+        orc.size = 75;
 
         while (run) {
             KeyPress key = handleInput();
@@ -147,6 +149,7 @@ int main (int argv, char *argc[]) {
                     break;
                 
             }
+
             int dRange = 0;
             SDL_SetCursor(defaultCursor);
             loadBackground(gRenderer, surfaceBackground, textureBackground, path_background);
@@ -166,13 +169,20 @@ int main (int argv, char *argc[]) {
                             dRange = 0; 
                             if (isMouseInSquare(e.button.x, e.button.y, orc)) {
                                 if (isInRange( soldier, orc)) {
+                                    if (soldier.X - orc.X <= 0) {
+                                        soldier.flip = SDL_FLIP_NONE;
+                                    } else if (soldier.X - orc.X > 0)  {
+                                        soldier.flip = SDL_FLIP_HORIZONTAL;
+                                    }
+                                    
                                     int random_x = rand() % (SCREEN_W - orc.size);
                                     int random_y = rand () % (SCREEN_H - orc.size);
-                                    orc.v = orc.v + 0.0005f;
+                                    orc.v = orc.v + 0.005f;
                                     soldier.v = soldier.v + 0.00001f;
                                     orc.X = random_x;
                                     orc.Y = random_y;
                                     soldier.isAttacking = true;
+                                    soldier.Level = soldier.Level + 0.1f;
                                     Score = Score + 10;
                                 }
                             }
@@ -205,9 +215,7 @@ int main (int argv, char *argc[]) {
 
                 SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 255);
 
-
                 SDL_RenderClear(gRenderer);
-                //drawBackground(gRenderer, path_background);
 
                 drawBackground(gRenderer, textureBackground);
 
@@ -220,10 +228,11 @@ int main (int argv, char *argc[]) {
                     soldier.isIdle = true; 
                       
                 }
-
+                
                 if (isInRangeOrc(soldier, orc)) {
                     orc.isAttacking = true;
                     soldier.isHurt = true;
+                    
                 } else {
                     orc.isAttacking = false;
                     soldier.isHurt = false;
@@ -233,11 +242,10 @@ int main (int argv, char *argc[]) {
                     moveOrc(orc, soldier, orc.v);
                 }
 
-                
+                animationSoldier(soldier, orc);
+
                 animationOrc(orc,soldier);
                 
-                animationSoldier(soldier);
-
                 getScore(Score, gRenderer, font);
         
                 SDL_RenderPresent(gRenderer);

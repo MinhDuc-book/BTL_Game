@@ -16,12 +16,23 @@ bool isMouseInSquare(int x, int y, Orc orc) {
     return false;
 }
 
-
 bool isInRange(Soldier soldier, Orc orc) {
     float dx = soldier.X - orc.X;
     float dy = soldier.Y - orc.Y;
     float distance = sqrt(dx*dx + dy*dy) - orc.size;
     return distance <= soldier.range;
+}
+
+double getAngle(Soldier soldier, Orc orc) {
+    double dx = soldier.X - orc.X;
+    double dy = soldier.Y - orc.Y;
+    double angle = atan2(dy, dx) * 180 / PI;
+
+    if (angle < 0) {
+        angle = angle + 360;
+    }
+    
+    return angle;
 }
 
 bool isInRangeOrc(Soldier soldier, Orc orc) {
@@ -65,6 +76,8 @@ void movePlayer(Soldier &soldier, int x_mouse, int y_mouse, float v) {
     
 }
 
+
+
 void moveOrc(Orc &orc, Soldier soldier, float v) {
     float dx = soldier.X - orc.X;
     float dy = soldier.Y - orc.Y;
@@ -86,10 +99,9 @@ void moveOrc(Orc &orc, Soldier soldier, float v) {
 
 void getScore(int score, SDL_Renderer *renderer, TTF_Font *font) {
     string scoreText = "SCORE: " + to_string(score);
-    SDL_Color red = {255, 0, 0};
-    SDL_Color green = {0, 255, 0};
+    SDL_Color cream = {240, 240, 220};
 
-    scoreSurface = TTF_RenderText_Solid(font, scoreText.c_str(), red);
+    scoreSurface = TTF_RenderText_Solid(font, scoreText.c_str(), cream);
     scoreTexture = SDL_CreateTextureFromSurface(renderer, scoreSurface);
 
     SDL_Rect whereScore = {SCREEN_W - 200, 0, 200,50};

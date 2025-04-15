@@ -7,14 +7,14 @@ class BaseObject
 {
     public:
         int Health;
-        int Level;
+        float Level;
         int X, Y;
         bool isRunning;
         bool isAttacking;
         bool isDeath;
         bool isHurt;
         bool isIdle;
-        int direction;
+        float angle;
         
 
 };
@@ -25,18 +25,17 @@ class Soldier : public BaseObject
         float v = 4;
         int size;
         float range = 200.0f;
-        soldierState state;
         int currentFrame = 0;
         Uint32 lastFrameTime = 0;
         const Uint32 frameDelay = 75; // ms
-
+        SDL_RendererFlip flip = SDL_FLIP_NONE;
 
 };
 
 class Orc : public BaseObject
 {
     public:
-        float v = 1;
+        float v = 0;
         int size;
         float range = 10.0;
         int currentFrame = 0;
@@ -44,10 +43,6 @@ class Orc : public BaseObject
         const Uint32 frameDelay = 75; // ms
 
         
-};
-
-struct Object {
-    int x, y;
 };
 
 struct Node {
@@ -67,11 +62,11 @@ public:
         
     }
 
-    void insertAtEnd(Object* value) {
+    void insertAtEnd() {
         
     }
 
-    void deleteAtPosition(int position){
+    void deleteAtPosition(){
         
     }
 
