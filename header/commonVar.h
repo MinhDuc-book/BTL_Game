@@ -19,9 +19,14 @@ int const SCREEN_H = 700;
 SDL_Window *gWindow = NULL;
 SDL_Renderer *gRenderer = NULL;
 SDL_Surface *scoreSurface = NULL;
+SDL_Texture *scoreTexture = NULL;
+
 SDL_Surface *gameOverSurface = NULL;
 SDL_Texture *gameOverTexture = NULL;
-SDL_Texture *scoreTexture = NULL;
+
+SDL_Surface *healthBarSurface = IMG_Load("data/healthBarImage - Copy.png");
+SDL_Texture *healthBarTexture = NULL;
+
 
 
 enum KeyPress {
@@ -35,7 +40,7 @@ enum KeyPress {
 
 enum GameState {
     START,
-    HIGH_SCORE,
+    RESTART,
     SETTING,
     QUIT,
     STATE_TOTAL

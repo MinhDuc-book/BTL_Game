@@ -42,7 +42,6 @@ class Orc : public BaseObject
         Uint32 lastFrameTime = 0;
         const Uint32 frameDelay = 75; // ms
 
-        
 };
 
 struct Node {

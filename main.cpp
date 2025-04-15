@@ -67,7 +67,7 @@ int main (int argv, char *argc[]) {
         Orc orc = {500, 1, 350, 274}; // health, level, X, Y, isRunning, isAttacking,isDeath, isHurt, direction, v_x, v_y, size, range
 
         soldier.size = 75;
-        soldier.Health = 100;
+        soldier.Health = 2500;
         soldier.Level = 1;
 
         soldier.X = SCREEN_W/2;
@@ -89,7 +89,8 @@ int main (int argv, char *argc[]) {
                         gameStart = true;
                         run = false;
                     } else if (option == 1) {
-                        cout << "Comming soon" << endl;
+                        restartGame(soldier, orc, Score);
+                        gameStart = true;
                     } else if (option == 2) {
                         // MOUSE SETTING
                         bool inSetting = true;
@@ -165,6 +166,7 @@ int main (int argv, char *argc[]) {
                 while (SDL_PollEvent(&e) != 0) {
                     if (e.type == SDL_MOUSEBUTTONDOWN) {
                         if (e.button.button == SDL_BUTTON_LEFT) {
+                            
                             SDL_SetCursor(defaultCursor);
                             dRange = 0; 
                             if (isMouseInSquare(e.button.x, e.button.y, orc)) {
@@ -247,6 +249,7 @@ int main (int argv, char *argc[]) {
                 //
                 if (soldier.Health <= 0) {
                     soldier.isDeath = true;
+                    orc.isAttacking = false;
                 } else {
                     soldier.isDeath = false;
                 }
@@ -256,9 +259,18 @@ int main (int argv, char *argc[]) {
                 animationOrc(orc,soldier);
                 
                 getScore(Score, gRenderer, font);
+
+                drawHealthBar(soldier, orc, gRenderer);
+
+                if (soldier.isDeath) {
+                    SDL_RenderClear(gRenderer);
+                    GameOver(font, gRenderer, path_game_over);
+                }
+
         
                 SDL_RenderPresent(gRenderer);
             }
+            
             SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 255);
             SDL_RenderClear(gRenderer);
             drawMenu(gRenderer, font, option);

@@ -76,7 +76,19 @@ void movePlayer(Soldier &soldier, int x_mouse, int y_mouse, float v) {
     
 }
 
+void restartGame(Soldier &soldier, Orc &orc, int &Score) {
+    soldier.Health = 100;  
+    soldier.X = SCREEN_W / 2;
+    soldier.Y = SCREEN_H / 2;
+    soldier.isDeath = false;
+    soldier.isRunning = false;
 
+    orc.X = 100;  
+    orc.Y = 100;
+    orc.isAttacking = false;
+
+    Score = 0;  
+}
 
 void moveOrc(Orc &orc, Soldier soldier, float v) {
     float dx = soldier.X - orc.X;

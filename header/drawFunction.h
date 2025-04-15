@@ -7,7 +7,7 @@
 
 // draw menu
 void drawMenu(SDL_Renderer *menuRenderer, TTF_Font *font, int selecOption ){
-    const char *Menu[STATE_TOTAL] = {"Start", "High Score", "Setting", "Quit"};
+    const char *Menu[STATE_TOTAL] = {"Start", "Restart", "Setting", "Quit"};
 
     SDL_Color red = {255, 0, 0};
     SDL_Color white = {255, 255, 255};
@@ -38,8 +38,7 @@ void loadBackground(SDL_Renderer *renderer, SDL_Surface * &surface,SDL_Texture *
         cout << "Cannot load image" << endl;
     }
 
-    texture = SDL_CreateTextureFromSurface(renderer, surface);
-    
+    texture = SDL_CreateTextureFromSurface(renderer, surface);  
 }
 
 void drawBackground(SDL_Renderer* renderer, SDL_Texture* loadTexture) {
@@ -92,6 +91,17 @@ void drawMouseSettingMenu(SDL_Renderer* renderer, TTF_Font* font, int mouseOptio
     }
 }
 
+void drawHealthBar (Soldier &soldier, Orc &orc, SDL_Renderer *renderer) {
+    SDL_Rect srcRect = {0, 0, 1024, 1024};
+    SDL_Rect desRect = {1, 1, 240, 50};
+    SDL_Texture *healthBarTexture = SDL_CreateTextureFromSurface(renderer, healthBarSurface);
+    SDL_RenderCopy(renderer, healthBarTexture, &srcRect, &desRect);
+
+    SDL_Color red = {168, 0, 0};
+    SDL_Rect healthBar = {25, 20, (soldier.Health / 12 - 15) >= 0 ? (soldier.Health / 12 - 15) * 1 : 0, 15};
+    SDL_SetRenderDrawColor(renderer, red.r, red.g, red.b, 255);
+    SDL_RenderFillRect(renderer, &healthBar);
+}
 
 // vẽ tầm đánh
 void drawRange(Soldier soldier)
@@ -318,6 +328,7 @@ void drawOrcAttacking(SDL_Texture *texture, Orc &orc,Soldier soldier, SDL_Render
                 orc.currentFrame = 0;
                 orc.isAttacking = false; 
                 soldier.Health = soldier.Health - 10;
+                cout << soldier.Health << endl;
             }
         }
         srcRect.x = orc.currentFrame * 100;
