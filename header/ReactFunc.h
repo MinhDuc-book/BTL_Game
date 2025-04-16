@@ -176,4 +176,6 @@ int findAverageScore(const char *path_score) {
     return round(averageScore / count);
 }
 
+
+
 #endif

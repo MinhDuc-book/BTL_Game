@@ -207,6 +207,13 @@ int main (int argv, char *argc[]) {
                             soldier.isRunning = true;
                             x_end = e.button.x;
                             y_end = e.button.y;
+                            if (x_end - soldier.X > 0) {
+                                soldier.flip = SDL_FLIP_NONE;
+                            } else {
+                                soldier.flip = SDL_FLIP_HORIZONTAL;
+                            }
+
+                            
                         }
                     }
 
@@ -243,6 +250,8 @@ int main (int argv, char *argc[]) {
                 if (x_end == soldier.X and y_end == soldier.Y) {
                     soldier.isRunning = false;
                     soldier.isIdle = true; 
+                } else {
+                    soldier.isRunning = true;
                 }
                 
                 //
@@ -257,6 +266,14 @@ int main (int argv, char *argc[]) {
 
                 //
                 if (orc.X != soldier.X or orc.Y != soldier.Y) {
+                    if (orc.X < soldier.X) {
+                        orc.flip = SDL_FLIP_NONE;
+                    } else {
+                        if (orc.Y == soldier.Y) {
+                            orc.flip = SDL_FLIP_HORIZONTAL;
+                        }
+                        orc.flip = SDL_FLIP_HORIZONTAL;
+                    }
                     moveOrc(orc, soldier, orc.v);
                 }
 

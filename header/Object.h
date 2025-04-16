@@ -15,7 +15,7 @@ class BaseObject
         bool isHurt;
         bool isIdle;
         float angle;
-        
+        SDL_RendererFlip flip = SDL_FLIP_NONE;
 
 };
 
@@ -28,7 +28,6 @@ class Soldier : public BaseObject
         int currentFrame = 0;
         Uint32 lastFrameTime = 0;
         const Uint32 frameDelay = 75; // ms
-        SDL_RendererFlip flip = SDL_FLIP_NONE;
 
 };
 

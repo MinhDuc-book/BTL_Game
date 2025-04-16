@@ -53,6 +53,7 @@ void drawBackground(SDL_Renderer* renderer, SDL_Texture* loadTexture) {
     desRect.h = SCREEN_H;
     desRect.w = SCREEN_W;
     SDL_RenderCopyEx(renderer, loadTexture, &srcRect, &desRect, 0, nullptr, SDL_FLIP_NONE);
+    
 }
 
 void drawMouseSettingMenu(SDL_Renderer* renderer, TTF_Font* font, int mouseOption) {
@@ -147,8 +148,6 @@ void drawHealthBar (Soldier &soldier, Orc &orc, SDL_Renderer *renderer) {
 
     
 }
-
-
 
 void drawRange(Soldier soldier)
 {
@@ -307,7 +306,7 @@ void drawRunning(SDL_Texture *texture, Soldier& soldier, SDL_Renderer *renderer)
         srcRect.x = 0;
     }
 
-    SDL_RenderCopy(renderer, texture, &srcRect, &desRect);
+    SDL_RenderCopyEx(renderer, texture, &srcRect, &desRect, 0, nullptr, soldier.flip);
 }
 
 void drawDeath (SDL_Texture *texture, Soldier &soldier, SDL_Renderer *renderer) {
@@ -405,7 +404,7 @@ void drawOrcAttacking(SDL_Texture *texture, Orc &orc,Soldier soldier, SDL_Render
         srcRect.x = 0;
     }
 
-    SDL_RenderCopy(renderer, texture, &srcRect, &desRect);
+    SDL_RenderCopyEx(renderer, texture, &srcRect, &desRect, 0, nullptr, orc.flip);
 }
 
 void drawOrcRunning(SDL_Texture *texture, Orc &orc, SDL_Renderer *renderer) {
@@ -437,7 +436,7 @@ void drawOrcRunning(SDL_Texture *texture, Orc &orc, SDL_Renderer *renderer) {
         srcRect.x = 0;
     }
 
-    SDL_RenderCopy(renderer, texture, &srcRect, &desRect);
+    SDL_RenderCopyEx(renderer, texture, &srcRect, &desRect, 0, nullptr, orc.flip);
 }
 
 void animationOrc (Orc &orc, Soldier soldier) {
