@@ -34,7 +34,7 @@ class Soldier : public BaseObject
 class Orc : public BaseObject
 {
     public:
-        float v = 0;
+        float v = 1;
         int size;
         float range = 10.0;
         int currentFrame = 0;
@@ -43,36 +43,6 @@ class Orc : public BaseObject
 
 };
 
-struct Node {
-    Orc orc;
-    Node *next;
-    Node () : next(nullptr) {}
-};
 
-class LinkedList {
-    Node* head;
-
-public:
-    
-    LinkedList() : head(nullptr) {}
-
-    ~LinkedList() {
-        
-    }
-
-    void insertAtEnd() {
-        
-    }
-
-    void deleteAtPosition(){
-        
-    }
-
-    /*
-    Object* takeDataAtPosition(int position){
-        
-    }
-    */
-};
 
 #endif
