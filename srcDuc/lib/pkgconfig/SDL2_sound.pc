@@ -1,0 +1,12 @@
+prefix=/ucrt64
+exec_prefix=${prefix}
+libdir=/ucrt64/lib
+includedir=/ucrt64/include
+
+Name: SDL2_sound
+Description: Sound library for Simple DirectMedia Layer
+Version: 2.0.2
+Requires: sdl2
+Libs: -L${libdir} -lSDL2_sound
+Cflags: -I${includedir}/SDL2
+Libs.private: 
