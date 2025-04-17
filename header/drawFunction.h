@@ -90,6 +90,12 @@ void drawMouseSettingMenu(SDL_Renderer* renderer, TTF_Font* font, int mouseOptio
     }
 }
 
+void drawBlindBox(SDL_Renderer *renderer) {
+    blindBoxTexture = SDL_CreateTextureFromSurface(renderer, blindBoxSurface);
+    SDL_Rect srcRect = {0, 0, 1024, 1024};
+    SDL_Rect desRect = {createRandom(0,SCREEN_W), createRandom(50,SCREEN_H), 50, 50};
+}
+
 void drawScoreOption(SDL_Renderer *renderer, TTF_Font *font) {
     const char *string_highest = to_string(findHighestScore(path_score)).c_str();
     const char *string_lowest = to_string(findLowestScore(path_score)).c_str();
@@ -145,7 +151,6 @@ void drawHealthBar (Soldier &soldier, Orc &orc, SDL_Renderer *renderer) {
     SDL_Rect healthBar = {21, 20, (soldier.Health / 12 - 5) >= 0 ? (soldier.Health / 12 - 5) * 1 : 0, 15};
     SDL_SetRenderDrawColor(renderer, red.r, red.g, red.b, 255);
     SDL_RenderFillRect(renderer, &healthBar);
-
     
 }
 
@@ -175,7 +180,7 @@ void GameOver(TTF_Font *font, SDL_Renderer *renderer, const char *path_game_over
     SDL_Color red = {255, 20, 20};
     gameOverSurface = TTF_RenderText_Solid(font, path_game_over, red);
     gameOverTexture = SDL_CreateTextureFromSurface(renderer, gameOverSurface);
-    SDL_Rect gameOverPosition = {SCREEN_W / 2 - 300, SCREEN_H / 2 - 100, 600, 200};
+    SDL_Rect gameOverPosition = {SCREEN_W / 2 - 300, SCREEN_H / 2 - 100, 600, 100};
     SDL_RenderCopy(renderer, gameOverTexture, NULL, &gameOverPosition);
     SDL_FreeSurface(gameOverSurface);
     SDL_DestroyTexture(gameOverTexture);
@@ -200,10 +205,14 @@ void drawAttacking(SDL_Texture *texture, Soldier& soldier,Orc& orc,  SDL_Rendere
             soldier.currentFrame++;
             soldier.lastFrameTime = currentTime;
 
-            if (soldier.currentFrame >= 9) { 
-                soldier.currentFrame = 0;
-                 soldier.isAttacking = false;
-            }
+            
+                if (soldier.currentFrame >= 9) { 
+                    soldier.currentFrame = 0;
+                    soldier.isAttacking = false;
+                }
+            
+
+
         }
         srcRect.x = soldier.currentFrame * 100;
     } else {
@@ -444,17 +453,17 @@ void drawOrcRunning(SDL_Texture *texture, Orc &orc, SDL_Renderer *renderer) {
 
 void animationOrc (Orc &orc, Soldier soldier) {
     if (orc.isAttacking) {
-        attackOrcTexture = SDL_CreateTextureFromSurface(gRenderer, spriteOrcAttack);
+        SDL_Texture *attackOrcTexture = SDL_CreateTextureFromSurface(gRenderer, spriteOrcAttack);
         currentOrcTexture = attackOrcTexture;
         drawOrcAttacking(currentOrcTexture, orc, soldier, gRenderer);
     }
     else if (orc.isRunning) {
-        runOrcTexture = SDL_CreateTextureFromSurface(gRenderer, spriteOrcRun);
+        SDL_Texture *runOrcTexture = SDL_CreateTextureFromSurface(gRenderer, spriteOrcRun);
         currentOrcTexture = runOrcTexture;
         drawOrcRunning(currentOrcTexture, orc, gRenderer);
     }
     else if(orc.isIdle) {
-        idleOrcTexture = SDL_CreateTextureFromSurface(gRenderer, spriteOrcIdle);
+        SDL_Texture *idleOrcTexture = SDL_CreateTextureFromSurface(gRenderer, spriteOrcIdle);
         currentOrcTexture = idleOrcTexture;
         drawOrcIdle(currentOrcTexture, orc, gRenderer);
     }
@@ -463,29 +472,29 @@ void animationOrc (Orc &orc, Soldier soldier) {
 
 void animationSoldier(Soldier &soldier, Orc &orc) {
     if (soldier.isHurt) {
-        hurtTexture = SDL_CreateTextureFromSurface(gRenderer, spriteHurt);
+        SDL_Texture *hurtTexture = SDL_CreateTextureFromSurface(gRenderer, spriteHurt);
         currentTexture = hurtTexture;
         drawHurting(currentTexture, soldier, gRenderer);
     }
     else if (soldier.isAttacking) {
-        attackTexture = SDL_CreateTextureFromSurface(gRenderer, spriteAttack);
+        SDL_Texture *attackTexture = SDL_CreateTextureFromSurface(gRenderer, spriteAttack);
         currentTexture = attackTexture;
         drawAttacking(currentTexture, soldier, orc, gRenderer);
         
     }
 
     else if (soldier.isRunning) {
-        runTexture = SDL_CreateTextureFromSurface(gRenderer, spriteRun);
+        SDL_Texture *runTexture = SDL_CreateTextureFromSurface(gRenderer, spriteRun);
         currentTexture = runTexture;
         drawRunning(currentTexture,soldier,gRenderer);
     }
 
     else if (soldier.isIdle) {
-        idleTexture = SDL_CreateTextureFromSurface(gRenderer, spriteIdle);
+        SDL_Texture *idleTexture = SDL_CreateTextureFromSurface(gRenderer, spriteIdle);
         currentTexture = idleTexture;
         drawIdle(currentTexture,soldier,gRenderer);
     } else if (soldier.isDeath) {
-        deathTexture = SDL_CreateTextureFromSurface(gRenderer, spriteDeath);
+        SDL_Texture *deathTexture = SDL_CreateTextureFromSurface(gRenderer, spriteDeath);
         currentTexture = deathTexture;
         drawDeath(currentTexture,soldier,gRenderer);
     }

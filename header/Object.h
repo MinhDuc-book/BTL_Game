@@ -7,7 +7,7 @@ class BaseObject
 {
     public:
         int Health;
-        float Level;
+        float Level = 1;
         int X, Y;
         bool isRunning;
         bool isAttacking;
@@ -28,7 +28,7 @@ class Soldier : public BaseObject
         float range = 200.0f;
         int currentFrame = 0;
         Uint32 lastFrameTime = 0;
-        Uint32 frameDelay = 85; // ms
+        Uint32 frameDelay = 120; // ms
 
 };
 

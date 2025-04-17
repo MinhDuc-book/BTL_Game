@@ -89,7 +89,13 @@ const char *path_background = "Background/LienMinhPixel1536.png";
 SDL_Surface *surfaceBackground;
 SDL_Texture *textureBackground;
 
+const char *path_blind_box = "Icon/blindBox.png";
+SDL_Surface *blindBoxSurface = IMG_Load(path_blind_box);
+SDL_Texture *blindBoxTexture;
+
 SDL_Surface *spriteAttack = IMG_Load(path_soldier_attack);
+SDL_Surface *spriteAttack2 = IMG_Load(path_soldier_attack2);
+SDL_Surface *spriteAttack1 = IMG_Load(path_soldier_attack1);
 SDL_Surface *spriteRun = IMG_Load(path_soldier_run);
 SDL_Surface *spriteHurt = IMG_Load(path_soldier_hurt);
 SDL_Surface *spriteDeath = IMG_Load(path_soldier_death);
