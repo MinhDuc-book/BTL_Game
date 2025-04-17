@@ -191,12 +191,13 @@ int main (int argv, char *argc[]) {
 
                                     int random_x = rand() % (SCREEN_W - orc.size);
                                     int random_y = 50 + rand () % (SCREEN_H - orc.size);
-                                    orc.v = orc.v + 0.005f;
-                                    soldier.v = soldier.v + 0.00001f;
                                     orc.X = random_x;
                                     orc.Y = random_y;
+
                                     soldier.isAttacking = true;
                                     soldier.Level = soldier.Level + 0.1f;
+                                    orc.v = orc.v + 0.005f;
+                                    soldier.v = soldier.v + 0.00001f;
                                     Score = Score + 10;
                                 }
                             }
@@ -236,8 +237,6 @@ int main (int argv, char *argc[]) {
                
                 movePlayer(soldier, x_end, y_end, soldier.v);
 
-                SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 255);
-
                 SDL_RenderClear(gRenderer);
 
                 drawBackground(gRenderer, textureBackground);
@@ -266,17 +265,25 @@ int main (int argv, char *argc[]) {
 
                 //
                 if (orc.X != soldier.X or orc.Y != soldier.Y) {
-                    if (orc.X > soldier.X) {
+                    if (orc.X - soldier.X > 0) {
                         orc.flip = SDL_FLIP_HORIZONTAL;
+                    } else {
+                        orc.flip = SDL_FLIP_NONE;
                     }
                     moveOrc(orc, soldier, orc.v);
                 }
 
                 //
                 if (soldier.Health <= 0) {
-                    
                     soldier.isDeath = true;
+                    soldier.isHurt = false;
+                    soldier.isIdle = false;
+                    soldier.isAttacking = false;
+                    soldier.isRunning = false; 
+
                     orc.isAttacking = false;
+                    orc.isIdle = true;
+
                     
                 } else {
                     soldier.isDeath = false;
@@ -291,13 +298,16 @@ int main (int argv, char *argc[]) {
                 drawHealthBar(soldier, orc, gRenderer);
 
                 if (soldier.isDeath) {
-                    SDL_RenderClear(gRenderer);
-                    GameOver(font, gRenderer, path_game_over);
+                    soldier.isIdle = true;
+                    soldier.isRunning = false;
+                    
+                    GameOver(font, gRenderer, game_over);
                 }
-
-        
+                
                 SDL_RenderPresent(gRenderer);
             }
+
+            
             
             SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 255);
             SDL_RenderClear(gRenderer);
@@ -309,4 +319,4 @@ int main (int argv, char *argc[]) {
     return 0;
 }
 
-// Nguyễn Minh Đức 
+// Nguyễn Minh Đức  

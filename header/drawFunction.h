@@ -172,7 +172,8 @@ void getScore(int score, SDL_Renderer *renderer, TTF_Font *font) {
 
 void GameOver(TTF_Font *font, SDL_Renderer *renderer, const char *path_game_over) {
     SDL_Color cream = {240, 240, 220};
-    gameOverSurface = TTF_RenderText_Solid(font, path_game_over, cream);
+    SDL_Color red = {255, 20, 20};
+    gameOverSurface = TTF_RenderText_Solid(font, path_game_over, red);
     gameOverTexture = SDL_CreateTextureFromSurface(renderer, gameOverSurface);
     SDL_Rect gameOverPosition = {SCREEN_W / 2 - 300, SCREEN_H / 2 - 100, 600, 200};
     SDL_RenderCopy(renderer, gameOverTexture, NULL, &gameOverPosition);
@@ -323,13 +324,15 @@ void drawDeath (SDL_Texture *texture, Soldier &soldier, SDL_Renderer *renderer) 
     srcRect.y = 0;
 
     if (soldier.isDeath) {
+        soldier.frameDelay = 500;
         Uint32 currentTime = SDL_GetTicks();
         if (currentTime - soldier.lastFrameTime >= soldier.frameDelay) {
             soldier.currentFrame++;
             soldier.lastFrameTime = currentTime;
 
-            if (soldier.currentFrame >= 6) { 
+            if (soldier.currentFrame >= 4) { 
                 soldier.currentFrame = 0;
+                soldier.doneDeath = true;
                 soldier.isDeath = false; 
             }
         }

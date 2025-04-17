@@ -23,11 +23,12 @@ class Soldier : public BaseObject
 {
     public:
         float v = 4;
+        bool doneDeath = false;
         int size;
         float range = 200.0f;
         int currentFrame = 0;
         Uint32 lastFrameTime = 0;
-        const Uint32 frameDelay = 75; // ms
+        Uint32 frameDelay = 85; // ms
 
 };
 
