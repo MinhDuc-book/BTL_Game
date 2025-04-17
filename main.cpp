@@ -70,7 +70,7 @@ int main (int argv, char *argc[]) {
         bool orcInit = false;
 
         soldier.size = 75;
-        soldier.Health = 2500;
+        soldier.Health = 7500;
         soldier.Level = 1;
 
         soldier.X = SCREEN_W/2;
@@ -170,14 +170,15 @@ int main (int argv, char *argc[]) {
             SDL_SetCursor(defaultCursor);
             loadBackground(gRenderer, surfaceBackground, textureBackground, path_background);
             orc.flip = SDL_FLIP_NONE;
-
+            
+            int numberOfOrc = 3;
             if (!orcInit) {
-                for (int i = 0; i < 2; ++i) {
+                for (int i = 0; i < numberOfOrc; ++i) {
                     Orc newOrc = {500, 1, createRandom(0,SCREEN_W), createRandom(50,SCREEN_H)};
                     newOrc.size = 75;
                     listOfOrcs.push_back(newOrc);
                 }
-                orcInit =true;
+                orcInit = true;
             }
 
             while (gameStart){
@@ -186,7 +187,7 @@ int main (int argv, char *argc[]) {
                 
                 KeyPress pressInGame;
                 
-                int numberOfOrc = 1;
+                
 
                 while (SDL_PollEvent(&e) != 0) {
                     if (e.type == SDL_MOUSEBUTTONDOWN) {
@@ -199,19 +200,17 @@ int main (int argv, char *argc[]) {
                            
 
                             // orc vector
-                            for (int i = 0; i < listOfOrcs.size(); ++i) {
+                            for (int i = 0; i < numberOfOrc; ++i) {
                                 if (isMouseInSquare(e.button.x, e.button.y, listOfOrcs[i])) {
                                     if (isInRange(soldier, listOfOrcs[i])) {
                                         listOfOrcs[i].isDeath = true;
-                                        // Respawn orc
                                         listOfOrcs[i].X = rand() % (SCREEN_W - listOfOrcs[i].size);
                                         listOfOrcs[i].Y = rand() % (SCREEN_H - listOfOrcs[i].size);
                             
-                                        // Soldier actions
                                         soldier.isAttacking = true;
                                         soldier.v += 0.00001f;
                                         soldier.Level += 0.2f;
-                                        Score += 10;
+                                        Score += 5;
                                     }
                                 }
                             }
@@ -276,7 +275,7 @@ int main (int argv, char *argc[]) {
                 if (isInRangeOrc(soldier, orc)) {
                     orc.isAttacking = true;
                     soldier.isHurt = true;
-                    
+                    soldier.Health = soldier.Health - 10;
                 } else {
                     soldier.isHurt = false;
                 }

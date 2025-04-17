@@ -28,7 +28,7 @@ class Soldier : public BaseObject
         float range = 200.0f;
         int currentFrame = 0;
         Uint32 lastFrameTime = 0;
-        Uint32 frameDelay = 120; // ms
+        Uint32 frameDelay = 50; // ms
 
 };
 

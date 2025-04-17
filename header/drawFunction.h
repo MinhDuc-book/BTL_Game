@@ -148,7 +148,7 @@ void drawHealthBar (Soldier &soldier, Orc &orc, SDL_Renderer *renderer) {
     SDL_RenderCopy(renderer, healthBarTexture, &srcRect, &desRect);
 
     SDL_Color red = {168, 0, 0};
-    SDL_Rect healthBar = {21, 20, (soldier.Health / 12 - 5) >= 0 ? (soldier.Health / 12 - 5) * 1 : 0, 15};
+    SDL_Rect healthBar = {21, 20, (soldier.Health / 36 - 5) >= 0 ? (soldier.Health / 36 - 5) * 1 : 0, 15};
     SDL_SetRenderDrawColor(renderer, red.r, red.g, red.b, 255);
     SDL_RenderFillRect(renderer, &healthBar);
     
@@ -406,7 +406,6 @@ void drawOrcAttacking(SDL_Texture *texture, Orc &orc,Soldier soldier, SDL_Render
             if (orc.currentFrame >= 6) { 
                 orc.currentFrame = 0;
                 orc.isAttacking = false; 
-                soldier.Health = soldier.Health - 0;
                 cout << soldier.Health << endl;
             }
         }
