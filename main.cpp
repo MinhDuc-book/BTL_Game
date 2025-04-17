@@ -196,35 +196,7 @@ int main (int argv, char *argc[]) {
                             dRange = 0; 
 
                             //orc đơn
-                            if (isMouseInSquare(e.button.x, e.button.y, orc)) {
-                                if (isInRange( soldier, orc)) {
-                                    orc.isDeath = true;
-                                    if (soldier.X - orc.X <= 0) {
-                                        soldier.flip = SDL_FLIP_NONE;
-                                    } else if (soldier.X - orc.X > 0)  {
-                                        soldier.flip = SDL_FLIP_HORIZONTAL;
-                                    }
-
-                                    // orc đơn
-                                    int random_x = rand() % (SCREEN_W - orc.size);
-                                    int random_y = 50 + rand () % (SCREEN_H - orc.size);
-                                    orc.X = random_x;
-                                    orc.Y = random_y;                           
-
-                                    soldier.isAttacking = true;
-                                    soldier.isRunning = false;
-                                    soldier.isIdle = false;
-                                    soldier.v = soldier.v + 0.00001f;
-
-                                    soldier.Level = soldier.Level + 0.2f;
-                                    cout << "isAttack: " << soldier.isAttacking << endl;
-                                    cout << "isRunning: " << soldier.isRunning << endl;
-                                    cout << "isIdle: " << soldier.isIdle << endl;
-
-                                    orc.v = orc.v + 0.005f;
-                                    Score = Score + 10;
-                                }
-                            }
+                           
 
                             // orc vector
                             for (int i = 0; i < listOfOrcs.size(); ++i) {
@@ -310,18 +282,11 @@ int main (int argv, char *argc[]) {
                 }
 
                 //orc đơn
-                if (orc.X != soldier.X or orc.Y != soldier.Y) {
-                    if (orc.X - soldier.X > 0) {
-                        orc.flip = SDL_FLIP_HORIZONTAL;
-                    } else {
-                        orc.flip = SDL_FLIP_NONE;
-                    }
-                    moveOrc(orc, soldier, orc.v);
-                }
+                
 
                 //orc vector
                 for (auto &orc : listOfOrcs) {
-                    if (!orc.isDeath) {
+                    
                         if (orc.X != soldier.X || orc.Y != soldier.Y) {
                             orc.flip = (orc.X - soldier.X > 0) ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE;
                             moveOrc(orc, soldier, orc.v);
@@ -329,49 +294,48 @@ int main (int argv, char *argc[]) {
                 
                         if (isInRangeOrc(soldier, orc)) {
                             orc.isAttacking = true;
+                            orc.isRunning = false;
+                            orc.isIdle = false;
                             soldier.isHurt = true;
+                        } else {
+                            orc.isAttacking = false;
+                            orc.isRunning = true;
+                            orc.isIdle = false;
                         }
-                    }
+                        
+                    
                 }
                 
 
-                //
-                if (soldier.Health <= 0) {
-                    soldier.isDeath = true;
-                    soldier.isHurt = false;
-                    soldier.isIdle = false;
-                    soldier.isAttacking = false;
-                    soldier.isRunning = false; 
-
-                    orc.isAttacking = false;
-                    orc.isIdle = true;
-                    orc.isRunning = false;
-                    
-                } else {
-                    soldier.isDeath = false;
-                }
-
-                // orc đơn
-                animationSoldier(soldier, orc);
-
-                //orc vector
-                for (int i = 0; i < 2; ++i) {
-                    animationSoldier(soldier, listOfOrcs[i]);
-                }
-
-                // orc đơn
-                animationOrc(orc,soldier);
-
-                //orc vector
-                for (int i = 0; i < 2; ++i) {
-                    animationOrc(listOfOrcs[i], soldier);
-                }
+                //orc đơn
+                
 
                 //orc vector
                 for (auto &orc : listOfOrcs) {
-                    if (!orc.isDeath) {
-                        animationOrc(orc, soldier);
+                    if (soldier.Health <= 0) {
+                        soldier.isDeath = true;
+                        soldier.isHurt = false;
+                        soldier.isIdle = false;
+                        soldier.isAttacking = false;
+                        soldier.isRunning = false; 
+    
+                        orc.isAttacking = false;
+                        orc.isIdle = true;
+                        orc.isRunning = false;
+                        
+                    } else {
+                        soldier.isDeath = false;
                     }
+                }
+
+                
+                animationSoldier(soldier, orc);
+
+                
+
+                //orc vector
+                for (auto &orc : listOfOrcs) {
+                    animationOrc(orc, soldier);
                 }
                 
                 

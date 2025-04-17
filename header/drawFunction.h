@@ -268,7 +268,6 @@ void drawHurting(SDL_Texture *texture, Soldier& soldier, SDL_Renderer *renderer)
     srcRect.y = 0;
 
     if (soldier.isHurt) {
-        soldier.Health = soldier.Health - 10;
         Uint32 currentTime = SDL_GetTicks();
         if (currentTime - soldier.lastFrameTime >= soldier.frameDelay) {
             soldier.currentFrame++;
@@ -407,7 +406,7 @@ void drawOrcAttacking(SDL_Texture *texture, Orc &orc,Soldier soldier, SDL_Render
             if (orc.currentFrame >= 6) { 
                 orc.currentFrame = 0;
                 orc.isAttacking = false; 
-                soldier.Health = soldier.Health - 10;
+                soldier.Health = soldier.Health - 0;
                 cout << soldier.Health << endl;
             }
         }

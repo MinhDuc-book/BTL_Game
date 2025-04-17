@@ -79,7 +79,6 @@ void movePlayer(Soldier &soldier, int x_mouse, int y_mouse, float v) {
 }
 
 void restartGame(Soldier &soldier, Orc &orc, int &Score) {
-    soldier.Health = 100;  
     soldier.X = SCREEN_W / 2;
     soldier.Y = SCREEN_H / 2;
     soldier.isIdle = true;
