@@ -275,7 +275,7 @@ int main (int argv, char *argc[]) {
                 if (isInRangeOrc(soldier, orc)) {
                     orc.isAttacking = true;
                     soldier.isHurt = true;
-                    soldier.Health = soldier.Health - 10;
+                    
                 } else {
                     soldier.isHurt = false;
                 }
@@ -296,6 +296,7 @@ int main (int argv, char *argc[]) {
                             orc.isRunning = false;
                             orc.isIdle = false;
                             soldier.isHurt = true;
+                            soldier.Health = soldier.Health - 10;
                         } else {
                             orc.isAttacking = false;
                             orc.isRunning = true;
@@ -330,7 +331,7 @@ int main (int argv, char *argc[]) {
                 
                 animationSoldier(soldier, orc);
 
-                
+
 
                 //orc vector
                 for (auto &orc : listOfOrcs) {
@@ -343,13 +344,16 @@ int main (int argv, char *argc[]) {
                 drawHealthBar(soldier, orc, gRenderer);
 
                 if (soldier.isDeath) {
+                    SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 255);
                     SDL_RenderClear(gRenderer);
                     GameOver(font, gRenderer, game_over);
+                    SDL_RenderPresent(gRenderer);
                 }
                 
                 SDL_RenderPresent(gRenderer);
             }
-            
+
+
             SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 255);
             SDL_RenderClear(gRenderer);
             drawMenu(gRenderer, font, option);
