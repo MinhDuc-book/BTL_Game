@@ -95,7 +95,6 @@ int main (int argv, char *argc[]) {
                         restartGame(soldier, orc, Score);
                         gameStart = true;
                     } else if (option == 2) {
-                        // MOUSE SETTING
                         bool inSetting = true;
                         while (inSetting) {
                             KeyPress keyMouseoption = handleInput();
@@ -171,7 +170,7 @@ int main (int argv, char *argc[]) {
             loadBackground(gRenderer, surfaceBackground, textureBackground, path_background);
             orc.flip = SDL_FLIP_NONE;
             
-            int numberOfOrc = 3;
+            int numberOfOrc = 4;
             if (!orcInit) {
                 for (int i = 0; i < numberOfOrc; ++i) {
                     Orc newOrc = {500, 1, createRandom(0,SCREEN_W), createRandom(50,SCREEN_H)};
@@ -347,7 +346,7 @@ int main (int argv, char *argc[]) {
                     SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 255);
                     SDL_RenderClear(gRenderer);
                     GameOver(font, gRenderer, game_over);
-                    SDL_RenderPresent(gRenderer);
+                    
                 }
                 
                 SDL_RenderPresent(gRenderer);
