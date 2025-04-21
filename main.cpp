@@ -192,7 +192,6 @@ int main (int argv, char *argc[]) {
                                 if (isMouseInSquare(e.button.x, e.button.y, listOfOrcs[i])) {
                                     if (isInRange(soldier, listOfOrcs[i])) {
                                         soldier.isAttacking = true;
-                                        drawArrow(soldier, listOfOrcs[i], path_arrow, gRenderer);
                                         SDL_RenderPresent(gRenderer);
 
                                         if (soldier.doneAttack) {
