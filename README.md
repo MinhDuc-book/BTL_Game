@@ -31,3 +31,6 @@ Tôi tên là Nguyễn Minh Đức, sinh ra và lớn lên tại Hà Nội. Hi�
         + Âm thanh (tính năng trộn âm): mingw-w64-ucrt-x86_64-SDL2_mixer
         + Âm thanh (phát lại các âm thanh từ tệp): mingw-w64-ucrt-x86_64-SDL2_sound
         + Font chữ: mingw-w64-ucrt-x86_64-SDL2_ttf 
+4. Chạy chương trình
+    - Ctrl + Shift + ` để mở Terminal trên VSCode
+    - Gõ lệnh "make" trên Terminal
