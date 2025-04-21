@@ -13,24 +13,37 @@ Tôi tên là Nguyễn Minh Đức, sinh ra và lớn lên tại Hà Nội. Hi�
 
 ### 1. Cài đặt MingW
 1. Tải từ trang [https://sourceforge.net/projects/mingw/](https://sourceforge.net/projects/mingw/).
-2.Chạy file cài đặt và chọn 'mingw32-gcc-g++'
-3. Thêm thư mục bin của MingW vào đường dẫn PATH bằng cách: Mở Setting của máy --> System --> About --> Advanced system settings --> Environment Variables --> thêm đường dẫn của thư mục bin vào PATH
+
+2. Chạy file cài đặt và chọn 'mingw32-gcc-g++'.
+
+3. Thêm thư mục bin của MingW vào đường dẫn PATH bằng cách: Mở Setting của máy --> System --> About --> Advanced system settings --> Environment Variables --> thêm đường dẫn của thư mục bin vào PATH.
 
 ### 2. Cài đặt SDL2
-1. Cài đặt trình biên dịch:
-    - Mở MSYS2 MSYS(màu tím)
-    - Dán câu lệnh: pacman -S mingw-w64-ucrt-x86_64-gcc
-    - Đợi hệ thống tự chạy rồi bấm Enter, Y
-2. Cài đặt CMake:
-    - Tương tư với cài đặt trình biên dịch nhưng với câu lệnh: pacman -S mingw-w64-ucrt-x86_64-cmake
-3. Cài đặt SDL2:
-    Sử dụng các câu lệnh sau:
-    - Với SDL2 thông thường: pacman -S mingw-w64-ucrt-x86_64-SDL2
-    - Thêm các phần khác:
-        + Hình ảnh: mingw-w64-ucrt-x86_64-SDL2_image
-        + Âm thanh (tính năng trộn âm): mingw-w64-ucrt-x86_64-SDL2_mixer
-        + Âm thanh (phát lại các âm thanh từ tệp): mingw-w64-ucrt-x86_64-SDL2_sound
-        + Font chữ: mingw-w64-ucrt-x86_64-SDL2_ttf 
-4. Chạy chương trình
-    - Ctrl + Shift + ` để mở Terminal trên VSCode
-    - Gõ lệnh "make" trên Terminal
+
+**1. Cài đặt trình biên dịch:**
+- Mở MSYS2 MSYS(màu tím)
+    
+- Dán câu lệnh: ```pacman -S mingw-w64-ucrt-x86_64-gcc```
+
+- Đợi hệ thống tự chạy rồi bấm Enter, Y
+
+**2. Cài đặt CMake:**
+- Tương tư với cài đặt trình biên dịch nhưng với câu lệnh: ```pacman -S mingw-w64-ucrt-x86_64-cmake```
+
+**3. Cài đặt SDL2:**
+Sử dụng các câu lệnh sau:
+- Với SDL2 thông thường:  ```pacman -S mingw-w64-ucrt-x86_64-SDL2```
+
+- Thêm các phần khác:
+    + Hình ảnh: ```mingw-w64-ucrt-x86_64-SDL2_image```
+
+    + Âm thanh (tính năng trộn âm): ```mingw-w64-ucrt-x86_64-SDL2_mixer```
+
+    + Âm thanh (phát lại các âm thanh từ tệp): ```mingw-w64-ucrt-x86_64-SDL2_sound```
+
+    + Font chữ: ```mingw-w64-ucrt-x86_64-SDL2_ttf```
+     
+**4. Chạy chương trình:**
+- Ctrl + Shift + ` để mở Terminal trên VSCode
+
+- Gõ lệnh ```make``` trên Terminal để chạy chương trình
