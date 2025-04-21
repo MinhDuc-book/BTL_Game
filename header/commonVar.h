@@ -1,0 +1,136 @@
+#ifndef COMMON_VAR_H
+#define COMMON_VAR_H
+
+#include <iostream>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+#include <cstdlib>
+#include <ctime>
+#include <cmath>
+#include <algorithm>
+#include <string>
+#include <SDL2/SDL_ttf.h>
+
+int const SCREEN_W = 1190;
+int const SCREEN_H = 700;
+
+
+SDL_Window *gWindow = NULL;
+SDL_Renderer *gRenderer = NULL;
+SDL_Surface *scoreSurface = NULL;
+SDL_Texture *scoreTexture = NULL;
+
+SDL_Surface *gameOverSurface = NULL;
+SDL_Texture *gameOverTexture = NULL;
+
+SDL_Surface *healthBarSurface = IMG_Load("data/healthBarImage - Copy - Copy.png");
+SDL_Texture *healthBarTexture = NULL;
+
+enum KeyPress {
+    KEY_PRESS_DEFAULT,
+    KEY_PRESS_UP,
+    KEY_PRESS_DOWN,
+    KEY_PRESS_ENTER,
+    KEY_PRESS_ESCAPE,
+    KEY_PRESS_TOTAL
+};
+
+enum GameState {
+    START,
+    RESTART,
+    SETTING,
+    SCORE,
+    QUIT,
+    STATE_TOTAL
+};
+
+enum mouseOption {
+    DEFAULT,
+    ALT_IMAGE,
+    HANDWRITING,
+    TOTAL_MOUSE_OPTION
+};
+
+
+GameState currentState = START;
+int selectOption = 0;
+int square_size = 20;
+int x_mouse = 0;
+int y_mouse = 0;
+int option = 0;
+int mouseOption = DEFAULT;
+int const PI = 3.14159;
+int x_end = SCREEN_W / 2, y_end = SCREEN_H / 2;
+int Score = 0;
+bool run = true;
+bool gameStart = false;
+bool isSavedScore = false;
+const char *game_over = "Game Over";
+const char *path_score = "data/High-Score.txt";
+
+const char *path_soldier_idle = "Characters/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Soldier/Soldier/Soldier-Idle.png";
+const char *path_soldier_run = "Characters/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Soldier/Soldier/Soldier-Walk.png";
+const char *path_soldier_attack = "Characters/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Soldier/Soldier/Soldier-Attack03.png";
+const char *path_soldier_attack2 = "Characters/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Soldier/Soldier/Soldier-Attack02.png";
+const char *path_soldier_attack1 = "Characters/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Soldier/Soldier/Soldier-Attack01.png";
+const char *path_soldier_death = "Characters/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Soldier/Soldier/Soldier-Death.png";
+const char *path_soldier_hurt = "Characters/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Soldier/Soldier/Soldier-Hurt.png";
+const char *path_split_attack = "Characters/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Soldier/Soldier(Split Effects)/Soldier-Attack01_Effect.png";
+const char *path_arrow = "Characters/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Arrow(Projectile)/Arrow01(32x32).png";
+
+const char *path_orc_idle = "Characters/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Orc/Orc/Orc-Idle.png";
+const char *path_orc_run = "Characters/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Orc/Orc/Orc-Walk.png";
+const char *path_orc_attack = "Characters/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Orc/Orc/Orc-Attack02.png";
+const char *path_orc_death = "Characters/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Orc/Orc/Orc-Death.png";
+const char *path_orc_hurt= "Characters/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Orc/Orc/Orc-Hurt.png";
+
+const char *path_background = "Background/LienMinhPixel1536.png";
+SDL_Surface *surfaceBackground;
+SDL_Texture *textureBackground;
+
+const char *path_blind_box = "Icon/blindBox.png";
+SDL_Surface *blindBoxSurface = IMG_Load(path_blind_box);
+SDL_Texture *blindBoxTexture;
+
+SDL_Surface *spriteAttack = IMG_Load(path_soldier_attack);
+SDL_Surface *spriteAttack2 = IMG_Load(path_soldier_attack2);
+SDL_Surface *spriteAttack1 = IMG_Load(path_soldier_attack1);
+SDL_Surface *spriteRun = IMG_Load(path_soldier_run);
+SDL_Surface *spriteHurt = IMG_Load(path_soldier_hurt);
+SDL_Surface *spriteDeath = IMG_Load(path_soldier_death);
+SDL_Surface *spriteIdle = IMG_Load (path_soldier_idle);
+SDL_Surface *splitAttack = IMG_Load(path_split_attack);
+SDL_Surface *arrow = IMG_Load(path_arrow);
+
+SDL_Surface *spriteOrcAttack = IMG_Load(path_orc_attack);
+SDL_Surface *spriteOrcRun = IMG_Load(path_orc_run);
+SDL_Surface *spriteOrcHurt = IMG_Load(path_orc_hurt);
+SDL_Surface *spriteOrcDeath = IMG_Load(path_orc_death);
+SDL_Surface *spriteOrcIdle = IMG_Load (path_orc_idle);
+
+SDL_Cursor *attackCursor;
+SDL_Cursor *defaultCursor;
+SDL_Cursor *altCursor;
+SDL_Cursor *handWritingCursor;
+SDL_Cursor *saveDefaultCursor;
+
+SDL_Texture *gTexture;
+
+SDL_Texture *currentTexture;
+SDL_Texture *runTexture;
+SDL_Texture *hurtTexture;
+SDL_Texture *deathTexture;
+SDL_Texture *attackTexture;
+SDL_Texture *idleTexture;
+SDL_Texture *splitTexture;
+SDL_Texture *arrowTexture;
+
+
+SDL_Texture *currentOrcTexture;
+SDL_Texture *runOrcTexture;
+SDL_Texture *hurtOrcTexture;
+SDL_Texture *deathOrcTexture;
+SDL_Texture *attackOrcTexture;
+SDL_Texture *idleOrcTexture;
+
+#endif
