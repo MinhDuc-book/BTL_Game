@@ -5,6 +5,7 @@
 #include "Object.h"
 #include "ReactFunc.h"
 #include <string>
+#include <cmath> 
 #include <cstring>
 
 // draw menu
@@ -141,10 +142,10 @@ void drawScoreOption(SDL_Renderer *renderer, TTF_Font *font) {
     }
 }
 
-void drawHealthBar (Soldier &soldier, Orc &orc, SDL_Renderer *renderer) {
+void drawHealthBar (Soldier &soldier, SDL_Renderer *renderer) {
     SDL_Rect srcRect = {0, 0, 1024, 1024};
     SDL_Rect desRect = {1, 1, 240, 50};
-    SDL_Texture *healthBarTexture = SDL_CreateTextureFromSurface(renderer, healthBarSurface);
+    healthBarTexture = SDL_CreateTextureFromSurface(renderer, healthBarSurface);
     SDL_RenderCopy(renderer, healthBarTexture, &srcRect, &desRect);
 
     SDL_Color red = {168, 0, 0};
@@ -152,6 +153,14 @@ void drawHealthBar (Soldier &soldier, Orc &orc, SDL_Renderer *renderer) {
     SDL_SetRenderDrawColor(renderer, red.r, red.g, red.b, 255);
     SDL_RenderFillRect(renderer, &healthBar);
     
+}
+
+void drawHealthOrc(Orc &orc, SDL_Renderer *renderer) {
+    SDL_Color red = {168, 0, 0};
+    SDL_Rect healthOrcBar = {orc.X - orc.size/2 + 17, orc.Y - orc.size/2 + 5, 40, 5};
+    SDL_SetRenderDrawColor(renderer, red.r, red.g, red.b, 255);
+    SDL_RenderFillRect(renderer, &healthOrcBar);
+
 }
 
 void drawRange(Soldier soldier)
@@ -162,6 +171,22 @@ void drawRange(Soldier soldier)
     }
 }
 
+void drawLine(Soldier &soldier, Orc &orc, SDL_Renderer *renderer) {
+    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+    SDL_RenderDrawLine(renderer, soldier.X, soldier.Y, orc.X, orc.Y);
+    SDL_RenderPresent(renderer);
+} 
+
+void drawArrow(Soldier &soldier, Orc &orc, const char *path_arrow, SDL_Renderer *renderer) {
+    SDL_Rect srcRect = {0, 0, 32, 32};
+    int length = getDistance(soldier, orc);
+    SDL_Rect desRect = {soldier.X, soldier.Y, length, 50};
+    arrowTexture = SDL_CreateTextureFromSurface(renderer, arrow);
+
+    SDL_RenderCopyEx(renderer, arrowTexture, &srcRect, &desRect, getAngle(soldier, orc) + 180, NULL, SDL_FLIP_NONE);
+}
+
+//void updateArrow()
 void getScore(int score, SDL_Renderer *renderer, TTF_Font *font) {
     string scoreText = "SCORE: " + to_string(score);
     SDL_Color cream = {240, 240, 220};
@@ -186,7 +211,38 @@ void GameOver(TTF_Font *font, SDL_Renderer *renderer, const char *path_game_over
     SDL_DestroyTexture(gameOverTexture);
 }
 
-void drawAttacking(SDL_Texture *texture, Soldier& soldier,Orc& orc,  SDL_Renderer *renderer) {
+/*
+void drawSplitAttack (SDL_Texture *texture, Soldier &soldier, SDL_Renderer *renderer) {
+    SDL_Rect srcRect;
+    SDL_Rect desRect;
+
+    desRect.x = soldier.X - soldier.size*2; 
+    desRect.y = soldier.Y - soldier.size*2;
+    desRect.w = soldier.size * 7;
+    desRect.h = soldier.size * 4;
+
+    srcRect.w = 100;
+    srcRect.h = 100;
+    srcRect.y = 0;
+
+
+        Uint32 currentTime = SDL_GetTicks();
+        if (currentTime - soldier.lastFrameTime >= soldier.frameDelay) {
+            soldier.currentFrame++;
+            soldier.lastFrameTime = currentTime;
+            if (soldier.currentFrame >= 6) { 
+                soldier.currentFrame = 0;
+                soldier.isAttacking = false;
+            }
+        }
+        srcRect.x = soldier.currentFrame * 100;
+
+    SDL_RenderCopyEx(renderer, texture, &srcRect, &desRect, 0, nullptr, soldier.flip);
+
+}
+*/
+
+void drawAttacking(SDL_Texture *texture, Soldier& soldier, SDL_Renderer *renderer) {
     SDL_Rect srcRect;
     SDL_Rect desRect;
 
@@ -199,25 +255,24 @@ void drawAttacking(SDL_Texture *texture, Soldier& soldier,Orc& orc,  SDL_Rendere
     srcRect.h = 100;
     srcRect.y = 0;
 
-    if (soldier.isAttacking) {
-        Uint32 currentTime = SDL_GetTicks();
-        if (currentTime - soldier.lastFrameTime >= soldier.frameDelay) {
-            soldier.currentFrame++;
-            soldier.lastFrameTime = currentTime;
-
-            
-                if (soldier.currentFrame >= 9) { 
-                    soldier.currentFrame = 0;
-                    soldier.isAttacking = false;
-                }
-            
-
+    soldier.doneAttack = false;
+    if (soldier.doneAttack == false) {
+        soldier.isRunning = false;
+        soldier.isIdle = false;
+    }
+    Uint32 currentTime = SDL_GetTicks();
+    if (currentTime - soldier.lastFrameTime >= soldier.frameDelay) {
+        soldier.currentFrame++;
+        soldier.lastFrameTime = currentTime;
+        if (soldier.currentFrame >= 9) {
+            soldier.doneAttack = true;
+            soldier.isAttacking = false;
+            soldier.currentFrame = 0;
 
         }
-        srcRect.x = soldier.currentFrame * 100;
-    } else {
-        srcRect.x = 0;
     }
+    srcRect.x = soldier.currentFrame * 100;
+    
 
     SDL_RenderCopyEx(renderer, texture, &srcRect, &desRect, 0, nullptr, soldier.flip);
 }
@@ -340,7 +395,6 @@ void drawDeath (SDL_Texture *texture, Soldier &soldier, SDL_Renderer *renderer) 
 
             if (soldier.currentFrame >= 4) { 
                 soldier.currentFrame = 0;
-                soldier.doneDeath = true;
                 soldier.isDeath = false; 
             }
         }
@@ -406,7 +460,7 @@ void drawOrcAttacking(SDL_Texture *texture, Orc &orc,Soldier soldier, SDL_Render
             if (orc.currentFrame >= 6) { 
                 orc.currentFrame = 0;
                 orc.isAttacking = false; 
-                cout << soldier.Health << endl;
+                
             }
         }
         srcRect.x = orc.currentFrame * 100;
@@ -449,46 +503,81 @@ void drawOrcRunning(SDL_Texture *texture, Orc &orc, SDL_Renderer *renderer) {
     SDL_RenderCopyEx(renderer, texture, &srcRect, &desRect, 0, nullptr, orc.flip);
 }
 
+void drawOrcDeath(SDL_Texture *texture, Orc &orc, SDL_Renderer *renderer) {
+    SDL_Rect srcRect;
+    SDL_Rect desRect;
+
+    desRect.x = orc.X - orc.size*2; 
+    desRect.y = orc.Y - orc.size*2;
+    desRect.w = orc.size * 4;
+    desRect.h = orc.size * 4;
+
+    srcRect.w = 100;
+    srcRect.h = 100;
+    srcRect.y = 0;
+
+    if (orc.isDeath) {
+        Uint32 currentTime = SDL_GetTicks();
+        if (currentTime - orc.lastFrameTime >= orc.frameDelay) {
+            orc.currentFrame++;
+            orc.lastFrameTime = currentTime;
+
+            if (orc.currentFrame >= 4) { 
+                orc.currentFrame = 0;
+                orc.isDeath = false; 
+            }
+        }
+        srcRect.x = orc.currentFrame * 100;
+    } else {
+        srcRect.x = 0;
+    }
+
+    SDL_RenderCopyEx(renderer, texture, &srcRect, &desRect, 0, nullptr, orc.flip);
+}
+
 void animationOrc (Orc &orc, Soldier soldier) {
     if (orc.isAttacking) {
-        SDL_Texture *attackOrcTexture = SDL_CreateTextureFromSurface(gRenderer, spriteOrcAttack);
+        attackOrcTexture = SDL_CreateTextureFromSurface(gRenderer, spriteOrcAttack);
         currentOrcTexture = attackOrcTexture;
         drawOrcAttacking(currentOrcTexture, orc, soldier, gRenderer);
     }
     else if (orc.isRunning) {
-        SDL_Texture *runOrcTexture = SDL_CreateTextureFromSurface(gRenderer, spriteOrcRun);
+        runOrcTexture = SDL_CreateTextureFromSurface(gRenderer, spriteOrcRun);
         currentOrcTexture = runOrcTexture;
         drawOrcRunning(currentOrcTexture, orc, gRenderer);
     }
     else if(orc.isIdle) {
-        SDL_Texture *idleOrcTexture = SDL_CreateTextureFromSurface(gRenderer, spriteOrcIdle);
+        idleOrcTexture = SDL_CreateTextureFromSurface(gRenderer, spriteOrcIdle);
         currentOrcTexture = idleOrcTexture;
         drawOrcIdle(currentOrcTexture, orc, gRenderer);
+    } else if (orc.isDeath) {
+        deathOrcTexture = SDL_CreateTextureFromSurface(gRenderer, spriteOrcDeath);
+        currentOrcTexture = deathOrcTexture;
+        drawOrcDeath(currentOrcTexture, orc, gRenderer);
     }
     
 }
 
-void animationSoldier(Soldier &soldier, Orc &orc) {
+void animationSoldier(Soldier &soldier) {
     if (soldier.isHurt) {
-        SDL_Texture *hurtTexture = SDL_CreateTextureFromSurface(gRenderer, spriteHurt);
+        hurtTexture = SDL_CreateTextureFromSurface(gRenderer, spriteHurt);
         currentTexture = hurtTexture;
         drawHurting(currentTexture, soldier, gRenderer);
     }
     else if (soldier.isAttacking) {
-        SDL_Texture *attackTexture = SDL_CreateTextureFromSurface(gRenderer, spriteAttack);
+        attackTexture = SDL_CreateTextureFromSurface(gRenderer, spriteAttack);
         currentTexture = attackTexture;
-        drawAttacking(currentTexture, soldier, orc, gRenderer);
-        
+        drawAttacking(currentTexture, soldier, gRenderer);
     }
 
     else if (soldier.isRunning) {
-        SDL_Texture *runTexture = SDL_CreateTextureFromSurface(gRenderer, spriteRun);
+        runTexture = SDL_CreateTextureFromSurface(gRenderer, spriteRun);
         currentTexture = runTexture;
         drawRunning(currentTexture,soldier,gRenderer);
     }
 
     else if (soldier.isIdle) {
-        SDL_Texture *idleTexture = SDL_CreateTextureFromSurface(gRenderer, spriteIdle);
+        idleTexture = SDL_CreateTextureFromSurface(gRenderer, spriteIdle);
         currentTexture = idleTexture;
         drawIdle(currentTexture,soldier,gRenderer);
     }

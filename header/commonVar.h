@@ -11,7 +11,6 @@
 #include <string>
 #include <SDL2/SDL_ttf.h>
 
-// các biến toàn chương trình dùng cho SDL
 int const SCREEN_W = 1190;
 int const SCREEN_H = 700;
 
@@ -26,8 +25,6 @@ SDL_Texture *gameOverTexture = NULL;
 
 SDL_Surface *healthBarSurface = IMG_Load("data/healthBarImage - Copy - Copy.png");
 SDL_Texture *healthBarTexture = NULL;
-
-
 
 enum KeyPress {
     KEY_PRESS_DEFAULT,
@@ -78,6 +75,8 @@ const char *path_soldier_attack2 = "Characters/Tiny RPG Character Asset Pack v1.
 const char *path_soldier_attack1 = "Characters/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Soldier/Soldier/Soldier-Attack01.png";
 const char *path_soldier_death = "Characters/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Soldier/Soldier/Soldier-Death.png";
 const char *path_soldier_hurt = "Characters/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Soldier/Soldier/Soldier-Hurt.png";
+const char *path_split_attack = "Characters/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Soldier/Soldier(Split Effects)/Soldier-Attack01_Effect.png";
+const char *path_arrow = "Characters/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Arrow(Projectile)/Arrow01(32x32).png";
 
 const char *path_orc_idle = "Characters/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Orc/Orc/Orc-Idle.png";
 const char *path_orc_run = "Characters/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Orc/Orc/Orc-Walk.png";
@@ -100,6 +99,8 @@ SDL_Surface *spriteRun = IMG_Load(path_soldier_run);
 SDL_Surface *spriteHurt = IMG_Load(path_soldier_hurt);
 SDL_Surface *spriteDeath = IMG_Load(path_soldier_death);
 SDL_Surface *spriteIdle = IMG_Load (path_soldier_idle);
+SDL_Surface *splitAttack = IMG_Load(path_split_attack);
+SDL_Surface *arrow = IMG_Load(path_arrow);
 
 SDL_Surface *spriteOrcAttack = IMG_Load(path_orc_attack);
 SDL_Surface *spriteOrcRun = IMG_Load(path_orc_run);
@@ -121,6 +122,8 @@ SDL_Texture *hurtTexture;
 SDL_Texture *deathTexture;
 SDL_Texture *attackTexture;
 SDL_Texture *idleTexture;
+SDL_Texture *splitTexture;
+SDL_Texture *arrowTexture;
 
 
 SDL_Texture *currentOrcTexture;

@@ -23,25 +23,41 @@ class Soldier : public BaseObject
 {
     public:
         float v = 4;
-        bool doneDeath = false;
+        bool doneAttack;
         int size;
         float range = 200.0f;
         int currentFrame = 0;
         Uint32 lastFrameTime = 0;
-        Uint32 frameDelay = 50; // ms
+        Uint32 frameDelay = 60; // ms
 
 };
+
+
 
 class Orc : public BaseObject
 {
     public:
-        float v = 1;
+        float v = 0;
         int size;
         float range = 10.0;
         int currentFrame = 0;
         Uint32 lastFrameTime = 0;
         const Uint32 frameDelay = 75; // ms
 
+};
+
+class Arrow{
+    public:
+        int x, y, v; 
+        float angle;
+        bool isFire = 0;
+    void move(){
+        x += v * cos(angle);
+        y += v * sin(angle);
+    }
+    bool check(){
+        return !(x < 0 || x > SCREEN_W || y < 0 || y > SCREEN_H);
+    }
 };
 
 

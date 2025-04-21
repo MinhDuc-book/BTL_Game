@@ -39,7 +39,6 @@ KeyPress handleInput() {
 }
 
 
-// đóng cửa sổ, giải phóng bộ nhớ
 void close() 
 {
     SDL_DestroyTexture(idleOrcTexture);
@@ -65,19 +64,16 @@ int main (int argv, char *argc[]) {
         
         TTF_Font *font  = TTF_OpenFont("data/PressStart2P-Regular.ttf", 30);
         Soldier soldier;
-        Orc orc = {500, 1, 350, 274}; // health, level, X, Y, isRunning, isAttacking,isDeath, isHurt, direction, v_x, v_y, size, range
         vector <Orc> listOfOrcs;
         bool orcInit = false;
 
         soldier.size = 75;
         soldier.Health = 7500;
         soldier.Level = 1;
-
         soldier.X = SCREEN_W/2;
         soldier.Y = SCREEN_H/2;
 
-        orc.size = 75;
-
+        loadBackground(gRenderer, surfaceBackground, textureBackground, path_background);
         while (run) {
             KeyPress key = handleInput();
             switch(key) {
@@ -92,7 +88,7 @@ int main (int argv, char *argc[]) {
                         gameStart = true;
                         run = false;
                     } else if (option == 1) {
-                        restartGame(soldier, orc, Score);
+                        restartGame(soldier, Score);
                         gameStart = true;
                     } else if (option == 2) {
                         bool inSetting = true;
@@ -167,14 +163,14 @@ int main (int argv, char *argc[]) {
 
             int dRange = 0;
             SDL_SetCursor(defaultCursor);
-            loadBackground(gRenderer, surfaceBackground, textureBackground, path_background);
-            orc.flip = SDL_FLIP_NONE;
             
             int numberOfOrc = 4;
             if (!orcInit) {
                 for (int i = 0; i < numberOfOrc; ++i) {
                     Orc newOrc = {500, 1, createRandom(0,SCREEN_W), createRandom(50,SCREEN_H)};
                     newOrc.size = 75;
+                    newOrc.flip = SDL_FLIP_NONE;
+                    newOrc.isRunning = true;
                     listOfOrcs.push_back(newOrc);
                 }
                 orcInit = true;
@@ -182,12 +178,7 @@ int main (int argv, char *argc[]) {
 
             while (gameStart){
                 soldier.isIdle = true;
-                orc.isRunning = true;
-                
                 KeyPress pressInGame;
-                
-                
-
                 while (SDL_PollEvent(&e) != 0) {
                     if (e.type == SDL_MOUSEBUTTONDOWN) {
                         if (e.button.button == SDL_BUTTON_LEFT) {
@@ -195,34 +186,33 @@ int main (int argv, char *argc[]) {
                             SDL_SetCursor(defaultCursor);
                             dRange = 0; 
 
-                            //orc đơn
-                           
-
                             // orc vector
                             for (int i = 0; i < numberOfOrc; ++i) {
+
                                 if (isMouseInSquare(e.button.x, e.button.y, listOfOrcs[i])) {
                                     if (isInRange(soldier, listOfOrcs[i])) {
-                                        listOfOrcs[i].isDeath = true;
-                                        listOfOrcs[i].X = rand() % (SCREEN_W - listOfOrcs[i].size);
-                                        listOfOrcs[i].Y = rand() % (SCREEN_H - listOfOrcs[i].size);
-                            
                                         soldier.isAttacking = true;
-                                        soldier.v += 0.00001f;
-                                        soldier.Level += 0.2f;
-                                        Score += 5;
+                                        drawArrow(soldier, listOfOrcs[i], path_arrow, gRenderer);
+                                        SDL_RenderPresent(gRenderer);
+
+                                        if (soldier.doneAttack) {
+                                            listOfOrcs[i].X = rand() % (SCREEN_W - listOfOrcs[i].size);
+                                            listOfOrcs[i].Y = 50 + rand() % (SCREEN_H - listOfOrcs[i].size - 20);
+                                            Score += 5;
+                                            soldier.Level += 0.2f;
+                                            soldier.v += 0.00001f;
+                                        }
+                                        
                                     }
                                 }
                             }
-                            
-                            
                         } 
                         
                         if (e.button.button == SDL_BUTTON_RIGHT) {
                             if (soldier.isAttacking) {
                                 soldier.isRunning = false;
-                            } else {
-                                soldier.isRunning = true;
                             }
+                            
                             x_end = e.button.x;
                             y_end = e.button.y;
                             if (x_end - soldier.X >= 0) {
@@ -271,44 +261,40 @@ int main (int argv, char *argc[]) {
                 }
                 
                 //
-                if (isInRangeOrc(soldier, orc)) {
-                    orc.isAttacking = true;
-                    soldier.isHurt = true;
-                    
-                } else {
-                    soldier.isHurt = false;
+                for (auto &orc : listOfOrcs) {
+                    if (isInRangeOrc(soldier, orc)) {
+                        orc.isAttacking = true;
+                        soldier.isHurt = true;
+                        
+                    } else {
+                        soldier.isHurt = false;
+                    }
                 }
 
-                //orc đơn
-                
 
                 //orc vector
                 for (auto &orc : listOfOrcs) {
-                    
-                        if (orc.X != soldier.X || orc.Y != soldier.Y) {
-                            orc.flip = (orc.X - soldier.X > 0) ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE;
-                            moveOrc(orc, soldier, orc.v);
-                        }
-                
-                        if (isInRangeOrc(soldier, orc)) {
-                            orc.isAttacking = true;
-                            orc.isRunning = false;
-                            orc.isIdle = false;
-                            soldier.isHurt = true;
-                            soldier.Health = soldier.Health - 10;
-                        } else {
-                            orc.isAttacking = false;
-                            orc.isRunning = true;
-                            orc.isIdle = false;
-                        }
+
+                    if (orc.X != soldier.X || orc.Y != soldier.Y) {
+                        orc.flip = (orc.X - soldier.X > 0) ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE;
+                        moveOrc(orc, soldier, orc.v);
+                    }
+            
+                    if (isInRangeOrc(soldier, orc)) {
+                        orc.isAttacking = true;
+                        orc.isRunning = false;
+                        orc.isIdle = false;
+                        soldier.isHurt = true;
+                        soldier.Health = soldier.Health - 10;
+                    } else {
+                        orc.isAttacking = false;
+                        orc.isRunning = true;
+                        orc.isIdle = false;
+                    }
                         
                     
                 }
                 
-
-                //orc đơn
-                
-
                 //orc vector
                 for (auto &orc : listOfOrcs) {
                     if (soldier.Health <= 0) {
@@ -327,20 +313,18 @@ int main (int argv, char *argc[]) {
                     }
                 }
 
+                animationSoldier(soldier);
                 
-                animationSoldier(soldier, orc);
-
-
 
                 //orc vector
                 for (auto &orc : listOfOrcs) {
+                    drawHealthOrc(orc, gRenderer);
                     animationOrc(orc, soldier);
                 }
                 
-                
                 getScore(Score, gRenderer, font);
 
-                drawHealthBar(soldier, orc, gRenderer);
+                drawHealthBar(soldier, gRenderer);
 
                 if (soldier.isDeath) {
                     SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 255);
@@ -364,3 +348,4 @@ int main (int argv, char *argc[]) {
 }
 
 // Nguyễn Minh Đức  
+// tách riêng từng loại animation rồi đưa vào logic hợp lí chứ không gộp chung nữa

@@ -12,10 +12,18 @@
 #include <fstream>
 
 bool isMouseInSquare(int x, int y, Orc orc) {
-    if (x <= orc.size + orc.X and x >= orc.X - orc.size and y <= orc.Y + orc.size and y >= orc.Y - orc.size) {
+    if (x <= orc.size + (orc.X) and x >= orc.X - orc.size and y <= orc.Y + orc.size and y >= orc.Y - orc.size) {
         return true;
     }
     return false;
+}
+
+int getDistance(Soldier &soldier, Orc &orc) {
+    float dx = soldier.X - orc.X;
+    float dy = soldier.Y - orc.Y;
+
+    int distance = sqrt(dx*dx + dy*dy);
+    return distance;
 }
 
 bool isInRange(Soldier soldier, Orc orc) {
@@ -51,15 +59,6 @@ int createRandom(int a, int b) {
     return randomNumber;
 }
 
-float getDistance(int x1, int y1, int x2, int y2) {
-    float dx = x1 - x2;
-    float dy = y1 - y2;
-    float distance = sqrt (dx * dx + dy * dy);
-
-    return distance;
-
-}
-
 void movePlayer(Soldier &soldier, int x_mouse, int y_mouse, float v) {
     float dx = x_mouse - soldier.X;
     float dy = y_mouse - soldier.Y;
@@ -78,19 +77,15 @@ void movePlayer(Soldier &soldier, int x_mouse, int y_mouse, float v) {
     
 }
 
-void restartGame(Soldier &soldier, Orc &orc, int &Score) {
+void restartGame(Soldier &soldier, int &Score) {
     soldier.X = SCREEN_W / 2;
     soldier.Y = SCREEN_H / 2;
     soldier.isIdle = true;
     soldier.isDeath = false;
     soldier.isRunning = false;
-    soldier.Health = 2500;
+    soldier.Health = 7500;
 
     isSavedScore = false;
-
-    orc.X = 100;  
-    orc.Y = 100;
-    orc.isAttacking = false;
 
     Score = 0;  
 }
