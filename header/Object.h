@@ -1,6 +1,7 @@
 #ifndef OBJECT_H
 #define OBJECT_H
 #include "includeFile.h"
+#include "ReactFunc.h"
 using namespace std;
 
 class BaseObject
@@ -48,16 +49,35 @@ class Orc : public BaseObject
 
 class Arrow{
     public:
-        int x, y, v; 
+        float x,y;
+        float speed;
         float angle;
-        bool isFire = 0;
-    void move(){
-        x += v * cos(angle);
-        y += v * sin(angle);
-    }
-    bool check(){
-        return !(x < 0 || x > SCREEN_W || y < 0 || y > SCREEN_H);
-    }
+        float targetX, targetY;
+
+        Arrow(float startX, float startY, float targetX, float targetY, float s): x(startX), y(startY), speed(s) {
+            float dx = targetX - startX;
+            float dy = targetY - startY;
+            angle = atan2(dy, dx) * 180.0f / PI;
+        }
+
+        float calculateAngle(float soldierX, float soldierY, float orcX, float orcY) {
+            float dx = orcX - soldierX;
+            float dy = orcY - soldierY;
+            return atan2(dy, dx) * 180.0f / M_PI; 
+        }
+
+        void moveArrow() {
+            x = x + cos(angle * PI / 180.0f) * speed;
+            y = y + sin(angle * PI / 180.0f) * speed;
+        } 
+
+        void renderArrow(SDL_Renderer *renderer) {
+            SDL_Rect srcRect = {0, 0, 18, 7};
+            SDL_Rect desRect = {static_cast<int> (x), static_cast<int> (y), 100,100};
+
+            arrowTexture = SDL_CreateTextureFromSurface(renderer, arrow);
+            SDL_RenderCopyEx(renderer, arrowTexture, &srcRect, &desRect, calculateAngle(x, y, targetX, targetY), NULL, SDL_FLIP_NONE);
+        }
 };
 
 

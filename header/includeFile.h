@@ -1,7 +1,7 @@
 #ifndef INCLUDE_FILE_H
 #define INCLUDE_FILE_H
 
-#include<iostream>
+#include <iostream>
 #include "commonVar.h"
 #include "drawFunction.h"
 #include "initCommand.h"

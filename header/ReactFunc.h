@@ -33,6 +33,7 @@ bool isInRange(Soldier soldier, Orc orc) {
     return distance <= soldier.range;
 }
 
+
 double getAngle(Soldier soldier, Orc orc) {
     double dx = soldier.X - orc.X;
     double dy = soldier.Y - orc.Y;
