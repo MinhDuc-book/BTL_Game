@@ -192,7 +192,7 @@ int main (int argv, char *argc[]) {
                                 if (isMouseInSquare(e.button.x, e.button.y, listOfOrcs[i])) {
                                     if (isInRange(soldier, listOfOrcs[i])) {
                                         soldier.isAttacking = true;
-                                        SDL_RenderPresent(gRenderer);
+                                        
 
                                         if (soldier.doneAttack) {
                                             listOfOrcs[i].X = rand() % (SCREEN_W - listOfOrcs[i].size);
