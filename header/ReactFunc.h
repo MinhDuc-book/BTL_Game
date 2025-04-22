@@ -77,6 +77,7 @@ void movePlayer(Soldier &soldier, int x_mouse, int y_mouse, float v) {
     
 }
 
+
 void restartGame(Soldier &soldier, int &Score) {
     soldier.X = SCREEN_W / 2;
     soldier.Y = SCREEN_H / 2;
@@ -170,6 +171,11 @@ int findAverageScore(const char *path_score) {
     return round(averageScore / count);
 }
 
-
+bool isColid(Arrow &arrow, Orc &orc) {
+    if (arrow.x == orc.X and arrow.y == orc.Y) {
+       return true;
+    }
+    return false;
+}
 
 #endif

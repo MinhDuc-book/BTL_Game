@@ -100,7 +100,7 @@ SDL_Surface *spriteHurt = IMG_Load(path_soldier_hurt);
 SDL_Surface *spriteDeath = IMG_Load(path_soldier_death);
 SDL_Surface *spriteIdle = IMG_Load (path_soldier_idle);
 SDL_Surface *splitAttack = IMG_Load(path_split_attack);
-SDL_Surface *arrow = IMG_Load(path_arrow);
+SDL_Surface *arrowSurface = IMG_Load(path_arrow);
 
 SDL_Surface *spriteOrcAttack = IMG_Load(path_orc_attack);
 SDL_Surface *spriteOrcRun = IMG_Load(path_orc_run);

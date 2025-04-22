@@ -177,16 +177,6 @@ void drawLine(Soldier &soldier, Orc &orc, SDL_Renderer *renderer) {
     SDL_RenderPresent(renderer);
 } 
 
-void drawArrow(Soldier &soldier, Orc &orc, const char *path_arrow, SDL_Renderer *renderer) {
-    SDL_Rect srcRect = {0, 0, 32, 32};
-    int length = getDistance(soldier, orc);
-    SDL_Rect desRect = {soldier.X, soldier.Y, length, 50};
-    arrowTexture = SDL_CreateTextureFromSurface(renderer, arrow);
-
-    SDL_RenderCopyEx(renderer, arrowTexture, &srcRect, &desRect, getAngle(soldier, orc) + 180, NULL, SDL_FLIP_NONE);
-}
-
-//void updateArrow()
 void getScore(int score, SDL_Renderer *renderer, TTF_Font *font) {
     string scoreText = "SCORE: " + to_string(score);
     SDL_Color cream = {240, 240, 220};

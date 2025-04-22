@@ -1,5 +1,6 @@
 #ifndef OBJECT_H
 #define OBJECT_H
+
 #include "includeFile.h"
 using namespace std;
 
@@ -48,18 +49,40 @@ class Orc : public BaseObject
 
 class Arrow{
     public:
-        int x, y, v; 
+        float x,y;
+        float speed;
         float angle;
-        bool isFire = 0;
-    void move(){
-        x += v * cos(angle);
-        y += v * sin(angle);
-    }
-    bool check(){
-        return !(x < 0 || x > SCREEN_W || y < 0 || y > SCREEN_H);
-    }
-};
+        float targetX, targetY;
 
+        Arrow(float startX, float startY, float targetX, float targetY, float s): x(startX), y(startY), speed(s) {
+            float dx = targetX - startX;
+            float dy = targetY - startY;
+            angle = atan2(dy, dx) * 180.0f / PI;
+        }
+
+        void moveArrow() {
+            x = x + cos(angle * PI / 180.0f) * speed;
+            y = y + sin(angle * PI / 180.0f) * speed;
+
+            float dx = targetX - x;
+            float dy = targetY - y;
+            float distance = sqrt(dx * dx + dy * dy);
+            if (distance < 5.0f) {
+                x = targetX;
+                y = targetY;
+            }
+        } 
+
+
+        void renderArrow(SDL_Renderer *renderer) {
+             
+            SDL_Rect srcRect = {0, 0, 18, 7};
+            SDL_Rect desRect = {static_cast<int> (x), static_cast<int> (y), 20,20};
+            arrowTexture = SDL_CreateTextureFromSurface(renderer, arrowSurface);
+
+            SDL_RenderCopyEx(renderer, arrowTexture, &srcRect, &desRect, angle, NULL, SDL_FLIP_NONE);
+        }
+};
 
 
 #endif

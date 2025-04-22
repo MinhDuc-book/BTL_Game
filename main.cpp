@@ -73,6 +73,8 @@ int main (int argv, char *argc[]) {
         soldier.X = SCREEN_W/2;
         soldier.Y = SCREEN_H/2;
 
+        vector <Arrow> arrows;
+
         loadBackground(gRenderer, surfaceBackground, textureBackground, path_background);
         while (run) {
             KeyPress key = handleInput();
@@ -186,13 +188,13 @@ int main (int argv, char *argc[]) {
                             SDL_SetCursor(defaultCursor);
                             dRange = 0; 
 
-                            // orc vector
                             for (int i = 0; i < numberOfOrc; ++i) {
 
                                 if (isMouseInSquare(e.button.x, e.button.y, listOfOrcs[i])) {
                                     if (isInRange(soldier, listOfOrcs[i])) {
+                                        Arrow newArrow(soldier.X, soldier.Y, listOfOrcs[i].X, listOfOrcs[i].Y, 5.0f);
+                                        arrows.push_back(newArrow);
                                         soldier.isAttacking = true;
-                                        
 
                                         if (soldier.doneAttack) {
                                             listOfOrcs[i].X = rand() % (SCREEN_W - listOfOrcs[i].size);
@@ -201,11 +203,17 @@ int main (int argv, char *argc[]) {
                                             soldier.Level += 0.2f;
                                             soldier.v += 0.00001f;
                                         }
+                                  
                                         
                                     }
                                 }
+
+                                
+
                             }
-                        } 
+                        }
+
+                        
                         
                         if (e.button.button == SDL_BUTTON_RIGHT) {
                             if (soldier.isAttacking) {
@@ -224,6 +232,8 @@ int main (int argv, char *argc[]) {
                         }
                     }
 
+
+
                     if (e.type == SDL_KEYDOWN) {
                         if (e.key.keysym.sym == SDLK_ESCAPE) {
                             run = true;
@@ -240,6 +250,8 @@ int main (int argv, char *argc[]) {
                         saveScore(Score, path_score);
                     }
                 }
+
+
                
                 movePlayer(soldier, x_end, y_end, soldier.v);
 
@@ -320,6 +332,8 @@ int main (int argv, char *argc[]) {
                     drawHealthOrc(orc, gRenderer);
                     animationOrc(orc, soldier);
                 }
+
+                
                 
                 getScore(Score, gRenderer, font);
 
@@ -332,6 +346,12 @@ int main (int argv, char *argc[]) {
                     
                 }
                 
+                    
+                for (auto &arrow : arrows) {
+                        arrow.moveArrow();
+                        arrow.renderArrow(gRenderer);
+                }
+                                    
                 SDL_RenderPresent(gRenderer);
             }
 
