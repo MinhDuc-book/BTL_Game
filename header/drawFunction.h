@@ -149,7 +149,7 @@ void drawHealthBar (Soldier &soldier, SDL_Renderer *renderer) {
     SDL_RenderCopy(renderer, healthBarTexture, &srcRect, &desRect);
 
     SDL_Color red = {168, 0, 0};
-    SDL_Rect healthBar = {21, 20, (soldier.Health / 36 - 5) >= 0 ? (soldier.Health / 36 - 5) * 1 : 0, 15};
+    SDL_Rect healthBar = {21, 20, (soldier.Health / 12 - 5) >= 0 ? (soldier.Health / 12 - 5) * 1 : 0, 15};
     SDL_SetRenderDrawColor(renderer, red.r, red.g, red.b, 255);
     SDL_RenderFillRect(renderer, &healthBar);
     
@@ -523,6 +523,7 @@ void drawOrcDeath(SDL_Texture *texture, Orc &orc, SDL_Renderer *renderer) {
     }
 
     SDL_RenderCopyEx(renderer, texture, &srcRect, &desRect, 0, nullptr, orc.flip);
+    SDL_RenderPresent(renderer);
 }
 
 void animationOrc (Orc &orc, Soldier soldier) {
@@ -540,11 +541,7 @@ void animationOrc (Orc &orc, Soldier soldier) {
         idleOrcTexture = SDL_CreateTextureFromSurface(gRenderer, spriteOrcIdle);
         currentOrcTexture = idleOrcTexture;
         drawOrcIdle(currentOrcTexture, orc, gRenderer);
-    } else if (orc.isDeath) {
-        deathOrcTexture = SDL_CreateTextureFromSurface(gRenderer, spriteOrcDeath);
-        currentOrcTexture = deathOrcTexture;
-        drawOrcDeath(currentOrcTexture, orc, gRenderer);
-    }
+    } 
     
 }
 

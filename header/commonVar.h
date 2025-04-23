@@ -108,29 +108,29 @@ SDL_Surface *spriteOrcHurt = IMG_Load(path_orc_hurt);
 SDL_Surface *spriteOrcDeath = IMG_Load(path_orc_death);
 SDL_Surface *spriteOrcIdle = IMG_Load (path_orc_idle);
 
-SDL_Cursor *attackCursor;
-SDL_Cursor *defaultCursor;
-SDL_Cursor *altCursor;
-SDL_Cursor *handWritingCursor;
-SDL_Cursor *saveDefaultCursor;
+SDL_Cursor *attackCursor = NULL;
+SDL_Cursor *defaultCursor = NULL;
+SDL_Cursor *altCursor = NULL;
+SDL_Cursor *handWritingCursor = NULL;
+SDL_Cursor *saveDefaultCursor = NULL;
 
-SDL_Texture *gTexture;
+SDL_Texture *gTexture = NULL;
 
-SDL_Texture *currentTexture;
-SDL_Texture *runTexture;
-SDL_Texture *hurtTexture;
-SDL_Texture *deathTexture;
-SDL_Texture *attackTexture;
-SDL_Texture *idleTexture;
-SDL_Texture *splitTexture;
-SDL_Texture *arrowTexture;
+SDL_Texture *currentTexture = NULL;
+SDL_Texture *runTexture = NULL;
+SDL_Texture *hurtTexture = NULL;
+SDL_Texture *deathTexture = NULL;
+SDL_Texture *attackTexture = NULL;
+SDL_Texture *idleTexture = NULL;
+SDL_Texture *splitTexture = NULL;
+SDL_Texture *arrowTexture = NULL;
 
 
-SDL_Texture *currentOrcTexture;
-SDL_Texture *runOrcTexture;
-SDL_Texture *hurtOrcTexture;
-SDL_Texture *deathOrcTexture;
-SDL_Texture *attackOrcTexture;
-SDL_Texture *idleOrcTexture;
+SDL_Texture *currentOrcTexture = NULL;
+SDL_Texture *runOrcTexture = NULL;
+SDL_Texture *hurtOrcTexture = NULL;
+SDL_Texture *deathOrcTexture = NULL;
+SDL_Texture *attackOrcTexture = NULL;
+SDL_Texture *idleOrcTexture = NULL;
 
 #endif

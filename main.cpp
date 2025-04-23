@@ -68,7 +68,7 @@ int main (int argv, char *argc[]) {
         bool orcInit = false;
 
         soldier.size = 75;
-        soldier.Health = 7500;
+        soldier.Health = 2500;
         soldier.Level = 1;
         soldier.X = SCREEN_W/2;
         soldier.Y = SCREEN_H/2;
@@ -196,15 +196,6 @@ int main (int argv, char *argc[]) {
                                         arrows.push_back(newArrow);
                                         soldier.isAttacking = true;
 
-                                        if (soldier.doneAttack) {
-                                            listOfOrcs[i].X = rand() % (SCREEN_W - listOfOrcs[i].size);
-                                            listOfOrcs[i].Y = 50 + rand() % (SCREEN_H - listOfOrcs[i].size - 20);
-                                            Score += 5;
-                                            soldier.Level += 0.2f;
-                                            soldier.v += 0.00001f;
-                                        }
-                                  
-                                        
                                     }
                                 }
 
@@ -232,8 +223,6 @@ int main (int argv, char *argc[]) {
                         }
                     }
 
-
-
                     if (e.type == SDL_KEYDOWN) {
                         if (e.key.keysym.sym == SDLK_ESCAPE) {
                             run = true;
@@ -250,8 +239,6 @@ int main (int argv, char *argc[]) {
                         saveScore(Score, path_score);
                     }
                 }
-
-
                
                 movePlayer(soldier, x_end, y_end, soldier.v);
 
@@ -324,6 +311,39 @@ int main (int argv, char *argc[]) {
                     }
                 }
 
+                for (auto it = arrows.begin(); it != arrows.end();) {
+                    it->moveArrow();
+                    it->renderArrow(gRenderer);
+                
+                    bool arrowHit = false;
+                    for (int i = 0; i < numberOfOrc; ++i) {
+                        if (it->checkColid(listOfOrcs[i].X, listOfOrcs[i].Y, listOfOrcs[i].size)) {
+                            listOfOrcs[i].isDeath = true;
+                            listOfOrcs[i].isIdle = false;
+                            listOfOrcs[i].isRunning = false;
+
+                            deathOrcTexture = SDL_CreateTextureFromSurface(gRenderer, spriteOrcDeath);
+                            currentOrcTexture = deathOrcTexture;
+                            drawOrcDeath(currentOrcTexture, listOfOrcs[i], gRenderer);
+                
+                            listOfOrcs[i].X = rand() % (SCREEN_W - listOfOrcs[i].size);
+                            listOfOrcs[i].Y = 50 + rand() % (SCREEN_H - listOfOrcs[i].size - 20);
+                            Score += 5;
+                            soldier.Level += 0.2f;
+                            soldier.v += 0.00001f;
+                
+                            arrowHit = true;
+                            break;
+                        }
+                    }
+                
+                    if (arrowHit) {
+                        it = arrows.erase(it);
+                    } else {
+                        ++it;
+                    }
+                }
+
                 animationSoldier(soldier);
                 
 
@@ -332,8 +352,6 @@ int main (int argv, char *argc[]) {
                     drawHealthOrc(orc, gRenderer);
                     animationOrc(orc, soldier);
                 }
-
-                
                 
                 getScore(Score, gRenderer, font);
 
@@ -347,10 +365,7 @@ int main (int argv, char *argc[]) {
                 }
                 
                     
-                for (auto &arrow : arrows) {
-                        arrow.moveArrow();
-                        arrow.renderArrow(gRenderer);
-                }
+
                                     
                 SDL_RenderPresent(gRenderer);
             }

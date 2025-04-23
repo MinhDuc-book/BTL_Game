@@ -38,12 +38,12 @@ class Soldier : public BaseObject
 class Orc : public BaseObject
 {
     public:
-        float v = 0;
+        float v = 1;
         int size;
         float range = 10.0;
         int currentFrame = 0;
         Uint32 lastFrameTime = 0;
-        const Uint32 frameDelay = 75; // ms
+        Uint32 frameDelay = 75; // ms
 
 };
 
@@ -71,8 +71,15 @@ class Arrow{
                 x = targetX;
                 y = targetY;
             }
-        } 
+        }
 
+        bool checkColid(int orcX, int orcY, int orcsize) {
+            float dx = x - orcX;
+            float dy = y - orcY;
+            float distance = sqrt(dx * dx + dy * dy);
+
+            return distance < orcsize / 2;
+        }
 
         void renderArrow(SDL_Renderer *renderer) {
              

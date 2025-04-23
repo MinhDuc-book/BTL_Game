@@ -171,11 +171,4 @@ int findAverageScore(const char *path_score) {
     return round(averageScore / count);
 }
 
-bool isColid(Arrow &arrow, Orc &orc) {
-    if (arrow.x == orc.X and arrow.y == orc.Y) {
-       return true;
-    }
-    return false;
-}
-
 #endif
