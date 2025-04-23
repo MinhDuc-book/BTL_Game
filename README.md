@@ -28,7 +28,7 @@ Tôi tên là Nguyễn Minh Đức, sinh ra và lớn lên tại Hà Nội. Hi�
 - Đợi hệ thống tự chạy rồi bấm Enter, Y
 
 **2. Cài đặt CMake:**
-- Tương tư với cài đặt trình biên dịch nhưng với câu lệnh: ```pacman -S mingw-w64-ucrt-x86_64-cmake```
+- Tương tự với cài đặt trình biên dịch nhưng với câu lệnh: ```pacman -S mingw-w64-ucrt-x86_64-cmake```
 
 **3. Cài đặt SDL2:**
 Sử dụng các câu lệnh sau:
@@ -42,6 +42,8 @@ Sử dụng các câu lệnh sau:
     + Âm thanh (phát lại các âm thanh từ tệp): ```mingw-w64-ucrt-x86_64-SDL2_sound```
 
     + Font chữ: ```mingw-w64-ucrt-x86_64-SDL2_ttf```
+
+- Chi tiết hơn: [SDL2 cho VSCode](https://phdoanh.github.io/doanhanma/materials/sdl2-for-vscode).
      
 **4. Chạy chương trình:**
 - Ctrl + Shift + ` để mở Terminal trên VSCode
