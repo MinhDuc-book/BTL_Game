@@ -38,7 +38,8 @@ class Soldier : public BaseObject
 class Orc : public BaseObject
 {
     public:
-        float v = 1;
+        float v = 0;
+        bool doneDeath = false;
         int size;
         float range = 10.0;
         int currentFrame = 0;
@@ -84,7 +85,7 @@ class Arrow{
         void renderArrow(SDL_Renderer *renderer) {
              
             SDL_Rect srcRect = {0, 0, 18, 7};
-            SDL_Rect desRect = {static_cast<int> (x), static_cast<int> (y), 20,20};
+            SDL_Rect desRect = {static_cast<int> (x), static_cast<int> (y), 30, 30};
             arrowTexture = SDL_CreateTextureFromSurface(renderer, arrowSurface);
 
             SDL_RenderCopyEx(renderer, arrowTexture, &srcRect, &desRect, angle, NULL, SDL_FLIP_NONE);

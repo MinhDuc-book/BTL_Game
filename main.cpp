@@ -38,25 +38,6 @@ KeyPress handleInput() {
     return KEY_PRESS_DEFAULT;
 }
 
-
-void close() 
-{
-    SDL_DestroyTexture(idleOrcTexture);
-    SDL_DestroyTexture(idleTexture);
-    SDL_DestroyTexture(runOrcTexture);
-    SDL_DestroyTexture(runTexture);
-    SDL_DestroyTexture(attackOrcTexture);
-    SDL_DestroyTexture(attackTexture);
-    SDL_DestroyTexture(hurtOrcTexture);
-    SDL_DestroyTexture(hurtTexture);
-
-    SDL_FreeCursor(attackCursor);
-    SDL_DestroyRenderer(gRenderer);
-    gRenderer = NULL;
-    SDL_DestroyWindow(gWindow);
-    SDL_Quit();
-}
-
 int main (int argv, char *argc[]) {
     if (init() == false) {
         cout << "Cannot initialized window" << endl;
@@ -76,6 +57,8 @@ int main (int argv, char *argc[]) {
         vector <Arrow> arrows;
 
         loadBackground(gRenderer, surfaceBackground, textureBackground, path_background);
+        loadTextureSoldier(soldier, gRenderer);
+
         while (run) {
             KeyPress key = handleInput();
             switch(key) {
@@ -90,7 +73,9 @@ int main (int argv, char *argc[]) {
                         gameStart = true;
                         run = false;
                     } else if (option == 1) {
-                        restartGame(soldier, Score);
+                        for (auto &orc : listOfOrcs) {
+                            restartGame(soldier, orc, Score);
+                        }
                         gameStart = true;
                     } else if (option == 2) {
                         bool inSetting = true;
@@ -124,7 +109,6 @@ int main (int argv, char *argc[]) {
                                             inSetting = false;
                                             break;
 
-                                        
                                     }
                                     break;
                                 case KEY_PRESS_ESCAPE:
@@ -154,10 +138,13 @@ int main (int argv, char *argc[]) {
                     } else {
                         run = false;
                     }
+
                     break;
+
                 case KEY_PRESS_ESCAPE:
                     run = false;
                     break;
+
                 default:
                     break;
                 
@@ -171,11 +158,16 @@ int main (int argv, char *argc[]) {
                 for (int i = 0; i < numberOfOrc; ++i) {
                     Orc newOrc = {500, 1, createRandom(0,SCREEN_W), createRandom(50,SCREEN_H)};
                     newOrc.size = 75;
+                    newOrc.Health = 100;
                     newOrc.flip = SDL_FLIP_NONE;
                     newOrc.isRunning = true;
                     listOfOrcs.push_back(newOrc);
                 }
                 orcInit = true;
+            }
+
+            for (int i = 0; i < numberOfOrc; ++i) {
+                loadTextureOrc(listOfOrcs[i], gRenderer);
             }
 
             while (gameStart){
@@ -196,15 +188,14 @@ int main (int argv, char *argc[]) {
                                         arrows.push_back(newArrow);
                                         soldier.isAttacking = true;
 
+                                        if (soldier.Level >= 5) {
+                                            listOfOrcs[i].v += 0.1f;
+                                        }
                                     }
                                 }
 
-                                
-
                             }
                         }
-
-                        
                         
                         if (e.button.button == SDL_BUTTON_RIGHT) {
                             if (soldier.isAttacking) {
@@ -213,13 +204,12 @@ int main (int argv, char *argc[]) {
                             
                             x_end = e.button.x;
                             y_end = e.button.y;
+                            
                             if (x_end - soldier.X >= 0) {
                                 soldier.flip = SDL_FLIP_NONE;
                             } else {
                                 soldier.flip = SDL_FLIP_HORIZONTAL;
                             }
-
-                            
                         }
                     }
 
@@ -269,8 +259,6 @@ int main (int argv, char *argc[]) {
                     }
                 }
 
-
-                //orc vector
                 for (auto &orc : listOfOrcs) {
 
                     if (orc.X != soldier.X || orc.Y != soldier.Y) {
@@ -289,11 +277,8 @@ int main (int argv, char *argc[]) {
                         orc.isRunning = true;
                         orc.isIdle = false;
                     }
-                        
-                    
                 }
                 
-                //orc vector
                 for (auto &orc : listOfOrcs) {
                     if (soldier.Health <= 0) {
                         soldier.isDeath = true;
@@ -311,27 +296,26 @@ int main (int argv, char *argc[]) {
                     }
                 }
 
+                animationSoldier(soldier, gRenderer);
+
                 for (auto it = arrows.begin(); it != arrows.end();) {
                     it->moveArrow();
                     it->renderArrow(gRenderer);
                 
                     bool arrowHit = false;
                     for (int i = 0; i < numberOfOrc; ++i) {
+                        
                         if (it->checkColid(listOfOrcs[i].X, listOfOrcs[i].Y, listOfOrcs[i].size)) {
                             listOfOrcs[i].isDeath = true;
                             listOfOrcs[i].isIdle = false;
                             listOfOrcs[i].isRunning = false;
-
-                            deathOrcTexture = SDL_CreateTextureFromSurface(gRenderer, spriteOrcDeath);
-                            currentOrcTexture = deathOrcTexture;
-                            drawOrcDeath(currentOrcTexture, listOfOrcs[i], gRenderer);
                 
                             listOfOrcs[i].X = rand() % (SCREEN_W - listOfOrcs[i].size);
                             listOfOrcs[i].Y = 50 + rand() % (SCREEN_H - listOfOrcs[i].size - 20);
                             Score += 5;
                             soldier.Level += 0.2f;
                             soldier.v += 0.00001f;
-                
+
                             arrowHit = true;
                             break;
                         }
@@ -343,11 +327,7 @@ int main (int argv, char *argc[]) {
                         ++it;
                     }
                 }
-
-                animationSoldier(soldier);
                 
-
-                //orc vector
                 for (auto &orc : listOfOrcs) {
                     drawHealthOrc(orc, gRenderer);
                     animationOrc(orc, soldier);
@@ -361,15 +341,10 @@ int main (int argv, char *argc[]) {
                     SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 255);
                     SDL_RenderClear(gRenderer);
                     GameOver(font, gRenderer, game_over);
-                    
                 }
-                
-                    
 
-                                    
                 SDL_RenderPresent(gRenderer);
             }
-
 
             SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 255);
             SDL_RenderClear(gRenderer);
@@ -382,4 +357,3 @@ int main (int argv, char *argc[]) {
 }
 
 // Nguyễn Minh Đức  
-// tách riêng từng loại animation rồi đưa vào logic hợp lí chứ không gộp chung nữa

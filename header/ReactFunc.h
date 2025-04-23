@@ -78,13 +78,16 @@ void movePlayer(Soldier &soldier, int x_mouse, int y_mouse, float v) {
 }
 
 
-void restartGame(Soldier &soldier, int &Score) {
+void restartGame(Soldier &soldier, Orc &orc, int &Score) {
     soldier.X = SCREEN_W / 2;
     soldier.Y = SCREEN_H / 2;
     soldier.isIdle = true;
     soldier.isDeath = false;
     soldier.isRunning = false;
-    soldier.Health = 7500;
+    soldier.Health = 2500;
+
+    orc.X = 100;
+    orc.Y = 100;
 
     isSavedScore = false;
 
@@ -169,6 +172,49 @@ int findAverageScore(const char *path_score) {
         }
     }
     return round(averageScore / count);
+}
+
+void close() 
+{
+    SDL_DestroyTexture(hurtTexture);
+    SDL_DestroyTexture(idleTexture);
+    SDL_DestroyTexture(runOrcTexture);
+    SDL_DestroyTexture(runTexture);
+    SDL_DestroyTexture(attackTexture);
+    SDL_DestroyTexture(splitTexture);
+
+    SDL_DestroyTexture(attackOrcTexture);
+    SDL_DestroyTexture(idleOrcTexture);
+    SDL_DestroyTexture(hurtOrcTexture);
+    SDL_DestroyTexture(deathOrcTexture);
+    SDL_DestroyTexture(arrowTexture);
+
+    SDL_FreeCursor(attackCursor);
+    SDL_FreeCursor(defaultCursor);
+    SDL_FreeCursor(altCursor);
+    SDL_FreeCursor(handWritingCursor);
+    SDL_FreeCursor(saveDefaultCursor);
+
+    SDL_FreeSurface(spriteOrcAttack);
+    SDL_FreeSurface(spriteOrcRun);
+    SDL_FreeSurface(spriteOrcHurt);
+    SDL_FreeSurface(spriteOrcDeath);
+    SDL_FreeSurface(spriteOrcIdle);
+
+    SDL_FreeSurface(spriteAttack);
+    SDL_FreeSurface(spriteAttack1);
+    SDL_FreeSurface(spriteAttack2);
+    SDL_FreeSurface(spriteRun);
+    SDL_FreeSurface(spriteHurt);
+    SDL_FreeSurface(spriteDeath);
+    SDL_FreeSurface(spriteIdle);
+    SDL_FreeSurface(splitAttack);
+    SDL_FreeSurface(arrowSurface);
+
+    SDL_DestroyRenderer(gRenderer);
+    gRenderer = NULL;
+    SDL_DestroyWindow(gWindow);
+    SDL_Quit();
 }
 
 #endif

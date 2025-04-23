@@ -81,7 +81,7 @@ const char *path_arrow = "Characters/Tiny RPG Character Asset Pack v1.03 -Free S
 const char *path_orc_idle = "Characters/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Orc/Orc/Orc-Idle.png";
 const char *path_orc_run = "Characters/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Orc/Orc/Orc-Walk.png";
 const char *path_orc_attack = "Characters/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Orc/Orc/Orc-Attack02.png";
-const char *path_orc_death = "Characters/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Orc/Orc/Orc-Death.png";
+const char *path_orc_death = "Characters/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Orc/Orc/Orc-Death-Extended.png";
 const char *path_orc_hurt= "Characters/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Orc/Orc/Orc-Hurt.png";
 
 const char *path_background = "Background/LienMinhPixel1536.png";
@@ -90,7 +90,7 @@ SDL_Texture *textureBackground;
 
 const char *path_blind_box = "Icon/blindBox.png";
 SDL_Surface *blindBoxSurface = IMG_Load(path_blind_box);
-SDL_Texture *blindBoxTexture;
+SDL_Texture *blindBoxTexture = NULL;
 
 SDL_Surface *spriteAttack = IMG_Load(path_soldier_attack);
 SDL_Surface *spriteAttack2 = IMG_Load(path_soldier_attack2);

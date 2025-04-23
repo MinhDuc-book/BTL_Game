@@ -512,9 +512,10 @@ void drawOrcDeath(SDL_Texture *texture, Orc &orc, SDL_Renderer *renderer) {
             orc.currentFrame++;
             orc.lastFrameTime = currentTime;
 
-            if (orc.currentFrame >= 4) { 
+            if (orc.currentFrame >= 12) { 
                 orc.currentFrame = 0;
                 orc.isDeath = false; 
+                orc.doneDeath = true;
             }
         }
         srcRect.x = orc.currentFrame * 100;
@@ -528,47 +529,57 @@ void drawOrcDeath(SDL_Texture *texture, Orc &orc, SDL_Renderer *renderer) {
 
 void animationOrc (Orc &orc, Soldier soldier) {
     if (orc.isAttacking) {
-        attackOrcTexture = SDL_CreateTextureFromSurface(gRenderer, spriteOrcAttack);
         currentOrcTexture = attackOrcTexture;
         drawOrcAttacking(currentOrcTexture, orc, soldier, gRenderer);
     }
     else if (orc.isRunning) {
-        runOrcTexture = SDL_CreateTextureFromSurface(gRenderer, spriteOrcRun);
         currentOrcTexture = runOrcTexture;
         drawOrcRunning(currentOrcTexture, orc, gRenderer);
     }
     else if(orc.isIdle) {
-        idleOrcTexture = SDL_CreateTextureFromSurface(gRenderer, spriteOrcIdle);
         currentOrcTexture = idleOrcTexture;
         drawOrcIdle(currentOrcTexture, orc, gRenderer);
     } 
     
+    
 }
 
-void animationSoldier(Soldier &soldier) {
+void animationSoldier(Soldier &soldier, SDL_Renderer *renderer) {
     if (soldier.isHurt) {
-        hurtTexture = SDL_CreateTextureFromSurface(gRenderer, spriteHurt);
         currentTexture = hurtTexture;
-        drawHurting(currentTexture, soldier, gRenderer);
+        drawHurting(currentTexture, soldier, renderer);
     }
     else if (soldier.isAttacking) {
-        attackTexture = SDL_CreateTextureFromSurface(gRenderer, spriteAttack);
         currentTexture = attackTexture;
-        drawAttacking(currentTexture, soldier, gRenderer);
+        drawAttacking(currentTexture, soldier, renderer);
     }
 
     else if (soldier.isRunning) {
-        runTexture = SDL_CreateTextureFromSurface(gRenderer, spriteRun);
         currentTexture = runTexture;
-        drawRunning(currentTexture,soldier,gRenderer);
+        drawRunning(currentTexture,soldier,renderer);
     }
 
     else if (soldier.isIdle) {
-        idleTexture = SDL_CreateTextureFromSurface(gRenderer, spriteIdle);
         currentTexture = idleTexture;
-        drawIdle(currentTexture,soldier,gRenderer);
+        drawIdle(currentTexture,soldier,renderer);
     }
     
+}
+
+void loadTextureSoldier (Soldier &soldier, SDL_Renderer *renderer) {
+    hurtTexture = SDL_CreateTextureFromSurface(renderer, spriteHurt);
+    attackTexture = SDL_CreateTextureFromSurface(gRenderer, spriteAttack);
+    runTexture = SDL_CreateTextureFromSurface(renderer, spriteRun);
+    idleTexture = SDL_CreateTextureFromSurface(renderer, spriteIdle);
+    deathTexture = SDL_CreateTextureFromSurface(renderer, spriteDeath);
+}
+
+void loadTextureOrc(Orc &orc, SDL_Renderer *renderer) {
+    hurtOrcTexture = SDL_CreateTextureFromSurface(renderer, spriteOrcHurt);
+    attackOrcTexture = SDL_CreateTextureFromSurface(renderer, spriteOrcAttack);
+    runOrcTexture = SDL_CreateTextureFromSurface(renderer, spriteOrcRun);
+    idleOrcTexture = SDL_CreateTextureFromSurface(renderer, spriteOrcIdle);
+    deathOrcTexture = SDL_CreateTextureFromSurface(renderer, spriteOrcDeath);
 }
 
 #endif
