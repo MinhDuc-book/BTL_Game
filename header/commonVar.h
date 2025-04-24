@@ -59,7 +59,7 @@ int x_mouse = 0;
 int y_mouse = 0;
 int option = 0;
 int mouseOption = DEFAULT;
-int const PI = 3.14159;
+int const PI = M_PI;
 int x_end = SCREEN_W / 2, y_end = SCREEN_H / 2;
 int Score = 0;
 bool run = true;

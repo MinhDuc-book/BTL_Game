@@ -126,11 +126,11 @@ void drawScoreOption(SDL_Renderer *renderer, TTF_Font *font) {
     for (int i = 0; i < 3; ++i) {
         SDL_Surface *surfaceMessage = TTF_RenderText_Solid(font, aboutScore[i], cream);
         SDL_Texture *textureMessage = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
-        SDL_Rect rectMessage = {SCREEN_W/2 - 200, SCREEN_H/2 - 100 + i*80, 300, 50};
+        SDL_Rect rectMessage = {SCREEN_W/2 - 400, SCREEN_H/2 - 100 + i*80, 300, 50};
 
         SDL_Surface *surfaceScore = TTF_RenderText_Solid(font, Score[i], cream);
         SDL_Texture *textureScore = SDL_CreateTextureFromSurface(renderer, surfaceScore);
-        SDL_Rect rectScore = {SCREEN_W/2 + 150, SCREEN_H/2 - 100 + i*80, 50, 50};
+        SDL_Rect rectScore = {SCREEN_W/2 - 100, SCREEN_H/2 - 100 + i*80, 50, 50};
 
         SDL_RenderCopy(renderer, textureScore, NULL, &rectScore);
         SDL_FreeSurface(surfaceScore);
@@ -140,6 +140,84 @@ void drawScoreOption(SDL_Renderer *renderer, TTF_Font *font) {
         SDL_FreeSurface(surfaceMessage);
         SDL_DestroyTexture(textureMessage);
     }
+}
+
+void drawGraph(SDL_Renderer *renderer, TTF_Font *font) {
+    float startAngle = 0;
+    int radius = 150;
+
+    float amountOfFile = amountInFile(path_score);
+    float less50Percent = (float)percentLess50(path_score) / amountOfFile;
+    float more50Percent = (float)percentMore50Less100(path_score) / amountOfFile;
+    float more100Percent = (float)percentMore100(path_score) / amountOfFile;
+
+    SDL_Point center = {800, 350};
+
+    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+    float endAngle = startAngle + less50Percent * 2 * M_PI;
+    for (float i = startAngle; i < endAngle; i += 0.001) {
+        for (float r = 0; r <= radius; r++) {
+            int x = center.x + r * cos(i);
+            int y = center.y + r * sin(i);
+            SDL_RenderDrawPoint(renderer, x, y);
+        }
+    }
+
+    SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
+    startAngle = endAngle;
+    endAngle = startAngle + more50Percent * 2 * M_PI;
+    for (float i = startAngle; i < endAngle; i += 0.001) {
+        for (float r = 0; r <= radius; r++) {
+            int x = center.x + r * cos(i);
+            int y = center.y + r * sin(i);
+            SDL_RenderDrawPoint(renderer, x, y);
+        }
+    }
+
+    SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
+    startAngle = endAngle;
+    endAngle = startAngle + more100Percent * 2 * M_PI;
+    for (float i = startAngle; i < endAngle; i += 0.001) {
+        for (float r = 0; r <= radius; r++) {
+            int x = center.x + r * cos(i);
+            int y = center.y + r * sin(i);
+            SDL_RenderDrawPoint(renderer, x, y);
+        }
+    }
+
+    const char *details[] = {
+        "Less than 50",
+        "More than 50, less than 100",
+        "More than 100"
+    };
+    
+    SDL_Color white = {255,255,255,255};
+    for (int i = 0; i < 3; ++i) {
+        SDL_Surface *detailsSurface = TTF_RenderText_Solid(font, details[i], white);
+        SDL_Texture *detailsTexture = SDL_CreateTextureFromSurface(renderer, detailsSurface);
+        SDL_Rect detailsRect = {750, i * 50 + 550, 200, 20};
+        SDL_RenderCopy(renderer, detailsTexture, NULL, &detailsRect);
+        SDL_FreeSurface(detailsSurface);
+        SDL_DestroyTexture(detailsTexture);
+
+        SDL_Rect Rect = {700, i * 50 + 550, 20, 20};
+        if (i == 0) {
+            SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+            SDL_RenderFillRect(renderer, &Rect);
+        }
+
+        if ( i == 1) {
+            SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
+            SDL_RenderFillRect(renderer, &Rect);
+        }
+
+        if (i == 2) {
+            SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
+            SDL_RenderFillRect(renderer, &Rect);
+        }
+    }
+
+    SDL_SetRenderDrawColor(gRenderer,0,0,0,255);
 }
 
 void drawHealthBar (Soldier &soldier, SDL_Renderer *renderer) {

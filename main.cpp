@@ -132,6 +132,7 @@ int main (int argv, char *argc[]) {
                                 inScore = false;
                             }
                             SDL_RenderClear(gRenderer);
+                            drawGraph(gRenderer, font);
                             drawScoreOption(gRenderer, font);
                             SDL_RenderPresent(gRenderer);
                         }

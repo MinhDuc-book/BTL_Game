@@ -139,6 +139,7 @@ int findHighestScore(const char *path_score) {
             }
         }
     }
+    inFile.close();
     return highestScore;
 }
 
@@ -155,6 +156,7 @@ int findLowestScore(const char *path_score) {
             }
         }
     }
+    inFile.close();
     return lowestScore;
 }
 
@@ -171,7 +173,75 @@ int findAverageScore(const char *path_score) {
             averageScore = averageScore + numberInFile;
         }
     }
+    inFile.close();
     return round(averageScore / count);
+}
+
+int amountInFile(const char *path_score) {
+    int count = 0;
+    ifstream inFile(path_score);
+    if (inFile.is_open() == false) {
+        cout << "Cannot open file" << endl;
+        
+    } else {
+        int numberInFile;
+        while (inFile >> numberInFile) {
+            ++count;
+        }
+    }
+    inFile.close();
+    return count;
+}
+
+int percentLess50(const char *path_score) {
+    int count = 0;
+    ifstream inFile(path_score);
+    if (inFile.is_open() == false) {
+        cout << "Cannot open file" << endl;
+    } else {
+        int numberInFile;
+        while (inFile >> numberInFile) {
+            if (numberInFile <= 50) {
+                ++count;
+            }
+        }
+    }
+    inFile.close();
+    return count;
+}
+
+int percentMore50Less100(const char *path_score) {
+    int count = 0;
+    ifstream inFile(path_score);
+    if (inFile.is_open() == false) {
+        cout << "Cannot open file" << endl;
+    } else {
+        int numberInFile;
+        while (inFile >> numberInFile) {
+            if (numberInFile > 50 and numberInFile < 100) {
+                ++count;
+            }
+        }
+    }
+    inFile.close();
+    return count;
+}
+
+int percentMore100(const char *path_score) {
+    int count = 0;
+    ifstream inFile(path_score);
+    if (inFile.is_open() == false) {
+        cout << "Cannot open file" << endl;
+    } else {
+        int numberInFile;
+        while (inFile >> numberInFile) {
+            if (numberInFile >= 100) {
+                ++count;
+            }
+        }
+    }
+    inFile.close();
+    return count;
 }
 
 void close() 
