@@ -11,6 +11,7 @@
 #include <iomanip>
 #include <SDL2/SDL.h>
 #include <fstream>
+#include <SDL2/SDL_mixer.h>
 using namespace std;
 
 #endif

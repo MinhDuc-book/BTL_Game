@@ -57,7 +57,9 @@ int main (int argv, char *argc[]) {
         vector <Arrow> arrows;
 
         loadBackground(gRenderer, surfaceBackground, textureBackground, path_background);
-        loadTextureSoldier(soldier, gRenderer);
+        loadTextureSoldier(gRenderer);
+        loadTextureOrc(gRenderer);
+        loadSound();
 
         while (run) {
             KeyPress key = handleInput();
@@ -165,11 +167,7 @@ int main (int argv, char *argc[]) {
                     listOfOrcs.push_back(newOrc);
                 }
                 orcInit = true;
-            }
-
-            for (int i = 0; i < numberOfOrc; ++i) {
-                loadTextureOrc(listOfOrcs[i], gRenderer);
-            }
+            }            
 
             while (gameStart){
                 soldier.isIdle = true;
@@ -188,7 +186,6 @@ int main (int argv, char *argc[]) {
                                         Arrow newArrow(soldier.X, soldier.Y, listOfOrcs[i].X, listOfOrcs[i].Y, 5.0f);
                                         arrows.push_back(newArrow);
                                         soldier.isAttacking = true;
-
                                         if (soldier.Level >= 5) {
                                             listOfOrcs[i].v += 0.1f;
                                         }
@@ -241,6 +238,14 @@ int main (int argv, char *argc[]) {
                     drawRange(soldier);
                 }
 
+                if (Score >= 100) {
+                    static bool play = true;
+                    if (play) {
+                        Mix_PlayChannel(-1, moreThan100Sound, 0);
+                    }
+                    play = false;
+                }
+
                 //
                 if (x_end == soldier.X and y_end == soldier.Y) {
                     soldier.isRunning = false;
@@ -273,6 +278,10 @@ int main (int argv, char *argc[]) {
                         orc.isIdle = false;
                         soldier.isHurt = true;
                         soldier.Health = soldier.Health - 10;
+                        Mix_PlayChannel(-1, hurtSound, 0);
+                        if (soldier.Health <= 0) {
+                            hurtSound = NULL;
+                        }
                     } else {
                         orc.isAttacking = false;
                         orc.isRunning = true;
@@ -310,13 +319,13 @@ int main (int argv, char *argc[]) {
                             listOfOrcs[i].isDeath = true;
                             listOfOrcs[i].isIdle = false;
                             listOfOrcs[i].isRunning = false;
-                
+                            
                             listOfOrcs[i].X = rand() % (SCREEN_W - listOfOrcs[i].size);
                             listOfOrcs[i].Y = 50 + rand() % (SCREEN_H - listOfOrcs[i].size - 20);
                             Score += 5;
                             soldier.Level += 0.2f;
                             soldier.v += 0.00001f;
-
+                            
                             arrowHit = true;
                             break;
                         }
@@ -324,6 +333,7 @@ int main (int argv, char *argc[]) {
                 
                     if (arrowHit) {
                         it = arrows.erase(it);
+
                     } else {
                         ++it;
                     }

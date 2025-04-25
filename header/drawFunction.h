@@ -336,7 +336,7 @@ void drawAttacking(SDL_Texture *texture, Soldier& soldier, SDL_Renderer *rendere
             soldier.doneAttack = true;
             soldier.isAttacking = false;
             soldier.currentFrame = 0;
-
+            Mix_PlayChannel(-1, attackDoneSound, 0);
         }
     }
     srcRect.x = soldier.currentFrame * 100;
@@ -584,7 +584,7 @@ void drawOrcDeath(SDL_Texture *texture, Orc &orc, SDL_Renderer *renderer) {
     srcRect.h = 100;
     srcRect.y = 0;
 
-    if (orc.isDeath) {
+    
         Uint32 currentTime = SDL_GetTicks();
         if (currentTime - orc.lastFrameTime >= orc.frameDelay) {
             orc.currentFrame++;
@@ -592,17 +592,13 @@ void drawOrcDeath(SDL_Texture *texture, Orc &orc, SDL_Renderer *renderer) {
 
             if (orc.currentFrame >= 12) { 
                 orc.currentFrame = 0;
-                orc.isDeath = false; 
                 orc.doneDeath = true;
             }
         }
         srcRect.x = orc.currentFrame * 100;
-    } else {
-        srcRect.x = 0;
-    }
+    
 
     SDL_RenderCopyEx(renderer, texture, &srcRect, &desRect, 0, nullptr, orc.flip);
-    SDL_RenderPresent(renderer);
 }
 
 void animationOrc (Orc &orc, Soldier soldier) {
@@ -618,6 +614,11 @@ void animationOrc (Orc &orc, Soldier soldier) {
         currentOrcTexture = idleOrcTexture;
         drawOrcIdle(currentOrcTexture, orc, gRenderer);
     } 
+
+    else if (orc.isDeath) {
+        currentOrcTexture = deathOrcTexture;
+        drawOrcDeath(currentOrcTexture, orc, gRenderer);
+    }
     
     
 }
@@ -644,7 +645,7 @@ void animationSoldier(Soldier &soldier, SDL_Renderer *renderer) {
     
 }
 
-void loadTextureSoldier (Soldier &soldier, SDL_Renderer *renderer) {
+void loadTextureSoldier (SDL_Renderer *renderer) {
     hurtTexture = SDL_CreateTextureFromSurface(renderer, spriteHurt);
     attackTexture = SDL_CreateTextureFromSurface(gRenderer, spriteAttack);
     runTexture = SDL_CreateTextureFromSurface(renderer, spriteRun);
@@ -652,7 +653,7 @@ void loadTextureSoldier (Soldier &soldier, SDL_Renderer *renderer) {
     deathTexture = SDL_CreateTextureFromSurface(renderer, spriteDeath);
 }
 
-void loadTextureOrc(Orc &orc, SDL_Renderer *renderer) {
+void loadTextureOrc(SDL_Renderer *renderer) {
     hurtOrcTexture = SDL_CreateTextureFromSurface(renderer, spriteOrcHurt);
     attackOrcTexture = SDL_CreateTextureFromSurface(renderer, spriteOrcAttack);
     runOrcTexture = SDL_CreateTextureFromSurface(renderer, spriteOrcRun);

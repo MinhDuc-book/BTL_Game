@@ -287,4 +287,11 @@ void close()
     SDL_Quit();
 }
 
+void loadSound() {
+    attackDoneSound = Mix_LoadWAV(path_attackDone_sound);
+    deathSound = Mix_LoadWAV(path_death_sound);
+    hurtSound = Mix_LoadWAV(path_hurt_sound);
+    moreThan100Sound = Mix_LoadWAV(path_more100_sound);
+}
+
 #endif

@@ -10,6 +10,7 @@
 #include <algorithm>
 #include <string>
 #include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_mixer.h>
 
 int const SCREEN_W = 1190;
 int const SCREEN_H = 700;
@@ -84,9 +85,19 @@ const char *path_orc_attack = "Characters/Tiny RPG Character Asset Pack v1.03 -F
 const char *path_orc_death = "Characters/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Orc/Orc/Orc-Death-Extended.png";
 const char *path_orc_hurt= "Characters/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Orc/Orc/Orc-Hurt.png";
 
+const char *path_attackDone_sound = "data/Sound/attackDoneSound.wav";
+const char *path_death_sound = "data/Sound/deathSound.wav";
+const char *path_hurt_sound = "data/Sound/hurtSound.wav";
+const char *path_more100_sound = "data/Sound/moreThan100Sound.wav";
+
 const char *path_background = "Background/LienMinhPixel1536.png";
 SDL_Surface *surfaceBackground;
 SDL_Texture *textureBackground;
+
+Mix_Chunk *attackDoneSound = NULL;
+Mix_Chunk *deathSound = NULL;
+Mix_Chunk *hurtSound = NULL;
+Mix_Chunk *moreThan100Sound = NULL;
 
 const char *path_blind_box = "Icon/blindBox.png";
 SDL_Surface *blindBoxSurface = IMG_Load(path_blind_box);
