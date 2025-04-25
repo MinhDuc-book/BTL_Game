@@ -39,6 +39,7 @@ KeyPress handleInput() {
 }
 
 int main (int argv, char *argc[]) {
+    highestScore = findHighestScore(path_score);
     if (init() == false) {
         cout << "Cannot initialized window" << endl;
     }  else {
@@ -186,6 +187,7 @@ int main (int argv, char *argc[]) {
                                         Arrow newArrow(soldier.X, soldier.Y, listOfOrcs[i].X, listOfOrcs[i].Y, 5.0f);
                                         arrows.push_back(newArrow);
                                         soldier.isAttacking = true;
+                                        Mix_PlayChannel(-1, arrowShootSound, 0);
                                         if (soldier.Level >= 5) {
                                             listOfOrcs[i].v += 0.1f;
                                         }
@@ -207,6 +209,10 @@ int main (int argv, char *argc[]) {
                                 soldier.flip = SDL_FLIP_NONE;
                             } else {
                                 soldier.flip = SDL_FLIP_HORIZONTAL;
+                            }
+
+                            if (soldier.X != x_end and soldier.Y != y_end) {
+                                Mix_PlayChannel(-1, walkSound, 0);
                             }
                         }
                     }
@@ -238,18 +244,10 @@ int main (int argv, char *argc[]) {
                     drawRange(soldier);
                 }
 
-                if (Score >= 100) {
-                    static bool play = true;
-                    if (play) {
-                        Mix_PlayChannel(-1, moreThan100Sound, 0);
-                    }
-                    play = false;
-                }
-
                 //
                 if (x_end == soldier.X and y_end == soldier.Y) {
                     soldier.isRunning = false;
-                    soldier.isIdle = true; 
+                    soldier.isIdle = true;
                 } else {
                     soldier.isRunning = true;
                 }
@@ -337,6 +335,15 @@ int main (int argv, char *argc[]) {
                     } else {
                         ++it;
                     }
+                }
+
+                if (Score >= highestScore) {
+                    static bool play = true;
+                    if (play) {
+                        Mix_HaltChannel(-1);
+                        Mix_PlayChannel(-1, newHighScoreSound, 0);
+                    }
+                    play = false;
                 }
                 
                 for (auto &orc : listOfOrcs) {

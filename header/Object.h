@@ -38,7 +38,7 @@ class Soldier : public BaseObject
 class Orc : public BaseObject
 {
     public:
-        float v = 1;
+        float v = 0;
         bool doneDeath = false;
         int size;
         float range = 10.0;
@@ -62,6 +62,10 @@ class Arrow{
         }
 
         void moveArrow() {
+            if (x != targetX and y != targetY and x <= SCREEN_W and y <= SCREEN_H) {
+                Mix_PlayChannel(-1, arrowMoveSound, 0);
+            }
+            
             x = x + cos(angle * PI / 180.0f) * speed;
             y = y + sin(angle * PI / 180.0f) * speed;
 

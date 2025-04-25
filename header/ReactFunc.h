@@ -281,6 +281,20 @@ void close()
     SDL_FreeSurface(splitAttack);
     SDL_FreeSurface(arrowSurface);
 
+    Mix_FreeChunk(hurtSound);
+    Mix_FreeChunk(newHighScoreSound);
+    Mix_FreeChunk(arrowMoveSound);
+    Mix_FreeChunk(arrowShootSound);
+    Mix_FreeChunk(colidSound);
+    Mix_FreeChunk(walkSound);
+    hurtSound = NULL;
+    newHighScoreSound = NULL;
+    arrowMoveSound = NULL;
+    arrowShootSound = NULL;
+    colidSound = NULL;
+    walkSound = NULL;
+    Mix_CloseAudio();
+    
     SDL_DestroyRenderer(gRenderer);
     gRenderer = NULL;
     SDL_DestroyWindow(gWindow);
@@ -288,10 +302,12 @@ void close()
 }
 
 void loadSound() {
-    attackDoneSound = Mix_LoadWAV(path_attackDone_sound);
-    deathSound = Mix_LoadWAV(path_death_sound);
     hurtSound = Mix_LoadWAV(path_hurt_sound);
-    moreThan100Sound = Mix_LoadWAV(path_more100_sound);
+    newHighScoreSound = Mix_LoadWAV(path_newHighScore);
+    arrowMoveSound = Mix_LoadWAV(path_arrow_move);
+    arrowShootSound = Mix_LoadWAV(path_arrow_shoot);
+    colidSound = Mix_LoadWAV(path_colid_sound);
+    walkSound = Mix_LoadWAV(path_walk);
 }
 
 #endif

@@ -11,6 +11,7 @@
 #include <string>
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_mixer.h>
+#include "includeFile.h"
 
 int const SCREEN_W = 1190;
 int const SCREEN_H = 700;
@@ -88,16 +89,24 @@ const char *path_orc_hurt= "Characters/Tiny RPG Character Asset Pack v1.03 -Free
 const char *path_attackDone_sound = "data/Sound/attackDoneSound.wav";
 const char *path_death_sound = "data/Sound/deathSound.wav";
 const char *path_hurt_sound = "data/Sound/hurtSound.wav";
-const char *path_more100_sound = "data/Sound/moreThan100Sound.wav";
+const char *path_newHighScore = "data/Sound/newHighScoreSound.wav";
+const char *path_arrow_move = "data/Sound/arrowMove.wav";
+const char *path_arrow_shoot = "data/Sound/arrowShoot.wav";
+const char *path_colid_sound = "data/Sound/colidSound.wav";
+const char *path_walk = "data/Sound/walkSound.wav";
 
-const char *path_background = "Background/LienMinhPixel1536.png";
+int highestScore;
+
+const char *path_background = "Background/Background.png";
 SDL_Surface *surfaceBackground;
 SDL_Texture *textureBackground;
 
-Mix_Chunk *attackDoneSound = NULL;
-Mix_Chunk *deathSound = NULL;
 Mix_Chunk *hurtSound = NULL;
-Mix_Chunk *moreThan100Sound = NULL;
+Mix_Chunk *newHighScoreSound = NULL;
+Mix_Chunk *arrowMoveSound = NULL;
+Mix_Chunk *arrowShootSound = NULL;
+Mix_Chunk *colidSound = NULL;
+Mix_Chunk *walkSound = NULL;
 
 const char *path_blind_box = "Icon/blindBox.png";
 SDL_Surface *blindBoxSurface = IMG_Load(path_blind_box);

@@ -336,7 +336,6 @@ void drawAttacking(SDL_Texture *texture, Soldier& soldier, SDL_Renderer *rendere
             soldier.doneAttack = true;
             soldier.isAttacking = false;
             soldier.currentFrame = 0;
-            Mix_PlayChannel(-1, attackDoneSound, 0);
         }
     }
     srcRect.x = soldier.currentFrame * 100;
