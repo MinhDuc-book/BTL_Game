@@ -31,15 +31,6 @@ void drawMenu(SDL_Renderer *menuRenderer, TTF_Font *font, int selecOption ){
     SDL_RenderPresent(menuRenderer);
 }
 
-void loadBackground(SDL_Renderer *renderer, SDL_Surface * &surface,SDL_Texture * &texture, const char *path) {
-    surface = IMG_Load(path);
-    if (surface == NULL) {
-        cout << "Cannot load image" << endl;
-    }
-    texture = SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_FreeSurface(surface);
-}
-
 void drawBackground(SDL_Renderer* renderer, SDL_Texture* loadTexture) {
     SDL_Rect desRect;
     SDL_Rect srcRect;
@@ -89,12 +80,6 @@ void drawMouseSettingMenu(SDL_Renderer* renderer, TTF_Font* font, int mouseOptio
         SDL_FreeSurface(surfaceMessage);
         SDL_DestroyTexture(Message);
     }
-}
-
-void drawBlindBox(SDL_Renderer *renderer) {
-    blindBoxTexture = SDL_CreateTextureFromSurface(renderer, blindBoxSurface);
-    SDL_Rect srcRect = {0, 0, 1024, 1024};
-    SDL_Rect desRect = {createRandom(0,SCREEN_W), createRandom(50,SCREEN_H), 50, 50};
 }
 
 void drawScoreOption(SDL_Renderer *renderer, TTF_Font *font) {
@@ -658,6 +643,16 @@ void loadTextureOrc(SDL_Renderer *renderer) {
     runOrcTexture = SDL_CreateTextureFromSurface(renderer, spriteOrcRun);
     idleOrcTexture = SDL_CreateTextureFromSurface(renderer, spriteOrcIdle);
     deathOrcTexture = SDL_CreateTextureFromSurface(renderer, spriteOrcDeath);
+}
+
+void drawHealing(SDL_Renderer *renderer) {
+    SDL_Rect desRect = {SCREEN_W/2, SCREEN_H/2, 50, 50};
+    SDL_RenderCopy(renderer, healingTexture, NULL, &desRect);
+}
+
+void drawShield(SDL_Renderer *renderer) {
+    SDL_Rect desRect = {SCREEN_W/2, SCREEN_H/2, 50, 50};
+    SDL_RenderCopy(renderer, shieldTexture, NULL, &desRect);
 }
 
 #endif

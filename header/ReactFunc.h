@@ -310,4 +310,25 @@ void loadSound() {
     walkSound = Mix_LoadWAV(path_walk);
 }
 
+void loadShieldAndHealing() {
+    shieldTexture = SDL_CreateTextureFromSurface(gRenderer, shieldSurface);
+    healingTexture = SDL_CreateTextureFromSurface(gRenderer, healingSurface);
+}
+
+void loadBackground(SDL_Renderer *renderer, SDL_Surface * &surface,SDL_Texture * &texture, const char *path) {
+    surface = IMG_Load(path);
+    if (surface == NULL) {
+        cout << "Cannot load image" << endl;
+    }
+    texture = SDL_CreateTextureFromSurface(renderer, surface);
+    SDL_FreeSurface(surface);
+}
+
+bool isCollected (Soldier &soldier) {
+    if (soldier.X >= SCREEN_W/2 and soldier.X <= SCREEN_W/2 + 50 and soldier.Y >= SCREEN_H/2 and soldier.Y <= SCREEN_H/2 + 50) {
+        return true;
+    }
+    return false;
+}
+
 #endif

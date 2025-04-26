@@ -32,9 +32,9 @@ bool init() {
                     cout << "Renderer could not be created! SDL_Error: " << SDL_GetError() << endl;
                     success = false;
                 } else {
-                    SDL_Surface* attackPointer = IMG_Load("Icon/Ping_Target.png");
-                    SDL_Surface* defaultPointer = IMG_Load("Icon/defaultCursor.png");
-                    SDL_Surface *saveDefaultPointer = IMG_Load("Icon/defaultCursor.png");
+                    SDL_Surface* attackPointer = IMG_Load("Icon/Icon(png)/Ping_Target.png");
+                    SDL_Surface* defaultPointer = IMG_Load("Icon/Icon(png)/defaultCursor.png");
+                    SDL_Surface *saveDefaultPointer = IMG_Load("Icon/Icon(png)/defaultCursor.png");
                     SDL_Surface *altPointer = IMG_Load("Icon/Icon(png)/alt.png");
                     SDL_Surface *handwritingPointer = IMG_Load("Icon/Icon(png)/handwriting.png");
 

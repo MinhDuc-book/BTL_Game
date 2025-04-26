@@ -25,6 +25,7 @@ class Soldier : public BaseObject
     public:
         float v = 4;
         bool doneAttack;
+        bool ironBody = false;
         int size;
         float range = 200.0f;
         int currentFrame = 0;
@@ -48,7 +49,8 @@ class Orc : public BaseObject
 
 };
 
-class Arrow{
+class Arrow 
+{
     public:
         float x,y;
         float speed;
@@ -65,7 +67,7 @@ class Arrow{
             if (x != targetX and y != targetY and x <= SCREEN_W and y <= SCREEN_H) {
                 Mix_PlayChannel(-1, arrowMoveSound, 0);
             }
-            
+
             x = x + cos(angle * PI / 180.0f) * speed;
             y = y + sin(angle * PI / 180.0f) * speed;
 
@@ -95,6 +97,8 @@ class Arrow{
             SDL_RenderCopyEx(renderer, arrowTexture, &srcRect, &desRect, angle, NULL, SDL_FLIP_NONE);
         }
 };
+
+
 
 
 #endif

@@ -95,6 +95,14 @@ const char *path_arrow_shoot = "data/Sound/arrowShoot.wav";
 const char *path_colid_sound = "data/Sound/colidSound.wav";
 const char *path_walk = "data/Sound/walkSound.wav";
 
+const char *path_shield = "Icon/shieldIcon.png";
+SDL_Surface *shieldSurface = IMG_Load(path_shield);
+SDL_Texture *shieldTexture = NULL;
+
+const char *path_healing = "Icon/healingIcon.png";
+SDL_Surface *healingSurface = IMG_Load(path_healing);
+SDL_Texture *healingTexture = NULL;
+
 int highestScore;
 
 const char *path_background = "Background/Background.png";
@@ -107,10 +115,6 @@ Mix_Chunk *arrowMoveSound = NULL;
 Mix_Chunk *arrowShootSound = NULL;
 Mix_Chunk *colidSound = NULL;
 Mix_Chunk *walkSound = NULL;
-
-const char *path_blind_box = "Icon/blindBox.png";
-SDL_Surface *blindBoxSurface = IMG_Load(path_blind_box);
-SDL_Texture *blindBoxTexture = NULL;
 
 SDL_Surface *spriteAttack = IMG_Load(path_soldier_attack);
 SDL_Surface *spriteAttack2 = IMG_Load(path_soldier_attack2);

@@ -57,10 +57,13 @@ int main (int argv, char *argc[]) {
 
         vector <Arrow> arrows;
 
+        
+
         loadBackground(gRenderer, surfaceBackground, textureBackground, path_background);
         loadTextureSoldier(gRenderer);
         loadTextureOrc(gRenderer);
         loadSound();
+        loadShieldAndHealing();
 
         while (run) {
             KeyPress key = handleInput();
@@ -275,7 +278,11 @@ int main (int argv, char *argc[]) {
                         orc.isRunning = false;
                         orc.isIdle = false;
                         soldier.isHurt = true;
-                        soldier.Health = soldier.Health - 10;
+                        if (soldier.ironBody == false) {
+                            soldier.Health = soldier.Health - 10;
+                        } else {
+                            soldier.Health = soldier.Health - 0;
+                        }
                         Mix_PlayChannel(-1, hurtSound, 0);
                         if (soldier.Health <= 0) {
                             hurtSound = NULL;
@@ -340,10 +347,47 @@ int main (int argv, char *argc[]) {
                 if (Score >= highestScore) {
                     static bool play = true;
                     if (play) {
+                        
                         Mix_HaltChannel(-1);
                         Mix_PlayChannel(-1, newHighScoreSound, 0);
                     }
                     play = false;
+                }
+
+                if (Score >= 50 and soldier.Health <= 1500) {
+                    static bool renderHeal = false;
+                    if (renderHeal == false) {
+                        drawHealing(gRenderer);
+                        if (isCollected(soldier)) {
+                            soldier.Health = soldier.Health + (2500 - soldier.Health) / 2;
+                            renderHeal = true;
+                        }
+                    }
+                }
+
+                if (Score >= 30) {
+                    static bool renderShield = false;
+                    static Uint32 startTime = 0;
+
+                    if (renderShield == false) {
+                        drawShield(gRenderer);
+                        if (isCollected(soldier)) {
+                            soldier.ironBody = true;
+                            renderShield = true;
+                            startTime = SDL_GetTicks();
+                            cout << "Bat dau bat tu" << endl;
+                        }
+                    }
+
+                    if (renderShield and SDL_GetTicks() - startTime >= 5000) {
+                        static bool set = false;
+                        if (set == false) {
+                            soldier.ironBody = false;
+                            set = true;
+                            cout << "Ket thuc bat tu" << endl;
+                        }
+                        
+                    }
                 }
                 
                 for (auto &orc : listOfOrcs) {
