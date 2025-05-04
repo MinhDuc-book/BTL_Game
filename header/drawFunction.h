@@ -254,7 +254,6 @@ void getScore(int score, SDL_Renderer *renderer, TTF_Font *font) {
 
 void GameOver(TTF_Font *font, SDL_Renderer *renderer, const char *path_game_over) {
     SDL_Color cream = {240, 240, 220};
-    SDL_Color red = {255, 20, 20};
     gameOverSurface = TTF_RenderText_Solid(font, path_game_over, cream);
     gameOverTexture = SDL_CreateTextureFromSurface(renderer, gameOverSurface);
     SDL_Rect gameOverPosition = {SCREEN_W / 2 - 300, SCREEN_H / 2 - 100, 600, 100};

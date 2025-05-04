@@ -1,13 +1,18 @@
 # BTL_AimGame
 
 ## Giới thiệu bản thân
-Tôi tên là Nguyễn Minh Đức, sinh ra và lớn lên tại Hà Nội. Hiện nay tôi đang là sinh viên học ngành Mạng máy tính và truyền thông dữ liệu tại trường Đại học Công nghệ - Đại học Quốc gia Hà Nội.
+Nguyễn Minh Đức - MSV: 24022779
 
-## Mục đích của dự án
-- Dự án này có tên là "AimGame" có mục đích tạo ra 1 trò chơi tập kĩ năng nhắm và sử dụng các thao tác chuột thật chính xác, có thể dùng để luyện tập cho các game cần các thao tác nhanh và chính xác
-- Luyện tập kĩ năng, học hỏi các kiến thức, tư duy và kinh nghiệm trong việc thực hiện 1 dự án
-- Tổ chức các file, folder một cách hợp lí để dễ dàng thay đổi, nâng cấp khi cần thiết
-- Đạt được điểm số cao
+## Chủ đề trong game
+- Đây là 1 trò chơi tập kĩ năng sử dụng các thao tác chuột, phím thật nhanh và chính xác
+
+## Ngưỡng điểm ước lượng: 8.5 điểm
+
+## Lý do bảo vệ ngưỡng điểm:
+- Học, làm game và nộp lên Github đều đặn
+- Áp dụng được các kiến thức đã học vào game như: class, chia tách file,...
+- Có âm thanh, hình ảnh, văn bản
+- Game tự nghĩ ra bằng việc kết hợp nhiều game từng chơi
 
 ## Hướng dẫn cài đặt SDL2 và các công cụ cần thiết
 
@@ -21,7 +26,7 @@ Tôi tên là Nguyễn Minh Đức, sinh ra và lớn lên tại Hà Nội. Hi�
 ### 2. Cài đặt SDL2
 
 **1. Cài đặt trình biên dịch:**
-- Mở MSYS2 MSYS(màu tím)
+- Mở MSYS2 MSYS
     
 - Dán câu lệnh: ```pacman -S mingw-w64-ucrt-x86_64-gcc```
 
@@ -48,4 +53,4 @@ Sử dụng các câu lệnh sau:
 **4. Chạy chương trình:**
 - Ctrl + Shift + ` để mở Terminal trên VSCode
 
-- Gõ lệnh ```make``` trên Terminal để chạy chương trình
+- Gõ lệnh ```make``` trên Terminal để chạy chương trình (vì đã đổi tên file "mingw32-make.exe" thành "make.exe")

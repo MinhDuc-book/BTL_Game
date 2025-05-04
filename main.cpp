@@ -5,7 +5,6 @@ using namespace std;
 
 SDL_Event e;
 
-// xử lí phím nhấn (hàm xử lí sự kiện)
 KeyPress handleInput() {
     while (SDL_PollEvent(&e) != 0) {
         if (e.type == QUIT) {
@@ -417,4 +416,3 @@ int main (int argv, char *argc[]) {
     return 0;
 }
 
-// Nguyễn Minh Đức  
