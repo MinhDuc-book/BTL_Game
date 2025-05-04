@@ -113,7 +113,7 @@ void moveOrc(Orc &orc, Soldier soldier, float v) {
 
 }
 
-void saveScore(int Score, const char *path_score) {
+void saveScore (int Score, const char *path_score) {
     ofstream file(path_score, ios::app);
     if (file.is_open() == false) {
         cout <<"Cannot open file" << endl;
@@ -126,7 +126,7 @@ void saveScore(int Score, const char *path_score) {
     }
 }
 
-int findHighestScore(const char *path_score) {
+int findHighestScore (const char *path_score) {
     int highestScore = 0;
     ifstream inFile(path_score);
     if (inFile.is_open() == false) {
@@ -143,7 +143,7 @@ int findHighestScore(const char *path_score) {
     return highestScore;
 }
 
-int findLowestScore(const char *path_score) {
+int findLowestScore (const char *path_score) {
     int lowestScore = 100000;
     ifstream inFile(path_score);
     if (inFile.is_open() == false) {
@@ -160,7 +160,7 @@ int findLowestScore(const char *path_score) {
     return lowestScore;
 }
 
-int findAverageScore(const char *path_score) {
+int findAverageScore (const char *path_score) {
     double averageScore = 0;
     int count = 0;
     ifstream inFile(path_score);
@@ -177,7 +177,7 @@ int findAverageScore(const char *path_score) {
     return round(averageScore / count);
 }
 
-int amountInFile(const char *path_score) {
+int amountInFile (const char *path_score) {
     int count = 0;
     ifstream inFile(path_score);
     if (inFile.is_open() == false) {
@@ -193,7 +193,7 @@ int amountInFile(const char *path_score) {
     return count;
 }
 
-int percentLess50(const char *path_score) {
+int percentLess50 (const char *path_score) {
     int count = 0;
     ifstream inFile(path_score);
     if (inFile.is_open() == false) {
@@ -210,7 +210,7 @@ int percentLess50(const char *path_score) {
     return count;
 }
 
-int percentMore50Less100(const char *path_score) {
+int percentMore50Less100 (const char *path_score) {
     int count = 0;
     ifstream inFile(path_score);
     if (inFile.is_open() == false) {

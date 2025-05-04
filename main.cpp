@@ -57,8 +57,6 @@ int main (int argv, char *argc[]) {
 
         vector <Arrow> arrows;
 
-        
-
         loadBackground(gRenderer, surfaceBackground, textureBackground, path_background);
         loadTextureSoldier(gRenderer);
         loadTextureOrc(gRenderer);
@@ -376,6 +374,7 @@ int main (int argv, char *argc[]) {
                             renderShield = true;
                             startTime = SDL_GetTicks();
                             cout << "Bat dau bat tu" << endl;
+                            drawLine(soldier, gRenderer);
                         }
                     }
 

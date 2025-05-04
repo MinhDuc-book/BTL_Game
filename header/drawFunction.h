@@ -8,7 +8,6 @@
 #include <cmath> 
 #include <cstring>
 
-// draw menu
 void drawMenu(SDL_Renderer *menuRenderer, TTF_Font *font, int selecOption ){
     const char *Menu[STATE_TOTAL] = {"Start", "Restart", "Setting", "Score", "Quit"};
 
@@ -234,10 +233,10 @@ void drawRange(Soldier soldier)
     }
 }
 
-void drawLine(Soldier &soldier, Orc &orc, SDL_Renderer *renderer) {
-    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-    SDL_RenderDrawLine(renderer, soldier.X, soldier.Y, orc.X, orc.Y);
-    SDL_RenderPresent(renderer);
+void drawLine(Soldier &soldier, SDL_Renderer *renderer) {
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+    SDL_Rect desRect = {soldier.X - soldier.size/2, soldier.Y - soldier.size/2, soldier.size,2};
+    SDL_RenderCopy(renderer, nullptr, nullptr, &desRect);
 } 
 
 void getScore(int score, SDL_Renderer *renderer, TTF_Font *font) {
@@ -263,37 +262,6 @@ void GameOver(TTF_Font *font, SDL_Renderer *renderer, const char *path_game_over
     SDL_FreeSurface(gameOverSurface);
     SDL_DestroyTexture(gameOverTexture);
 }
-
-/*
-void drawSplitAttack (SDL_Texture *texture, Soldier &soldier, SDL_Renderer *renderer) {
-    SDL_Rect srcRect;
-    SDL_Rect desRect;
-
-    desRect.x = soldier.X - soldier.size*2; 
-    desRect.y = soldier.Y - soldier.size*2;
-    desRect.w = soldier.size * 7;
-    desRect.h = soldier.size * 4;
-
-    srcRect.w = 100;
-    srcRect.h = 100;
-    srcRect.y = 0;
-
-
-        Uint32 currentTime = SDL_GetTicks();
-        if (currentTime - soldier.lastFrameTime >= soldier.frameDelay) {
-            soldier.currentFrame++;
-            soldier.lastFrameTime = currentTime;
-            if (soldier.currentFrame >= 6) { 
-                soldier.currentFrame = 0;
-                soldier.isAttacking = false;
-            }
-        }
-        srcRect.x = soldier.currentFrame * 100;
-
-    SDL_RenderCopyEx(renderer, texture, &srcRect, &desRect, 0, nullptr, soldier.flip);
-
-}
-*/
 
 void drawAttacking(SDL_Texture *texture, Soldier& soldier, SDL_Renderer *renderer) {
     SDL_Rect srcRect;
