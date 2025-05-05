@@ -53,9 +53,7 @@ bool isInRangeOrc(Soldier soldier, Orc orc) {
 }
 
 int createRandom(int a, int b) {
-    srand(time(0));
     int randomNumber = a + rand() % (b - a + 1);
-
     return randomNumber;
 }
 

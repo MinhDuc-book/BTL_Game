@@ -42,17 +42,18 @@ class Orc : public BaseObject
         float v = 1;
         bool doneDeath = false;
         int size;
-        float range = 10.0;
+        float range = 5.0;
         int currentFrame = 0;
         Uint32 lastFrameTime = 0;
-        Uint32 frameDelay = 75; // ms
+        Uint32 frameDelay = 75;
 
 };
 
-class Arrow 
+class Arrow : Soldier
 {
     public:
-        float x,y;
+        float x;
+        float y;
         float speed;
         float angle;
         float targetX, targetY;
@@ -64,9 +65,6 @@ class Arrow
         }
 
         void moveArrow() {
-            if (x != targetX and y != targetY and x <= SCREEN_W and y <= SCREEN_H) {
-                Mix_PlayChannel(-1, arrowMoveSound, 0);
-            }
 
             x = x + cos(angle * PI / 180.0f) * speed;
             y = y + sin(angle * PI / 180.0f) * speed;
