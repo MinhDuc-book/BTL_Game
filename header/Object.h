@@ -49,7 +49,7 @@ class Orc : public BaseObject
 
 };
 
-class Arrow : Soldier
+class Arrow
 {
     public:
         float x;
