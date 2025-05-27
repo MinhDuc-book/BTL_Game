@@ -1,7 +1,7 @@
 # BTL_AimGame
 
 ## Giới thiệu bản thân
-- Nguyễn Minh Đức - MSV: 24022779
+- Nguyễn Minh Đức
 
 ## Chủ đề trong game
 - Đây là 1 trò chơi tập kĩ năng sử dụng các thao tác chuột, phím thật nhanh và chính xác
